@@ -1,0 +1,14 @@
+Lot Number:
+Base Lot Rent: $
+Total Lot Area (sqft):
+Max Home Width:
+Max Home Length (ft):
+Foundation Pad Type:
+Parking Spaces:
+Sewer System:
+Water Meter:
+Electric Hookup:
+Gas Supply:
+Internet Setup:
+Lot View/Location:
+Included Features:

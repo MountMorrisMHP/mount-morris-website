@@ -1,0 +1,80 @@
+=======================================================================
+  HOW TO UPDATE THE MOUNT MORRIS WEBSITE  (no computer skills needed)
+=======================================================================
+
+Everything the website shows is controlled by the FOLDERS in here.
+There are four "live" folders. A lot lives in ONE of them at a time:
+
+  1_EMPTY_LOTS      -> shows on the site as "Open Lot / bring your home"
+  2_HOMES_FOR_RENT  -> shows on the site as a rental
+  3_HOMES_FOR_SALE  -> shows on the site as a home for sale
+  4_OCCUPIED_HOMES  -> HIDDEN. Nothing in here shows on the website.
+
+There is also one EXTRA folder that is NOT live:
+
+  0_TEMPLATES       -> blank starter files. Never shows on the website.
+                       Use it as your "copy me" starting point (see below).
+
+TO ADD A NEW LOT:
+  1. Open 0_TEMPLATES and COPY the folder called "copy-me".
+  2. PASTE that copy into the correct live folder above
+     (for a rental, paste it into 2_HOMES_FOR_RENT).
+  3. RENAME the pasted folder to something clear, like "lot_57".
+  4. Open the .txt files inside it and fill in the values.
+  Leave 0_TEMPLATES alone so it's always there for next time.
+
+TO CHANGE A LOT'S STATUS:
+  Just DRAG the lot's folder from one of the four folders into another.
+  Example: a rental got rented out? Drag "lot_112" from 2_HOMES_FOR_RENT
+  into 4_OCCUPIED_HOMES. It disappears from the website. That's it.
+
+  >>> A lot folder must only be in ONE of these four folders at a time. <<<
+
+WHAT GOES INSIDE A LOT FOLDER:
+  - site_info.txt      (ALWAYS required - facts about the land)
+  - home_details.txt   (required ONLY for rent or for sale lots)
+  - main.jpg           (the main photo shown on the card)
+  - any other .jpg/.png photos (extra gallery photos)
+
+EDITING THE TEXT FILES:
+  Open the .txt file, type your value after the colon ":". Leave a line
+  blank if you don't have that info - the website just skips it.
+  To start a brand-new lot, copy "copy-me" from 0_TEMPLATES (see above).
+
+The website reads these files fresh every time someone visits, so your
+changes show up the moment you save. No "publishing" step.
+
+-----------------------------------------------------------------------
+  DOING THIS ON THE WEBSITE (GitHub.com) INSTEAD OF YOUR COMPUTER
+-----------------------------------------------------------------------
+You can do everything above right in your web browser at GitHub.com,
+without installing anything. Sign in and open the project page.
+
+TO EDIT A LOT'S INFO:
+  1. Click the folders until you reach the .txt file you want
+     (for example: 2_HOMES_FOR_RENT -> lot-B -> site_info.txt).
+  2. Click the PENCIL icon in the top-right of the file.
+  3. Type your changes after the colons, just like before.
+  4. Scroll down and click the green "Commit changes" button.
+     ("Commit" just means "save". You can leave the note box empty.)
+  The website updates a moment later.
+
+TO ADD A PHOTO:
+  1. Open the lot's folder (for example lot-B).
+  2. Click "Add file" -> "Upload files", drag your photo in, and
+     commit. Name the main photo "main.jpg" so it shows on the card.
+
+TO "MOVE" A LOT TO A DIFFERENT FOLDER ON GITHUB:
+  GitHub has no drag-and-drop between folders, so moving a lot means
+  RE-CREATING it in the new folder and DELETING it from the old one:
+  1. Open the lot's site_info.txt, click the pencil, and copy all the
+     text. In the new folder, click "Add file" -> "Create new file",
+     name it (for example) "lot-B/site_info.txt", paste, and commit.
+     Do the same for home_details.txt and any photos.
+  2. Go back to the OLD folder, open each file, click the trash-can
+     icon, and commit to delete it.
+  If that feels like too many steps, just ASK JAY to move it for you -
+  that is the easy and safe option.
+
+  >>> Remember: a lot should only exist in ONE folder at a time. <<<
+=======================================================================

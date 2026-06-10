@@ -1,0 +1,8 @@
+Deal Type:
+Price:
+Home Manufacturer:
+Home Model:
+Bedrooms:
+Bathrooms:
+Square Feet:
+Amenities:

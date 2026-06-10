@@ -109,6 +109,9 @@
   .b-rent{background:var(--pine)}
   .b-used{background:var(--clay)}
   .b-new{background:var(--honey);color:var(--pine-deep)}
+  .b-lot{background:var(--sage);color:var(--pine-deep)}
+  .card{cursor:pointer}
+  .card .photo img{width:100%;height:100%;object-fit:cover;display:block}
   .card .body{padding:20px}
   .card .price{font-family:'Fraunces',serif;font-size:1.5rem;font-weight:600;color:var(--pine-deep)}
   .card .price small{font-size:.82rem;font-weight:600;color:#7a8678;font-family:'Hanken Grotesk',sans-serif}
@@ -160,6 +163,28 @@
   .foot-col a:hover{color:var(--honey)}
   .finance{font-size:.82rem;opacity:.6;margin-top:8px}
   .copyright{padding-top:24px;display:flex;flex-wrap:wrap;gap:8px;justify-content:space-between;font-size:.82rem;opacity:.6}
+
+  /* LISTING MODAL */
+  .modal{position:fixed;inset:0;z-index:500;display:none;align-items:flex-start;justify-content:center;padding:24px;overflow-y:auto;background:rgba(28,58,42,.55);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
+  .modal.open{display:flex}
+  .modal-card{background:var(--paper);border-radius:22px;max-width:760px;width:100%;margin:auto;overflow:hidden;box-shadow:var(--shadow);position:relative}
+  .modal-close{position:absolute;top:14px;right:14px;z-index:3;width:38px;height:38px;border-radius:50%;border:none;background:rgba(30,42,34,.6);color:#fff;font-size:1.3rem;cursor:pointer;line-height:1}
+  .gallery{position:relative;aspect-ratio:16/10;background:var(--cream);overflow:hidden}
+  .gallery img{width:100%;height:100%;object-fit:cover;display:block}
+  .gallery svg{width:100%;height:100%;display:block}
+  .gallery-nav{position:absolute;top:50%;transform:translateY(-50%);width:42px;height:42px;border-radius:50%;border:none;background:rgba(255,255,255,.85);color:var(--pine-deep);font-size:1.3rem;cursor:pointer;display:flex;align-items:center;justify-content:center}
+  .gallery-nav.prev{left:12px}.gallery-nav.next{right:12px}
+  .gallery-dots{position:absolute;bottom:12px;left:0;right:0;display:flex;gap:6px;justify-content:center}
+  .gallery-dots i{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.5)}
+  .gallery-dots i.on{background:#fff}
+  .modal-body{padding:26px 28px 30px}
+  .modal-body h3{font-size:1.7rem;color:var(--pine-deep);margin-bottom:4px}
+  .modal-body .mprice{font-family:'Fraunces',serif;font-size:1.5rem;color:var(--clay);font-weight:600;margin-bottom:18px}
+  .detail-grid{display:grid;grid-template-columns:1fr;gap:0}
+  .detail-grid div{display:flex;justify-content:space-between;gap:18px;padding:9px 0;border-bottom:1px solid var(--line);font-size:.92rem}
+  .detail-grid dt{color:#7a8678;font-weight:600}
+  .detail-grid dd{color:var(--ink);text-align:right}
+  @media(min-width:620px){.detail-grid{grid-template-columns:1fr 1fr;column-gap:34px}}
 
   /* reveal */
   .reveal{opacity:0;transform:translateY(24px);animation:rise .7s cubic-bezier(.2,.7,.2,1) forwards}
@@ -308,48 +333,13 @@
     <div class="tabs">
       <button class="tab active" data-filter="all">All</button>
       <button class="tab" data-filter="rent">For Rent</button>
-      <button class="tab" data-filter="used">Pre-Owned</button>
-      <button class="tab" data-filter="new">Brand New</button>
+      <button class="tab" data-filter="sale">For Sale</button>
+      <button class="tab" data-filter="lot">Open Lots</button>
     </div>
-    <div class="homes-grid" id="homesGrid">
-      <!-- card 1 -->
-      <article class="card" data-cat="rent">
-        <div class="photo">
-          <svg viewBox="0 0 400 300"><rect width="400" height="300" fill="#E8DCC4"/><rect y="170" width="400" height="130" fill="#C9D6BE"/><path d="M90 175l110-80 110 80v95H90z" fill="#FBF5EA"/><path d="M75 178l125-90 125 90" stroke="#2C5540" stroke-width="9" fill="none" stroke-linejoin="round"/><rect x="175" y="205" width="50" height="65" fill="#2C5540"/><rect x="115" y="200" width="40" height="40" fill="#9DB6E0"/><rect x="245" y="200" width="40" height="40" fill="#9DB6E0"/><circle cx="330" cy="70" r="26" fill="#E2A23D" opacity=".6"/></svg>
-          <span class="badge b-rent">For Rent</span>
-        </div>
-        <div class="body">
-          <div class="price">$1,150<small> / month</small></div>
-          <div class="ttl">The Maplewood · Homesite 112</div>
-          <div class="specs"><span>3 Bed</span><span>2 Bath</span><span>1,180 sq ft</span></div>
-        </div>
-      </article>
-      <!-- card 2 -->
-      <article class="card" data-cat="used">
-        <div class="photo">
-          <svg viewBox="0 0 400 300"><rect width="400" height="300" fill="#EADFC8"/><rect y="180" width="400" height="120" fill="#BFD0B6"/><path d="M70 185l130-78 130 78v90H70z" fill="#F4ECDC"/><path d="M58 188l142-86 142 86" stroke="#C25A35" stroke-width="9" fill="none" stroke-linejoin="round"/><rect x="178" y="212" width="46" height="63" fill="#C25A35"/><rect x="105" y="208" width="44" height="42" fill="#A9C0E6"/><rect x="251" y="208" width="44" height="42" fill="#A9C0E6"/><circle cx="320" cy="64" r="24" fill="#E2A23D" opacity=".55"/></svg>
-          <span class="badge b-used">Pre-Owned</span>
-        </div>
-        <div class="body">
-          <div class="price">$64,900</div>
-          <div class="ttl">The Birch · Homesite 247</div>
-          <div class="specs"><span>2 Bed</span><span>1 Bath</span><span>980 sq ft</span></div>
-        </div>
-      </article>
-      <!-- card 3 -->
-      <article class="card" data-cat="new">
-        <div class="photo">
-          <svg viewBox="0 0 400 300"><rect width="400" height="300" fill="#E6DBC2"/><rect y="175" width="400" height="125" fill="#C4D3BB"/><path d="M80 180l120-82 120 82v95H80z" fill="#FCF7EE"/><path d="M66 183l134-90 134 90" stroke="#2C5540" stroke-width="9" fill="none" stroke-linejoin="round"/><rect x="180" y="210" width="44" height="65" fill="#1C3A2A"/><rect x="112" y="205" width="42" height="42" fill="#9DB6E0"/><rect x="246" y="205" width="42" height="42" fill="#9DB6E0"/><rect x="150" y="120" width="100" height="10" fill="#E2A23D"/><circle cx="325" cy="68" r="25" fill="#E2A23D" opacity=".6"/></svg>
-          <span class="badge b-new">Brand New</span>
-        </div>
-        <div class="body">
-          <div class="price">$92,500</div>
-          <div class="ttl">The Cedar · Reserve Now</div>
-          <div class="specs"><span>3 Bed</span><span>2 Bath</span><span>1,400 sq ft</span></div>
-        </div>
-      </article>
+    <!-- Cards below are rendered dynamically from /api/listings (see script at page bottom). -->
+    <div class="homes-grid" id="homesGrid" aria-live="polite">
+      <p id="homesStatus" style="grid-column:1/-1;text-align:center;color:#55624f;padding:30px 0">Loading available homes…</p>
     </div>
-    <div class="center"><a href="#" class="btn btn-pine">View All Homes</a></div>
   </div>
 </section>
 
@@ -485,19 +475,174 @@
   </div>
 </footer>
 
+<!-- LISTING DETAIL MODAL (populated by JS) -->
+<div class="modal" id="listingModal" role="dialog" aria-modal="true" aria-label="Listing details">
+  <div class="modal-card">
+    <button class="modal-close" id="modalClose" aria-label="Close">&times;</button>
+    <div class="gallery" id="modalGallery"></div>
+    <div class="modal-body">
+      <h3 id="modalTitle"></h3>
+      <div class="mprice" id="modalPrice"></div>
+      <dl class="detail-grid" id="modalDetails"></dl>
+    </div>
+  </div>
+</div>
+
 <script>
   // mobile menu
   const mb=document.getElementById('menuBtn'),mm=document.getElementById('mobileMenu');
   mb.addEventListener('click',()=>{mb.classList.toggle('open');mm.classList.toggle('open');document.body.style.overflow=mm.classList.contains('open')?'hidden':'';});
   mm.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{mb.classList.remove('open');mm.classList.remove('open');document.body.style.overflow='';}));
 
-  // home filter
-  const tabs=document.querySelectorAll('.tab'),cards=document.querySelectorAll('#homesGrid .card');
-  tabs.forEach(t=>t.addEventListener('click',()=>{
-    tabs.forEach(x=>x.classList.remove('active'));t.classList.add('active');
-    const f=t.dataset.filter;
-    cards.forEach(c=>{c.style.display=(f==='all'||c.dataset.cat===f)?'':'none';});
+  /* ===================================================================
+   * LIVE LISTINGS — fetch from the file-system-driven backend and render
+   * into the existing card layout. Replaces the old hardcoded mock cards.
+   * =================================================================== */
+  const API_BASE = '';                      // same origin (served by server.js)
+  const grid = document.getElementById('homesGrid');
+  const statusEl = document.getElementById('homesStatus');
+  let LISTINGS = [];                          // flat array of all listings
+  let activeFilter = 'all';
+
+  // Small helper: escape user-entered text before putting it in HTML.
+  const esc = (s) => String(s ?? '').replace(/[&<>"']/g, c =>
+    ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+
+  // Inline SVG placeholder so a missing photo never breaks the layout.
+  const placeholderSVG = `<svg viewBox="0 0 400 300" preserveAspectRatio="xMidYMid slice"><rect width="400" height="300" fill="#E8DCC4"/><rect y="175" width="400" height="125" fill="#C4D3BB"/><path d="M80 180l120-82 120 82v95H80z" fill="#FBF5EA"/><path d="M66 183l134-90 134 90" stroke="#2C5540" stroke-width="9" fill="none" stroke-linejoin="round"/><rect x="180" y="210" width="44" height="65" fill="#2C5540"/><rect x="112" y="205" width="42" height="42" fill="#9DB6E0"/><rect x="246" y="205" width="42" height="42" fill="#9DB6E0"/><circle cx="325" cy="68" r="25" fill="#E2A23D" opacity=".6"/></svg>`;
+
+  function cardHTML(item){
+    const photo = item.mainImage
+      ? `<img src="${esc(API_BASE + item.mainImage)}" alt="${esc(item.title)}" loading="lazy"
+            onerror="this.outerHTML='${placeholderSVG.replace(/'/g,"\\'")}'">`
+      : placeholderSVG;
+    const specs = (item.specs || []).map(s => `<span>${esc(s)}</span>`).join('');
+    const price = `${esc(item.price)}${item.priceSmall ? `<small>${esc(item.priceSmall)}</small>` : ''}`;
+    return `<article class="card" data-cat="${esc(item.dataCat)}" data-id="${esc(item.id)}" tabindex="0">
+      <div class="photo">${photo}<span class="badge ${esc(item.badgeClass)}">${esc(item.badgeText)}</span></div>
+      <div class="body">
+        <div class="price">${price}</div>
+        <div class="ttl">${esc(item.title)}</div>
+        ${specs ? `<div class="specs">${specs}</div>` : ''}
+      </div>
+    </article>`;
+  }
+
+  function render(){
+    const shown = activeFilter === 'all'
+      ? LISTINGS
+      : LISTINGS.filter(i => i.dataCat === activeFilter);
+    if (!shown.length){
+      grid.innerHTML = `<p style="grid-column:1/-1;text-align:center;color:#55624f;padding:30px 0">
+        Nothing available in this category right now — check back soon.</p>`;
+      return;
+    }
+    grid.innerHTML = shown.map(cardHTML).join('');
+  }
+
+  async function loadListings(){
+    try{
+      const res = await fetch(`${API_BASE}/api/listings`, { headers:{ 'Accept':'application/json' } });
+      if(!res.ok) throw new Error('HTTP ' + res.status);
+      const data = await res.json();
+      // Order shown to visitors: rentals, then sales, then open lots.
+      LISTINGS = [
+        ...(data.homesForRent || []),
+        ...(data.homesForSale || []),
+        ...(data.emptyLots    || []),
+      ];
+      render();
+    }catch(err){
+      console.error('Could not load listings:', err);
+      grid.innerHTML = `<p style="grid-column:1/-1;text-align:center;color:#55624f;padding:30px 0">
+        We couldn't load the listings just now. Please refresh, or make sure the
+        site is opened through the server (http://localhost:3000).</p>`;
+    }
+  }
+
+  // Tab filtering (works with dynamically injected cards).
+  document.querySelectorAll('.tab').forEach(t => t.addEventListener('click', () => {
+    document.querySelectorAll('.tab').forEach(x => x.classList.remove('active'));
+    t.classList.add('active');
+    activeFilter = t.dataset.filter;
+    render();
   }));
+
+  /* ----- Detail modal with photo slideshow ----- */
+  const modal = document.getElementById('listingModal');
+  const galleryEl = document.getElementById('modalGallery');
+  let galleryImgs = [], galleryIdx = 0;
+
+  function showSlide(i){
+    if(!galleryImgs.length) return;
+    galleryIdx = (i + galleryImgs.length) % galleryImgs.length;
+    galleryEl.querySelectorAll('img,svg').forEach((el,n)=>{ el.style.display = n===galleryIdx ? 'block':'none'; });
+    const dots = galleryEl.querySelectorAll('.gallery-dots i');
+    dots.forEach((d,n)=>d.classList.toggle('on', n===galleryIdx));
+  }
+
+  function openModal(item){
+    document.getElementById('modalTitle').textContent = item.title;
+    document.getElementById('modalPrice').innerHTML =
+      esc(item.price) + (item.priceSmall ? `<small style="font-size:.8rem;color:#7a8678"> ${esc(item.priceSmall)}</small>` : '');
+
+    // details list
+    document.getElementById('modalDetails').innerHTML =
+      (item.details || []).map(d => `<div><dt>${esc(d.label)}</dt><dd>${esc(d.value)}</dd></div>`).join('');
+
+    // gallery
+    galleryImgs = item.gallery && item.gallery.length ? item.gallery : [];
+    let inner = '';
+    if(galleryImgs.length){
+      inner = galleryImgs.map(u => `<img src="${esc(API_BASE+u)}" alt="${esc(item.title)}">`).join('');
+      if(galleryImgs.length > 1){
+        inner += `<button class="gallery-nav prev" aria-label="Previous photo">&#8249;</button>
+                  <button class="gallery-nav next" aria-label="Next photo">&#8250;</button>
+                  <div class="gallery-dots">${galleryImgs.map(()=>'<i></i>').join('')}</div>`;
+      }
+    } else {
+      inner = placeholderSVG;
+    }
+    galleryEl.innerHTML = inner;
+    galleryEl.querySelector('.prev')?.addEventListener('click', ()=>showSlide(galleryIdx-1));
+    galleryEl.querySelector('.next')?.addEventListener('click', ()=>showSlide(galleryIdx+1));
+    showSlide(0);
+
+    modal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal(){
+    modal.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+
+  // open modal when a card is clicked / activated by keyboard
+  grid.addEventListener('click', (e)=>{
+    const card = e.target.closest('.card');
+    if(!card) return;
+    const item = LISTINGS.find(i => i.id === card.dataset.id);
+    if(item) openModal(item);
+  });
+  grid.addEventListener('keydown', (e)=>{
+    if(e.key !== 'Enter' && e.key !== ' ') return;
+    const card = e.target.closest('.card');
+    if(!card) return;
+    e.preventDefault();
+    const item = LISTINGS.find(i => i.id === card.dataset.id);
+    if(item) openModal(item);
+  });
+
+  document.getElementById('modalClose').addEventListener('click', closeModal);
+  modal.addEventListener('click', (e)=>{ if(e.target === modal) closeModal(); });
+  document.addEventListener('keydown', (e)=>{
+    if(!modal.classList.contains('open')) return;
+    if(e.key === 'Escape') closeModal();
+    if(e.key === 'ArrowLeft') showSlide(galleryIdx-1);
+    if(e.key === 'ArrowRight') showSlide(galleryIdx+1);
+  });
+
+  loadListings();
 
   // faq accordion
   document.querySelectorAll('.faq-q').forEach(q=>q.addEventListener('click',()=>{

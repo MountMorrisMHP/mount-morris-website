@@ -1,0 +1,6 @@
+# Dependencies — these get reinstalled with "npm install", no need to track them.
+node_modules/
+
+# The client's data folder is intentionally tracked. Keep it and everything
+# inside it under version control so listings live in the repo.
+!mount-morris-management/
