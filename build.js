@@ -249,8 +249,13 @@ async function main() {
 
   const [emptyLots, homesForRent, homesForSale] = await Promise.all(CATEGORIES.map(scanCategory));
 
+  // Production sets VERSION (e.g. v2026.06.11-1430); local builds default to "dev".
+  const version = process.env.VERSION || 'dev';
+  const builtAt = new Date().toISOString();
+
   const data = {
-    generatedAt: new Date().toISOString(),
+    version,
+    generatedAt: builtAt,
     counts: {
       emptyLots: emptyLots.length,
       homesForRent: homesForRent.length,
@@ -262,11 +267,13 @@ async function main() {
   };
 
   await fs.writeFile(path.join(OUT_DIR, 'listings.json'), JSON.stringify(data, null, 2));
+  // Standalone version stamp — handy for confirming what's actually live.
+  await fs.writeFile(path.join(OUT_DIR, 'version.json'), JSON.stringify({ version, builtAt }, null, 2));
   await fs.copyFile(path.join(ROOT, 'index.html'), path.join(OUT_DIR, 'index.html'));
   await fs.writeFile(path.join(OUT_DIR, '.nojekyll'), ''); // don't let Pages run Jekyll
 
   console.log(
-    `Built dist/ — ${data.counts.emptyLots} empty, ${data.counts.homesForRent} rent, ${data.counts.homesForSale} sale`
+    `Built dist/ — version ${version} — ${data.counts.emptyLots} empty, ${data.counts.homesForRent} rent, ${data.counts.homesForSale} sale`
   );
 }
 
