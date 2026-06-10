@@ -1,0 +1,120 @@
+{
+  "generatedAt": "2026-06-10T19:35:51.351Z",
+  "counts": {
+    "emptyLots": 0,
+    "homesForRent": 1,
+    "homesForSale": 0
+  },
+  "emptyLots": [],
+  "homesForRent": [
+    {
+      "id": "rent-lot-1",
+      "category": "homesForRent",
+      "dataCat": "rent",
+      "lotNumber": "1",
+      "title": "Clayton The Riverbend · Lot 1",
+      "badgeText": "For Rent",
+      "badgeClass": "b-rent",
+      "price": "$1,250",
+      "priceSmall": " / month",
+      "specs": [
+        "3 Bed",
+        "2 Bath",
+        "1,280 sq ft"
+      ],
+      "mainImage": null,
+      "gallery": [],
+      "details": [
+        {
+          "label": "Lot Number",
+          "value": "1"
+        },
+        {
+          "label": "Base Lot Rent",
+          "value": "$575"
+        },
+        {
+          "label": "Total Lot Area (sqft)",
+          "value": "5400"
+        },
+        {
+          "label": "Max Home Width",
+          "value": "16 ft"
+        },
+        {
+          "label": "Max Home Length (ft)",
+          "value": "80"
+        },
+        {
+          "label": "Foundation Pad Type",
+          "value": "Poured concrete runners"
+        },
+        {
+          "label": "Parking Spaces",
+          "value": "2"
+        },
+        {
+          "label": "Sewer System",
+          "value": "City sewer"
+        },
+        {
+          "label": "Water Meter",
+          "value": "Individual metered"
+        },
+        {
+          "label": "Electric Hookup",
+          "value": "200 amp"
+        },
+        {
+          "label": "Gas Supply",
+          "value": "Natural gas"
+        },
+        {
+          "label": "Internet Setup",
+          "value": "Fiber ready"
+        },
+        {
+          "label": "Lot View/Location",
+          "value": "Near the front entrance, corner lot"
+        },
+        {
+          "label": "Included Features",
+          "value": "Front porch, storage shed, paved driveway"
+        },
+        {
+          "label": "Deal Type",
+          "value": "For Rent"
+        },
+        {
+          "label": "Price",
+          "value": "1250"
+        },
+        {
+          "label": "Home Manufacturer",
+          "value": "Clayton"
+        },
+        {
+          "label": "Home Model",
+          "value": "The Riverbend"
+        },
+        {
+          "label": "Bedrooms",
+          "value": "3"
+        },
+        {
+          "label": "Bathrooms",
+          "value": "2"
+        },
+        {
+          "label": "Square Feet",
+          "value": "1280"
+        },
+        {
+          "label": "Amenities",
+          "value": "Central air, dishwasher, washer/dryer hookups, vinyl plank flooring"
+        }
+      ]
+    }
+  ],
+  "homesForSale": []
+}
