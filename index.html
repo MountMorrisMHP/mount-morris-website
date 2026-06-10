@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mount Morris — Manufactured Home Community</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --cream:#F6EEE0;
+    --paper:#FBF5EA;
+    --ink:#1E2A22;
+    --pine:#2C5540;
+    --pine-deep:#1C3A2A;
+    --clay:#C25A35;
+    --honey:#E2A23D;
+    --sage:#8AA189;
+    --line:rgba(30,42,34,.12);
+    --shadow:0 18px 40px -22px rgba(28,58,42,.55);
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{
+    font-family:'Hanken Grotesk',system-ui,sans-serif;
+    background:var(--cream);
+    color:var(--ink);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+  body::before{
+    content:"";position:fixed;inset:0;pointer-events:none;z-index:9999;opacity:.035;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+  h1,h2,h3,.display{font-family:'Fraunces',Georgia,serif;font-weight:600;line-height:1.05;letter-spacing:-.01em}
+  a{color:inherit;text-decoration:none}
+  .wrap{width:100%;max-width:1180px;margin:0 auto;padding:0 22px}
+  .eyebrow{font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;font-weight:700;color:var(--clay)}
+
+  /* HEADER */
+  header{position:sticky;top:0;z-index:200;background:rgba(246,238,224,.86);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+  .bar{display:flex;align-items:center;justify-content:space-between;height:66px;gap:18px}
+  .logo{display:flex;align-items:center;gap:10px;font-family:'Fraunces',serif;font-weight:600;font-size:1.18rem;color:var(--pine-deep);white-space:nowrap;flex:none}
+  .logo .mark{width:34px;height:34px;flex:none}
+  nav.desktop{display:none;gap:28px;font-weight:600;font-size:.92rem;margin-left:auto}
+  nav.desktop a{opacity:.8;transition:opacity .2s}
+  nav.desktop a:hover{opacity:1;color:var(--pine)}
+  .btn{display:inline-flex;align-items:center;gap:8px;font-weight:700;font-size:.9rem;padding:13px 22px;border-radius:40px;border:none;cursor:pointer;transition:transform .2s,box-shadow .2s,background .2s}
+  .btn-primary{background:var(--clay);color:#fff}
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 12px 24px -10px rgba(194,90,53,.7)}
+  .btn-pine{background:var(--pine);color:#fff}
+  .btn-pine:hover{transform:translateY(-2px);box-shadow:0 12px 24px -10px rgba(44,85,64,.7)}
+  .btn-ghost{background:transparent;color:var(--pine-deep);border:1.5px solid var(--pine)}
+  .btn-ghost:hover{background:var(--pine);color:#fff}
+  .bar .nav-cta{display:none;padding:10px 20px;font-size:.85rem;margin-left:10px;flex:none}
+  .menu-toggle{display:flex;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:8px}
+  .menu-toggle span{width:24px;height:2.5px;background:var(--pine-deep);border-radius:2px;transition:.3s}
+  .menu-toggle.open span:nth-child(1){transform:translateY(7.5px) rotate(45deg)}
+  .menu-toggle.open span:nth-child(2){opacity:0}
+  .menu-toggle.open span:nth-child(3){transform:translateY(-7.5px) rotate(-45deg)}
+  .mobile-menu{position:fixed;inset:66px 0 0;background:var(--pine-deep);color:var(--cream);transform:translateX(100%);transition:transform .35s cubic-bezier(.4,0,.2,1);z-index:150;padding:34px 26px;display:flex;flex-direction:column;gap:6px;overflow-y:auto}
+  .mobile-menu.open{transform:translateX(0)}
+  .mobile-menu a{font-family:'Fraunces',serif;font-size:1.8rem;padding:14px 0;border-bottom:1px solid rgba(255,255,255,.12)}
+  .mobile-menu .btn{margin-top:24px;justify-content:center;font-size:1rem}
+
+  /* HERO */
+  .hero{position:relative;padding:54px 0 64px;overflow:hidden}
+  .hero-art{position:absolute;inset:0;z-index:0}
+  .hero .wrap{position:relative;z-index:2}
+  .hero h1{font-size:clamp(2.6rem,9vw,4.6rem);color:var(--pine-deep);margin:18px 0 16px;max-width:14ch}
+  .hero h1 em{font-style:italic;color:var(--clay)}
+  .hero p.lead{font-size:1.1rem;max-width:42ch;color:#3a463d;margin-bottom:28px}
+  .hero-actions{display:flex;flex-wrap:wrap;gap:12px}
+  .stats{display:flex;flex-wrap:wrap;gap:26px 38px;margin-top:44px;padding-top:28px;border-top:1px solid var(--line)}
+  .stat .num{font-family:'Fraunces',serif;font-size:2rem;font-weight:600;color:var(--pine)}
+  .stat .lab{font-size:.82rem;letter-spacing:.04em;color:#55624f;font-weight:600}
+
+  /* SECTION SHELL */
+  section{padding:64px 0}
+  .sec-head{max-width:54ch;margin-bottom:34px}
+  .sec-head h2{font-size:clamp(1.9rem,6vw,2.8rem);color:var(--pine-deep);margin:12px 0}
+  .sec-head p{color:#55624f;font-size:1.04rem}
+
+  /* WAYS HOME */
+  .ways{background:var(--paper)}
+  .ways-grid{display:grid;grid-template-columns:1fr;gap:16px}
+  .way{background:var(--cream);border:1px solid var(--line);border-radius:20px;padding:26px;transition:transform .25s,box-shadow .25s;position:relative;overflow:hidden}
+  .way:hover{transform:translateY(-4px);box-shadow:var(--shadow)}
+  .way .ic{width:48px;height:48px;border-radius:14px;display:flex;align-items:center;justify-content:center;background:var(--pine);color:var(--honey);margin-bottom:16px}
+  .way h3{font-size:1.32rem;color:var(--pine-deep);margin-bottom:8px}
+  .way p{font-size:.96rem;color:#55624f;margin-bottom:14px}
+  .way .more{font-weight:700;font-size:.88rem;color:var(--clay);display:inline-flex;gap:6px;align-items:center}
+  .way:nth-child(2) .ic{background:var(--clay);color:#fff}
+  .way:nth-child(3) .ic{background:var(--honey);color:var(--pine-deep)}
+  .way:nth-child(4) .ic{background:var(--sage);color:var(--pine-deep)}
+
+  /* HOMES */
+  .tabs{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:26px}
+  .tab{font-weight:600;font-size:.88rem;padding:9px 18px;border-radius:30px;border:1.5px solid var(--line);background:transparent;cursor:pointer;transition:.2s;color:#55624f}
+  .tab.active{background:var(--pine);color:#fff;border-color:var(--pine)}
+  .homes-grid{display:grid;grid-template-columns:1fr;gap:20px}
+  .card{background:var(--paper);border:1px solid var(--line);border-radius:20px;overflow:hidden;transition:transform .25s,box-shadow .25s}
+  .card:hover{transform:translateY(-4px);box-shadow:var(--shadow)}
+  .card .photo{position:relative;aspect-ratio:4/3;overflow:hidden}
+  .card .photo svg{width:100%;height:100%;display:block}
+  .badge{position:absolute;top:14px;left:14px;font-size:.72rem;font-weight:700;letter-spacing:.04em;text-transform:uppercase;padding:6px 12px;border-radius:30px;color:#fff}
+  .b-rent{background:var(--pine)}
+  .b-used{background:var(--clay)}
+  .b-new{background:var(--honey);color:var(--pine-deep)}
+  .card .body{padding:20px}
+  .card .price{font-family:'Fraunces',serif;font-size:1.5rem;font-weight:600;color:var(--pine-deep)}
+  .card .price small{font-size:.82rem;font-weight:600;color:#7a8678;font-family:'Hanken Grotesk',sans-serif}
+  .card .ttl{font-weight:600;margin:2px 0 12px;color:#3a463d}
+  .specs{display:flex;gap:16px;font-size:.85rem;color:#55624f;border-top:1px solid var(--line);padding-top:14px}
+  .specs span{display:flex;align-items:center;gap:6px}
+  .center{text-align:center;margin-top:34px}
+
+  /* LOT FINDER */
+  .lots{background:var(--pine-deep);color:var(--cream)}
+  .lots .eyebrow{color:var(--honey)}
+  .lots-inner{display:grid;grid-template-columns:1fr;gap:30px;align-items:center}
+  .lots h2{font-size:clamp(1.9rem,6vw,2.8rem);color:#fff;margin:12px 0 14px}
+  .lots p{color:rgba(246,238,224,.78);margin-bottom:22px}
+  .legend{display:flex;flex-wrap:wrap;gap:16px;margin-bottom:24px;font-size:.85rem;font-weight:600}
+  .legend i{width:12px;height:12px;border-radius:50%;display:inline-block;margin-right:7px;vertical-align:middle}
+  .map-box{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.14);border-radius:22px;padding:18px;aspect-ratio:5/4}
+  .map-box svg{width:100%;height:100%}
+
+  /* AMENITIES */
+  .amen-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
+  .amen{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:20px 16px;text-align:center;transition:.2s}
+  .amen:hover{background:var(--pine);color:#fff}
+  .amen:hover .a-ic{color:var(--honey)}
+  .amen .a-ic{color:var(--pine);margin-bottom:10px;transition:.2s}
+  .amen .a-t{font-weight:600;font-size:.92rem}
+
+  /* FAQ */
+  .faq{background:var(--paper)}
+  .faq-item{border-bottom:1px solid var(--line)}
+  .faq-q{width:100%;text-align:left;background:none;border:none;cursor:pointer;padding:22px 0;display:flex;justify-content:space-between;align-items:center;gap:16px;font-family:'Fraunces',serif;font-size:1.18rem;font-weight:500;color:var(--pine-deep)}
+  .faq-q .pm{flex:none;width:26px;height:26px;border-radius:50%;border:1.5px solid var(--clay);color:var(--clay);display:flex;align-items:center;justify-content:center;font-size:1.2rem;transition:.3s;font-family:sans-serif}
+  .faq-item.open .pm{transform:rotate(45deg);background:var(--clay);color:#fff}
+  .faq-a{max-height:0;overflow:hidden;transition:max-height .35s ease;color:#55624f}
+  .faq-a p{padding:0 0 22px;max-width:60ch}
+
+  /* CTA / FOOTER */
+  .cta{background:var(--clay);color:#fff;text-align:center}
+  .cta h2{font-size:clamp(2rem,7vw,3rem);color:#fff;margin-bottom:14px}
+  .cta p{max-width:46ch;margin:0 auto 28px;opacity:.92}
+  .cta .row{display:flex;flex-wrap:wrap;gap:12px;justify-content:center}
+  .cta .btn-white{background:#fff;color:var(--clay)}
+  .cta .btn-line{background:transparent;border:1.5px solid rgba(255,255,255,.6);color:#fff}
+  footer{background:var(--pine-deep);color:rgba(246,238,224,.7);padding:50px 0 30px;font-size:.9rem}
+  .foot-top{display:grid;grid-template-columns:1fr;gap:26px;padding-bottom:30px;border-bottom:1px solid rgba(255,255,255,.12)}
+  .foot-top .logo{color:#fff;margin-bottom:10px}
+  .foot-col h4{color:#fff;font-family:'Hanken Grotesk',sans-serif;font-size:.78rem;letter-spacing:.14em;text-transform:uppercase;margin-bottom:12px}
+  .foot-col a{display:block;padding:4px 0;transition:.2s}
+  .foot-col a:hover{color:var(--honey)}
+  .finance{font-size:.82rem;opacity:.6;margin-top:8px}
+  .copyright{padding-top:24px;display:flex;flex-wrap:wrap;gap:8px;justify-content:space-between;font-size:.82rem;opacity:.6}
+
+  /* reveal */
+  .reveal{opacity:0;transform:translateY(24px);animation:rise .7s cubic-bezier(.2,.7,.2,1) forwards}
+  @keyframes rise{to{opacity:1;transform:none}}
+  .d1{animation-delay:.05s}.d2{animation-delay:.15s}.d3{animation-delay:.25s}.d4{animation-delay:.35s}.d5{animation-delay:.45s}
+
+  @media(min-width:760px){
+    .ways-grid{grid-template-columns:repeat(2,1fr)}
+    .homes-grid{grid-template-columns:repeat(3,1fr)}
+    .amen-grid{grid-template-columns:repeat(3,1fr)}
+    .lots-inner{grid-template-columns:1.05fr 1fr}
+    .foot-top{grid-template-columns:2fr 1fr 1fr}
+  }
+  @media(min-width:980px){
+    nav.desktop{display:flex}
+    .bar .nav-cta{display:inline-flex}
+    .menu-toggle{display:none}
+    .bar{height:80px}
+    .logo{font-size:1.32rem}
+    .logo .mark{width:38px;height:38px}
+    .ways-grid{grid-template-columns:repeat(4,1fr)}
+    .amen-grid{grid-template-columns:repeat(6,1fr)}
+    .hero{padding:80px 0 90px}
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="wrap bar">
+    <a href="#" class="logo">
+      <svg class="mark" viewBox="0 0 40 40" fill="none">
+        <circle cx="20" cy="20" r="20" fill="#2C5540"/>
+        <path d="M11 21l9-8 9 8v8a1 1 0 0 1-1 1h-5v-6h-6v6h-5a1 1 0 0 1-1-1z" fill="#E2A23D"/>
+        <path d="M20 9c2 3 2 5 0 7-2-2-2-4 0-7z" fill="#8AA189"/>
+      </svg>
+      Mount Morris
+    </a>
+    <nav class="desktop">
+      <a href="#ways">Find a Home</a>
+      <a href="#homes">Homes</a>
+      <a href="#lots">The Map</a>
+      <a href="#amenities">Amenities</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+    <a href="#cta" class="btn btn-pine nav-cta">Schedule a Visit</a>
+    <button class="menu-toggle" id="menuBtn" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</header>
+
+<div class="mobile-menu" id="mobileMenu">
+  <a href="#ways">Find a Home</a>
+  <a href="#homes">Available Homes</a>
+  <a href="#lots">The Map</a>
+  <a href="#amenities">Amenities</a>
+  <a href="#faq">FAQ</a>
+  <a href="#cta" class="btn btn-primary">Schedule a Visit</a>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-art" aria-hidden="true">
+    <svg width="100%" height="100%" viewBox="0 0 1200 620" preserveAspectRatio="xMidYMax slice">
+      <defs>
+        <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#FBF5EA"/>
+          <stop offset="1" stop-color="#F0E6D2"/>
+        </linearGradient>
+        <linearGradient id="field" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#A9BE9C"/>
+          <stop offset="1" stop-color="#8AA189"/>
+        </linearGradient>
+      </defs>
+      <rect width="1200" height="620" fill="url(#sky)"/>
+      <circle cx="980" cy="150" r="80" fill="#E2A23D" opacity=".5"/>
+      <path d="M0 470c180-46 320-30 470 4s340 50 520 6 210-26 210-26V620H0z" fill="url(#field)" opacity=".85"/>
+      <g opacity=".5">
+        <path d="M150 470l60-52 60 52v60h-120z" fill="#2C5540"/>
+        <path d="M210 418c3 5 3 9 0 13-3-4-3-8 0-13z" fill="#2C5540"/>
+        <path d="M1010 482l46-40 46 40v48h-92z" fill="#1C3A2A"/>
+      </g>
+    </svg>
+  </div>
+  <div class="wrap">
+    <span class="eyebrow reveal d1">A Manufactured Home Community · Michigan</span>
+    <h1 class="reveal d2">Room to grow.<br>A place to <em>belong.</em></h1>
+    <p class="lead reveal d3">Affordable, well-built homes set in a friendly neighborhood with everything close to home. Rent, buy, or bring your own — there's a homesite here with your name on it.</p>
+    <div class="hero-actions reveal d4">
+      <a href="#homes" class="btn btn-primary">Browse Homes</a>
+      <a href="#lots" class="btn btn-ghost">Find a Homesite</a>
+    </div>
+    <div class="stats reveal d5">
+      <div class="stat"><div class="num">391</div><div class="lab">Homesites</div></div>
+      <div class="stat"><div class="num">4</div><div class="lab">Ways to Move In</div></div>
+      <div class="stat"><div class="num">All&nbsp;Ages</div><div class="lab">Welcome</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- WAYS HOME -->
+<section class="ways" id="ways">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">However you get here</span>
+      <h2>Four ways to make it home</h2>
+      <p>Whatever stage you're at, there's a path that fits. Pick the one that sounds like you.</p>
+    </div>
+    <div class="ways-grid">
+      <div class="way">
+        <div class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l9-7 9 7v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><rect x="9" y="14" width="6" height="7"/></svg></div>
+        <h3>Rent a home</h3>
+        <p>Move-in-ready homes available to rent. The easy way to settle in without buying.</p>
+        <a href="#homes" class="more">See rentals →</a>
+      </div>
+      <div class="way">
+        <div class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l9-7 9 7v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 21v-6h6v6"/></svg></div>
+        <h3>Buy pre-owned</h3>
+        <p>Quality used homes, ready now and priced to make ownership simple and affordable.</p>
+        <a href="#homes" class="more">See used homes →</a>
+      </div>
+      <div class="way">
+        <div class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/><path d="M12 7v6m3-3H9"/></svg></div>
+        <h3>Order a new home</h3>
+        <p>Pick a brand-new home and reserve it. Choose your layout and finishes before move-in.</p>
+        <a href="#cta" class="more">Start an order →</a>
+      </div>
+      <div class="way">
+        <div class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12h13l-3-3m3 3l-3 3"/><path d="M17 6l4 6-4 6"/></svg></div>
+        <h3>Move your home in</h3>
+        <p>Already own a home? Bring it to an open homesite and join the neighborhood.</p>
+        <a href="#cta" class="more">Ask about lots →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- HOMES -->
+<section id="homes">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">Open now</span>
+      <h2>Available homes</h2>
+      <p>A peek at what's open this week. New listings added all the time.</p>
+    </div>
+    <div class="tabs">
+      <button class="tab active" data-filter="all">All</button>
+      <button class="tab" data-filter="rent">For Rent</button>
+      <button class="tab" data-filter="used">Pre-Owned</button>
+      <button class="tab" data-filter="new">Brand New</button>
+    </div>
+    <div class="homes-grid" id="homesGrid">
+      <!-- card 1 -->
+      <article class="card" data-cat="rent">
+        <div class="photo">
+          <svg viewBox="0 0 400 300"><rect width="400" height="300" fill="#E8DCC4"/><rect y="170" width="400" height="130" fill="#C9D6BE"/><path d="M90 175l110-80 110 80v95H90z" fill="#FBF5EA"/><path d="M75 178l125-90 125 90" stroke="#2C5540" stroke-width="9" fill="none" stroke-linejoin="round"/><rect x="175" y="205" width="50" height="65" fill="#2C5540"/><rect x="115" y="200" width="40" height="40" fill="#9DB6E0"/><rect x="245" y="200" width="40" height="40" fill="#9DB6E0"/><circle cx="330" cy="70" r="26" fill="#E2A23D" opacity=".6"/></svg>
+          <span class="badge b-rent">For Rent</span>
+        </div>
+        <div class="body">
+          <div class="price">$1,150<small> / month</small></div>
+          <div class="ttl">The Maplewood · Homesite 112</div>
+          <div class="specs"><span>3 Bed</span><span>2 Bath</span><span>1,180 sq ft</span></div>
+        </div>
+      </article>
+      <!-- card 2 -->
+      <article class="card" data-cat="used">
+        <div class="photo">
+          <svg viewBox="0 0 400 300"><rect width="400" height="300" fill="#EADFC8"/><rect y="180" width="400" height="120" fill="#BFD0B6"/><path d="M70 185l130-78 130 78v90H70z" fill="#F4ECDC"/><path d="M58 188l142-86 142 86" stroke="#C25A35" stroke-width="9" fill="none" stroke-linejoin="round"/><rect x="178" y="212" width="46" height="63" fill="#C25A35"/><rect x="105" y="208" width="44" height="42" fill="#A9C0E6"/><rect x="251" y="208" width="44" height="42" fill="#A9C0E6"/><circle cx="320" cy="64" r="24" fill="#E2A23D" opacity=".55"/></svg>
+          <span class="badge b-used">Pre-Owned</span>
+        </div>
+        <div class="body">
+          <div class="price">$64,900</div>
+          <div class="ttl">The Birch · Homesite 247</div>
+          <div class="specs"><span>2 Bed</span><span>1 Bath</span><span>980 sq ft</span></div>
+        </div>
+      </article>
+      <!-- card 3 -->
+      <article class="card" data-cat="new">
+        <div class="photo">
+          <svg viewBox="0 0 400 300"><rect width="400" height="300" fill="#E6DBC2"/><rect y="175" width="400" height="125" fill="#C4D3BB"/><path d="M80 180l120-82 120 82v95H80z" fill="#FCF7EE"/><path d="M66 183l134-90 134 90" stroke="#2C5540" stroke-width="9" fill="none" stroke-linejoin="round"/><rect x="180" y="210" width="44" height="65" fill="#1C3A2A"/><rect x="112" y="205" width="42" height="42" fill="#9DB6E0"/><rect x="246" y="205" width="42" height="42" fill="#9DB6E0"/><rect x="150" y="120" width="100" height="10" fill="#E2A23D"/><circle cx="325" cy="68" r="25" fill="#E2A23D" opacity=".6"/></svg>
+          <span class="badge b-new">Brand New</span>
+        </div>
+        <div class="body">
+          <div class="price">$92,500</div>
+          <div class="ttl">The Cedar · Reserve Now</div>
+          <div class="specs"><span>3 Bed</span><span>2 Bath</span><span>1,400 sq ft</span></div>
+        </div>
+      </article>
+    </div>
+    <div class="center"><a href="#" class="btn btn-pine">View All Homes</a></div>
+  </div>
+</section>
+
+<!-- LOT FINDER -->
+<section class="lots" id="lots">
+  <div class="wrap lots-inner">
+    <div>
+      <span class="eyebrow">Pick your spot</span>
+      <h2>Find your homesite among 391</h2>
+      <p>Browse the community map to see which lots are open, where the amenities sit, and which spot feels like yours. Tap a lot to see what's available there.</p>
+      <div class="legend">
+        <span><i style="background:#8AA189"></i>Available</span>
+        <span><i style="background:#E2A23D"></i>Reserved</span>
+        <span><i style="background:#5d6b5e"></i>Occupied</span>
+      </div>
+      <a href="#" class="btn btn-primary">Explore the Map</a>
+    </div>
+    <div class="map-box">
+      <svg viewBox="0 0 320 256" aria-hidden="true">
+        <rect width="320" height="256" rx="12" fill="rgba(255,255,255,.04)"/>
+        <path d="M0 128h320M160 0v256M40 40h240v176H40z" stroke="rgba(255,255,255,.12)" fill="none" stroke-width="2"/>
+        <ellipse cx="160" cy="128" rx="34" ry="22" fill="#3E7C9C" opacity=".5"/>
+        <g>
+          <rect x="55" y="55" width="22" height="16" rx="3" fill="#8AA189"/>
+          <rect x="85" y="55" width="22" height="16" rx="3" fill="#5d6b5e"/>
+          <rect x="115" y="55" width="22" height="16" rx="3" fill="#5d6b5e"/>
+          <rect x="213" y="55" width="22" height="16" rx="3" fill="#E2A23D"/>
+          <rect x="243" y="55" width="22" height="16" rx="3" fill="#8AA189"/>
+          <rect x="55" y="185" width="22" height="16" rx="3" fill="#5d6b5e"/>
+          <rect x="85" y="185" width="22" height="16" rx="3" fill="#8AA189"/>
+          <rect x="213" y="185" width="22" height="16" rx="3" fill="#5d6b5e"/>
+          <rect x="243" y="185" width="22" height="16" rx="3" fill="#E2A23D"/>
+          <rect x="55" y="100" width="22" height="16" rx="3" fill="#5d6b5e"/>
+          <rect x="55" y="140" width="22" height="16" rx="3" fill="#8AA189"/>
+          <rect x="243" y="100" width="22" height="16" rx="3" fill="#8AA189"/>
+          <rect x="243" y="140" width="22" height="16" rx="3" fill="#5d6b5e"/>
+        </g>
+        <text x="160" y="132" font-size="9" fill="#fff" text-anchor="middle" opacity=".8" font-family="sans-serif">Clubhouse &amp; Pond</text>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- AMENITIES -->
+<section id="amenities">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">Life here</span>
+      <h2>Everything close to home</h2>
+      <p>Shared spaces and little comforts that make the neighborhood feel like one.</p>
+    </div>
+    <div class="amen-grid">
+      <div class="amen"><div class="a-ic"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 17c1.5 1 3 1 4.5 0s3-1 4.5 0 3 1 4.5 0 3-1 4.5 0M3 12c1.5 1 3 1 4.5 0s3-1 4.5 0 3 1 4.5 0 3-1 4.5 0"/></svg></div><div class="a-t">Swimming Pool</div></div>
+      <div class="amen"><div class="a-ic"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 21V8l9-5 9 5v13"/><path d="M9 21v-6h6v6"/></svg></div><div class="a-t">Clubhouse</div></div>
+      <div class="amen"><div class="a-ic"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="3"/><path d="M5 21v-4a4 4 0 0 1 4-4h6a4 4 0 0 1 4 4v4"/></svg></div><div class="a-t">Playground</div></div>
+      <div class="amen"><div class="a-ic"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="6" cy="10" r="2"/><circle cx="18" cy="10" r="2"/><circle cx="9" cy="6" r="2"/><circle cx="15" cy="6" r="2"/><path d="M9 14c-3 0-4 3-4 5h14c0-2-1-5-4-5a3 3 0 0 0-6 0z"/></svg></div><div class="a-t">Pet Friendly</div></div>
+      <div class="amen"><div class="a-ic"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 19V8a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v11"/><path d="M2 19h20M8 6V4h8v2"/></svg></div><div class="a-t">Community Events</div></div>
+      <div class="amen"><div class="a-ic"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2v20M5 8c0-3 3-5 7-5s7 2 7 5-3 5-7 5"/></svg></div><div class="a-t">Green Spaces</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq" id="faq">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">Good to know</span>
+      <h2>Questions we hear a lot</h2>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q">What are the community rules?<span class="pm">+</span></button>
+      <div class="faq-a"><p>Our community guidelines keep the neighborhood safe, quiet, and well-kept for everyone. You'll get a full copy of the rules during your tour, covering upkeep, parking, guests, and quiet hours.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q">What fees should I expect?<span class="pm">+</span></button>
+      <div class="faq-a"><p>Alongside your home payment or rent, there's a monthly lot rent that covers your homesite and shared amenities. We'll walk you through every cost up front — no surprises.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q">How does the water meter work?<span class="pm">+</span></button>
+      <div class="faq-a"><p>Each home has its own meter, so you only pay for the water you use. Readings are simple and billing is clearly itemized each month.</p></div>
+    </div>
+    <div class="faq-item">
+      <button class="faq-q">What's the pet policy?<span class="pm">+</span></button>
+      <div class="faq-a"><p>We're a pet-friendly community and love four-legged neighbors. A few breed and size guidelines apply, and there's plenty of green space for walks.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta" id="cta">
+  <div class="wrap">
+    <span class="eyebrow" style="color:#fff">Come see it for yourself</span>
+    <h2>Let's find your home</h2>
+    <p>Schedule a visit, ask a question, or just say hello. We'll help you figure out the path that fits.</p>
+    <div class="row">
+      <a href="tel:0000000000" class="btn btn-white">Call Us</a>
+      <a href="mailto:hello@example.com" class="btn btn-line">Email Us</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="foot-top">
+      <div>
+        <div class="logo">
+          <svg class="mark" viewBox="0 0 40 40" fill="none"><circle cx="20" cy="20" r="20" fill="#2C5540"/><path d="M11 21l9-8 9 8v8a1 1 0 0 1-1 1h-5v-6h-6v6h-5a1 1 0 0 1-1-1z" fill="#E2A23D"/><path d="M20 9c2 3 2 5 0 7-2-2-2-4 0-7z" fill="#8AA189"/></svg>
+          Mount Morris
+        </div>
+        <p>A manufactured home community in Michigan. Homes to rent, buy, or move in — and a neighborhood to call your own.</p>
+        <p class="finance">Financing available through trusted lending partners.</p>
+      </div>
+      <div class="foot-col">
+        <h4>Explore</h4>
+        <a href="#ways">Find a Home</a>
+        <a href="#homes">Available Homes</a>
+        <a href="#lots">Community Map</a>
+        <a href="#amenities">Amenities</a>
+      </div>
+      <div class="foot-col">
+        <h4>Get in Touch</h4>
+        <a href="tel:0000000000">(000) 000-0000</a>
+        <a href="mailto:hello@example.com">hello@example.com</a>
+        <a href="#cta">Schedule a Visit</a>
+        <a href="#faq">FAQ</a>
+      </div>
+    </div>
+    <div class="copyright">
+      <span>© 2026 Mount Morris. Placeholder design.</span>
+      <span>Privacy · Terms</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // mobile menu
+  const mb=document.getElementById('menuBtn'),mm=document.getElementById('mobileMenu');
+  mb.addEventListener('click',()=>{mb.classList.toggle('open');mm.classList.toggle('open');document.body.style.overflow=mm.classList.contains('open')?'hidden':'';});
+  mm.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{mb.classList.remove('open');mm.classList.remove('open');document.body.style.overflow='';}));
+
+  // home filter
+  const tabs=document.querySelectorAll('.tab'),cards=document.querySelectorAll('#homesGrid .card');
+  tabs.forEach(t=>t.addEventListener('click',()=>{
+    tabs.forEach(x=>x.classList.remove('active'));t.classList.add('active');
+    const f=t.dataset.filter;
+    cards.forEach(c=>{c.style.display=(f==='all'||c.dataset.cat===f)?'':'none';});
+  }));
+
+  // faq accordion
+  document.querySelectorAll('.faq-q').forEach(q=>q.addEventListener('click',()=>{
+    const item=q.parentElement,a=item.querySelector('.faq-a'),open=item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(i=>{i.classList.remove('open');i.querySelector('.faq-a').style.maxHeight=null;});
+    if(!open){item.classList.add('open');a.style.maxHeight=a.scrollHeight+'px';}
+  }));
+</script>
+</body>
+</html> 
