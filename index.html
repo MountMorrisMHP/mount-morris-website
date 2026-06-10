@@ -542,7 +542,12 @@
 
   async function loadListings(){
     try{
-      const res = await fetch(`${API_BASE}/api/listings`, { headers:{ 'Accept':'application/json' } });
+      // Production (GitHub Pages): a build step writes listings.json next to
+      // this page. Relative path so it works under the /repo-name/ subpath.
+      let res = await fetch('listings.json', { headers:{ 'Accept':'application/json' }, cache:'no-cache' });
+      // Local dev fallback: when running server.js there is no static
+      // listings.json, so fall back to its live /api/listings endpoint.
+      if(!res.ok) res = await fetch('/api/listings', { headers:{ 'Accept':'application/json' } });
       if(!res.ok) throw new Error('HTTP ' + res.status);
       const data = await res.json();
       // Order shown to visitors: rentals, then sales, then open lots.
