@@ -1,0 +1,45 @@
+name: Deploy to Staging
+
+# Pushes to the `staging` branch publish to the /staging/ subfolder:
+#   https://mountmorrismhp.github.io/mount-morris-website/staging/
+# This is the integration step AFTER a PR preview looks good.
+on:
+  push:
+    branches: [staging]
+  workflow_dispatch:
+
+permissions:
+  contents: write        # to push the built site to the gh-pages branch
+
+concurrency:
+  group: deploy-staging
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: staging
+      url: https://mountmorrismhp.github.io/mount-morris-website/staging/
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Build static site (folders 1-3 only)
+        run: node build.js
+
+      - name: Publish to gh-pages /staging
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages
+          publish_dir: ./dist
+          destination_dir: staging
+          # keep_files preserves production (root) and any pr-preview/ folders.
+          keep_files: true
+          full_commit_message: "Deploy staging (${{ github.sha }})"

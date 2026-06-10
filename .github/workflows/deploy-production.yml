@@ -1,0 +1,48 @@
+name: Deploy to Production
+
+# Pushes to `main` deploy the public site at the root:
+#   https://mountmorrismhp.github.io/mount-morris-website/
+#
+# REVIEW GATE: this job targets the "production" environment. Protect that
+# environment with "Required reviewers" (Settings > Environments > production)
+# so the deploy PAUSES and waits for you to click Approve before anything goes
+# live. workflow_dispatch also lets you promote manually from the Actions tab.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write        # to push the built site to the gh-pages branch
+
+concurrency:
+  group: deploy-production
+  cancel-in-progress: false   # never interrupt a production publish mid-way
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment:
+      name: production       # <-- the approval gate is attached to this environment
+      url: https://mountmorrismhp.github.io/mount-morris-website/
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Build static site (folders 1-3 only)
+        run: node build.js
+
+      - name: Publish to gh-pages root
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: gh-pages
+          publish_dir: ./dist
+          # keep_files preserves the staging/ and pr-preview/ subfolders.
+          keep_files: true
+          full_commit_message: "Deploy production (${{ github.sha }})"
