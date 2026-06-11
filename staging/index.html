@@ -198,13 +198,20 @@
   .car-arrow.prev{left:8px}
   .car-arrow.next{right:8px}
   .car-arrow:hover{background:#fff;transform:translateY(-50%) scale(1.06)}
-  .card:hover .car-arrow{opacity:.92}
+  .card:hover .car-arrow,.modal-card:hover .car-arrow{opacity:.92}
   @media (hover:none){.car-arrow{display:none}}          /* touch devices use swipe, not arrows */
   .car-dots{position:absolute;left:0;right:0;bottom:9px;z-index:3;display:flex;gap:5px;justify-content:center;pointer-events:none}
-  .car-dots .dot{pointer-events:auto;width:6px;height:6px;padding:0;border:none;border-radius:6px;cursor:pointer;background:rgba(251,245,234,.6);box-shadow:0 1px 3px rgba(28,58,42,.4);transition:width .3s ease,background .3s ease}
+  .car-dots .dot{pointer-events:auto;position:relative;overflow:hidden;width:6px;height:6px;padding:0;border:none;border-radius:6px;cursor:pointer;background:rgba(251,245,234,.6);box-shadow:0 1px 3px rgba(28,58,42,.4);transition:width .3s ease,background .3s ease}
   .car-dots .dot.active{width:18px;background:var(--cream)}   /* active dot stretches into a pill */
+  .car-dots .dot .dot-fill{position:absolute;left:0;top:0;bottom:0;width:0;background:var(--cream);border-radius:inherit;pointer-events:none}
+  /* autoplay: the active pill becomes a left-to-right progress track filling over ~5s */
+  .carousel.autoplay .car-dots .dot.active{background:rgba(251,245,234,.42)}
+  .carousel.autoplay .car-dots .dot.active .dot-fill{animation:dotfill 5000ms linear}
+  .carousel.autoplay.ap-paused .car-dots .dot.active .dot-fill{animation-play-state:paused}
+  @keyframes dotfill{from{width:0}to{width:100%}}
   @media (prefers-reduced-motion: reduce){
     .carousel-track,.car-dots .dot,.car-arrow{transition:none}
+    .carousel.autoplay .car-dots .dot.active .dot-fill{animation:none}  /* no autoplay when reduced motion */
   }
 
   /* reveal */
@@ -574,17 +581,22 @@
     /* =================== END TEMPORARY placeholder slides =================== */
   }
 
-  function cardHTML(item){
-    const slides = buildSlides(item);
+  // Build the carousel markup from slide-inner-HTML strings. Shared by the
+  // listing cards and the expanded modal so they behave identically.
+  function carouselHTML(slides, extraClass){
     const multi = slides.length > 1;
     const track = slides.map(s => `<div class="cslide">${s}</div>`).join('');
     const controls = multi ? `
         <button class="car-arrow prev" aria-label="Previous photo" tabindex="-1">${chevron('left')}</button>
         <button class="car-arrow next" aria-label="Next photo" tabindex="-1">${chevron('right')}</button>
-        <div class="car-dots">${slides.map((_,i)=>`<button class="dot${i?'':' active'}" data-i="${i}" aria-label="Go to photo ${i+1}" tabindex="-1"></button>`).join('')}</div>` : '';
-    const photo = `<div class="carousel${multi?' is-multi':''}" data-idx="0">
+        <div class="car-dots">${slides.map((_,i)=>`<button class="dot${i?'':' active'}" data-i="${i}" aria-label="Go to photo ${i+1}" tabindex="-1"><span class="dot-fill"></span></button>`).join('')}</div>` : '';
+    return `<div class="carousel${multi?' is-multi':''}${extraClass?' '+extraClass:''}" data-idx="0">
         <div class="carousel-track">${track}</div>${controls}
       </div>`;
+  }
+
+  function cardHTML(item){
+    const photo = carouselHTML(buildSlides(item));
     const specs = (item.specs || []).map(s => `<span>${esc(s)}</span>`).join('');
     const price = `${esc(item.price)}${item.priceSmall ? `<small>${esc(item.priceSmall)}</small>` : ''}`;
     return `<article class="card" data-cat="${esc(item.dataCat)}" data-id="${esc(item.id)}" tabindex="0">
@@ -642,45 +654,25 @@
     render();
   }));
 
-  /* ----- Detail modal with photo slideshow ----- */
+  /* ----- Detail modal: reuses the SAME carousel as the cards ----- */
   const modal = document.getElementById('listingModal');
   const galleryEl = document.getElementById('modalGallery');
-  let galleryImgs = [], galleryIdx = 0;
 
-  function showSlide(i){
-    if(!galleryImgs.length) return;
-    galleryIdx = (i + galleryImgs.length) % galleryImgs.length;
-    galleryEl.querySelectorAll('img,svg').forEach((el,n)=>{ el.style.display = n===galleryIdx ? 'block':'none'; });
-    const dots = galleryEl.querySelectorAll('.gallery-dots i');
-    dots.forEach((d,n)=>d.classList.toggle('on', n===galleryIdx));
-  }
-
-  function openModal(item){
+  function openModal(item, startIdx){
     document.getElementById('modalTitle').textContent = item.title;
     document.getElementById('modalPrice').innerHTML =
       esc(item.price) + (item.priceSmall ? `<small style="font-size:.8rem;color:#7a8678"> ${esc(item.priceSmall)}</small>` : '');
 
-    // details list
     document.getElementById('modalDetails').innerHTML =
       (item.details || []).map(d => `<div><dt>${esc(d.label)}</dt><dd>${esc(d.value)}</dd></div>`).join('');
 
-    // gallery
-    galleryImgs = item.gallery && item.gallery.length ? item.gallery : [];
-    let inner = '';
-    if(galleryImgs.length){
-      inner = galleryImgs.map(u => `<img src="${esc(API_BASE+u)}" alt="${esc(item.title)}">`).join('');
-      if(galleryImgs.length > 1){
-        inner += `<button class="gallery-nav prev" aria-label="Previous photo">&#8249;</button>
-                  <button class="gallery-nav next" aria-label="Next photo">&#8250;</button>
-                  <div class="gallery-dots">${galleryImgs.map(()=>'<i></i>').join('')}</div>`;
-      }
-    } else {
-      inner = placeholderSVG;
-    }
-    galleryEl.innerHTML = inner;
-    galleryEl.querySelector('.prev')?.addEventListener('click', ()=>showSlide(galleryIdx-1));
-    galleryEl.querySelector('.next')?.addEventListener('click', ()=>showSlide(galleryIdx+1));
-    showSlide(0);
+    // Build the identical carousel, opening on the slide the card was showing.
+    const slides = buildSlides(item);
+    galleryEl.innerHTML = carouselHTML(slides, 'modal-carousel');
+    initCarousel(galleryEl.querySelector('.carousel'), { observe: false, startIdx: Math.min(startIdx || 0, slides.length - 1) });
+
+    // Pause the card carousels (now behind the modal) while it's open.
+    grid.querySelectorAll('.carousel').forEach(c => c._pauseAP && c._pauseAP('modal'));
 
     modal.classList.add('open');
     document.body.style.overflow = 'hidden';
@@ -689,28 +681,69 @@
   function closeModal(){
     modal.classList.remove('open');
     document.body.style.overflow = '';
+    suppressCardClick = false;
+    galleryEl.innerHTML = '';   // destroy the modal carousel (stops its autoplay fill)
+    grid.querySelectorAll('.carousel').forEach(c => c._resumeAP && c._resumeAP('modal'));
   }
 
   /* ===================================================================
-   * CARD CAROUSEL ENGINE — swipe (touch + mouse) with momentum, hover
-   * arrows, arrow-key nav, and a stretching-pill dot indicator.
+   * CAROUSEL ENGINE — swipe (touch + mouse) with momentum, hover arrows,
+   * arrow-key nav, stretching-pill dots, and fill-timer autoplay.
+   * Shared by the cards and the expanded modal.
    * =================================================================== */
   const REDUCE_MOTION = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const HOVER_CAP = matchMedia('(hover:hover)').matches;
   let suppressCardClick = false;   // true right after a drag, so the swipe doesn't open the modal
 
-  function setSlide(car, idx, animate){
+  // Pause card carousels that scroll out of view so off-screen ones don't churn.
+  const apObserver = new IntersectionObserver(entries => {
+    entries.forEach(en => {
+      if (en.isIntersecting) en.target._resumeAP && en.target._resumeAP('offscreen');
+      else en.target._pauseAP && en.target._pauseAP('offscreen');
+    });
+  }, { threshold: 0.2 });
+
+  function setSlide(car, idx, animate, opts){
     const track = car.querySelector('.carousel-track');
     const n = track.children.length;
-    idx = Math.max(0, Math.min(n - 1, idx));
+    idx = (opts && opts.wrap) ? ((idx % n) + n) % n : Math.max(0, Math.min(n - 1, idx));
     const w = car.clientWidth;
     track.style.transition = (animate && !REDUCE_MOTION) ? '' : 'none';
     track.style.transform = `translateX(${-idx * w}px)`;
     car.dataset.idx = idx;
     car.querySelectorAll('.car-dots .dot').forEach((d, i) => d.classList.toggle('active', i === idx));
     if (!animate){ void track.offsetWidth; track.style.transition = ''; } // restore transition for next move
+    if (car._armFill) car._armFill();   // (re)start the autoplay fill on the active dot
   }
 
-  function initCarousel(car){
+  // Autoplay: fill the active pill over ~5s then advance; pause/resume aware.
+  function setupAutoplay(car, observe){
+    if (REDUCE_MOTION) return;                                       // requirement 5: no autoplay
+    if (car.querySelector('.carousel-track').children.length <= 1) return;
+    car.classList.add('autoplay');
+    car._pause = new Set();
+    car._pauseAP  = (r) => { car._pause.add(r);    car.classList.add('ap-paused'); };
+    car._resumeAP = (r) => { car._pause.delete(r); if (!car._pause.size) car.classList.remove('ap-paused'); };
+    car._armFill  = () => {                                          // restart the fill from 0
+      const fill = car.querySelector('.car-dots .dot.active .dot-fill');
+      if (!fill) return;
+      fill.style.animation = 'none'; void fill.offsetWidth; fill.style.animation = '';
+    };
+    car.querySelector('.car-dots').addEventListener('animationend', (e) => {
+      if (e.animationName !== 'dotfill') return;
+      if (!e.target.parentElement.classList.contains('active')) return;
+      setSlide(car, +car.dataset.idx + 1, true, { wrap: true });     // advance + loop
+    });
+    if (observe) apObserver.observe(car);                           // requirement 4 (cards only)
+    if (HOVER_CAP){                                                  // requirement 3: pause on hover
+      car.addEventListener('mouseenter', () => car._pauseAP('hover'));
+      car.addEventListener('mouseleave', () => car._resumeAP('hover'));
+    }
+    car._armFill();                                                  // kick off the first fill
+  }
+
+  function initCarousel(car, opts){
+    opts = opts || {};
     const track = car.querySelector('.carousel-track');
 
     // If a real image fails to load, swap that one slide for a placeholder.
@@ -720,11 +753,11 @@
       });
     });
 
-    if (track.children.length <= 1) return;   // 0/1 slide: static, no controls (placeholder behavior)
-    setSlide(car, 0, false);
+    if (track.children.length <= 1) return;   // 0/1 slide: static, no controls/autoplay
+    setSlide(car, opts.startIdx || 0, false);
 
-    car.querySelector('.car-arrow.prev').addEventListener('click', e => { e.stopPropagation(); setSlide(car, +car.dataset.idx - 1, true); });
-    car.querySelector('.car-arrow.next').addEventListener('click', e => { e.stopPropagation(); setSlide(car, +car.dataset.idx + 1, true); });
+    car.querySelector('.car-arrow.prev').addEventListener('click', e => { e.stopPropagation(); setSlide(car, +car.dataset.idx - 1, true, { wrap: true }); });
+    car.querySelector('.car-arrow.next').addEventListener('click', e => { e.stopPropagation(); setSlide(car, +car.dataset.idx + 1, true, { wrap: true }); });
     car.querySelectorAll('.car-dots .dot').forEach(d =>
       d.addEventListener('click', e => { e.stopPropagation(); setSlide(car, +d.dataset.i, true); }));
 
@@ -736,14 +769,15 @@
       base = -(+car.dataset.idx) * w;
       startX = lastX = e.clientX; startY = e.clientY; lastT = e.timeStamp;
       dx = 0; vel = 0; active = true; decided = false;
-      suppressCardClick = false;     // fresh interaction
+      suppressCardClick = false;
+      if (car._pauseAP) car._pauseAP('drag');          // requirement 3: pause while finger down
     });
     track.addEventListener('pointermove', e => {
       if (!active) return;
       const mx = e.clientX - startX, my = e.clientY - startY;
       if (!decided){
         if (Math.abs(mx) < 6 && Math.abs(my) < 6) return;
-        if (Math.abs(my) > Math.abs(mx)){ active = false; return; }  // vertical: let the page scroll
+        if (Math.abs(my) > Math.abs(mx)){ active = false; if (car._resumeAP) car._resumeAP('drag'); return; }
         decided = true;
         track.classList.add('dragging');
         try { track.setPointerCapture(e.pointerId); } catch (_) {}
@@ -759,27 +793,36 @@
     const end = () => {
       if (!active) return;
       active = false;
+      if (car._resumeAP) car._resumeAP('drag');        // resume when the finger lifts
       if (!decided) return;                            // a tap, not a drag: let click open the modal
       track.classList.remove('dragging');
       let idx = +car.dataset.idx;
       const flick = Math.abs(vel) > 0.4;               // quick flick advances even on a small drag
       if (dx <= -w * 0.2 || (flick && vel < 0)) idx++;
       else if (dx >= w * 0.2 || (flick && vel > 0)) idx--;
-      setSlide(car, idx, true);                        // smooth snap to nearest slide
+      setSlide(car, idx, true);                        // smooth snap to nearest slide (clamped at ends)
       suppressCardClick = true;                        // a drag happened: don't open the modal
     };
     track.addEventListener('pointerup', end);
     track.addEventListener('pointercancel', end);
+
+    setupAutoplay(car, opts.observe !== false);        // cards observe viewport; modal passes observe:false
   }
 
-  function initCarousels(){ grid.querySelectorAll('.carousel').forEach(initCarousel); }
+  function initCarousels(){
+    apObserver.disconnect();   // drop the previous render's (now detached) carousels
+    grid.querySelectorAll('.carousel').forEach(c => initCarousel(c));
+  }
 
-  // Keep slides aligned to card width across viewport/orientation changes.
+  // Keep slides aligned to width across viewport/orientation changes (cards + modal).
   let rszT;
   addEventListener('resize', () => {
     clearTimeout(rszT);
-    rszT = setTimeout(() => grid.querySelectorAll('.carousel.is-multi').forEach(c => setSlide(c, +c.dataset.idx, false)), 120);
+    rszT = setTimeout(() => document.querySelectorAll('.carousel.is-multi').forEach(c => setSlide(c, +c.dataset.idx, false)), 120);
   });
+
+  // Which slide is a card currently showing? (so the modal opens on the same one)
+  const cardSlideIdx = (card) => { const c = card.querySelector('.carousel'); return c ? +c.dataset.idx : 0; };
 
   // open modal on a clean tap/click (a drag is suppressed); ignore arrow/dot clicks
   grid.addEventListener('click', (e)=>{
@@ -788,7 +831,7 @@
     const card = e.target.closest('.card');
     if(!card) return;
     const item = LISTINGS.find(i => i.id === card.dataset.id);
-    if(item) openModal(item);
+    if(item) openModal(item, cardSlideIdx(card));
   });
   grid.addEventListener('keydown', (e)=>{
     const card = e.target.closest('.card');
@@ -796,12 +839,12 @@
     if(e.key === 'Enter' || e.key === ' '){
       e.preventDefault();
       const item = LISTINGS.find(i => i.id === card.dataset.id);
-      if(item) openModal(item);
+      if(item) openModal(item, cardSlideIdx(card));
     } else if(e.key === 'ArrowLeft' || e.key === 'ArrowRight'){
       const car = card.querySelector('.carousel.is-multi');
       if(!car) return;
       e.preventDefault();
-      setSlide(car, +car.dataset.idx + (e.key === 'ArrowRight' ? 1 : -1), true);
+      setSlide(car, +car.dataset.idx + (e.key === 'ArrowRight' ? 1 : -1), true, { wrap: true });
     }
   });
 
@@ -809,9 +852,11 @@
   modal.addEventListener('click', (e)=>{ if(e.target === modal) closeModal(); });
   document.addEventListener('keydown', (e)=>{
     if(!modal.classList.contains('open')) return;
-    if(e.key === 'Escape') closeModal();
-    if(e.key === 'ArrowLeft') showSlide(galleryIdx-1);
-    if(e.key === 'ArrowRight') showSlide(galleryIdx+1);
+    if(e.key === 'Escape'){ closeModal(); return; }
+    const car = galleryEl.querySelector('.carousel.is-multi');
+    if(!car) return;
+    if(e.key === 'ArrowLeft'){ e.preventDefault(); setSlide(car, +car.dataset.idx - 1, true, { wrap: true }); }
+    if(e.key === 'ArrowRight'){ e.preventDefault(); setSlide(car, +car.dataset.idx + 1, true, { wrap: true }); }
   });
 
   loadListings();
