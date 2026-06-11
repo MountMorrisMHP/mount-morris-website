@@ -71,6 +71,9 @@ jobs:
             echo "Tag $V already exists — skipping tag/release creation."
             exit 0
           fi
+          # A fresh runner has no git identity; annotated tags require one.
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git tag -a "$V" -m "Production deploy $V"
           git push origin "$V"
           gh release create "$V" \
