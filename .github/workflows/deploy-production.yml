@@ -42,7 +42,7 @@ jobs:
         id: ver
         run: |
           V="${{ github.event.inputs.version }}"
-          if [ -z "$V" ]; then V="v$(date -u +'%Y.%m.%d-%H%M')"; fi
+          if [ -z "$V" ]; then V="v$(date -u +'%Y.%m.%d-%H%M%S')"; fi   # seconds avoid same-minute collisions
           echo "version=$V" >> "$GITHUB_OUTPUT"
           echo "Deploying production $V"
 
@@ -65,21 +65,27 @@ jobs:
           keep_files: true
           full_commit_message: "Deploy production ${{ steps.ver.outputs.version }} (${{ github.sha }})"
 
-      # Every production deploy is tagged + released, giving a clean rollback point.
+      # Tagging is best-effort: the publish above already shipped the site, so a
+      # tag hiccup (a version name with spaces, a duplicate, etc.) must NEVER fail
+      # the deploy. continue-on-error keeps the run green if anything here trips.
       - name: Tag and create GitHub Release
+        continue-on-error: true
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           V="${{ steps.ver.outputs.version }}"
-          if git rev-parse "$V" >/dev/null 2>&1; then
-            echo "Tag $V already exists — skipping tag/release creation."
+          # Git tag names can't contain spaces or most punctuation — derive a safe one.
+          TAG=$(printf '%s' "$V" | tr ' ' '-' | tr -cd 'A-Za-z0-9._-')
+          if [ -z "$TAG" ]; then TAG="v$(date -u +'%Y.%m.%d-%H%M%S')"; fi
+          git fetch --tags --force -q || true
+          if git rev-parse "refs/tags/$TAG" >/dev/null 2>&1 || git ls-remote --exit-code --tags origin "$TAG" >/dev/null 2>&1; then
+            echo "Tag $TAG already exists — skipping."
             exit 0
           fi
-          # A fresh runner has no git identity; annotated tags require one.
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git tag -a "$V" -m "Production deploy $V"
-          git push origin "$V"
-          gh release create "$V" \
+          git tag -a "$TAG" -m "Production deploy $V"
+          git push origin "$TAG"
+          gh release create "$TAG" \
             --title "$V" \
             --notes "Production deploy from \`${{ github.ref_name }}\` @ ${{ github.sha }} on $(date -u '+%Y-%m-%d %H:%M UTC'). Live at https://mountmorrismhp.github.io/mount-morris-website/"
