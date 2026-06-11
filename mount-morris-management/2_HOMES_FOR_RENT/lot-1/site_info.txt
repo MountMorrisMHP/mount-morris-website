@@ -1,5 +1,5 @@
 Lot Number: 1
-Base Lot Rent: $275
+Base Lot Rent: $575
 Total Lot Area (sqft): 5400
 Max Home Width: 16 ft
 Max Home Length (ft): 80
