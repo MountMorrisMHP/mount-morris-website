@@ -57,7 +57,18 @@ TO EDIT A LOT'S INFO:
   3. Type your changes after the colons, just like before.
   4. Scroll down and click the green "Commit changes" button.
      ("Commit" just means "save". You can leave the note box empty.)
-  The website updates a moment later.
+
+AFTER YOU COMMIT — LOOK FOR THE GREEN CHECK:
+  Every time you change a lot's info, the system automatically checks your
+  typing. Next to your change you'll see a small icon:
+    green check  = your data looks good.
+    yellow dot   = it's still checking; wait a few seconds and refresh.
+    red  X       = there's a typo in one of the values.
+  If you see a RED X, click it, then click "Details". It tells you in plain
+  English exactly which file, which line, and what to fix - for example:
+     "Price: abc" - price must be a number, like 1250
+  Fix that value, commit again, and watch for the green check. Blank values
+  never cause a red X - only filled-in values that look wrong do.
 
 TO ADD A PHOTO:
   1. Open the lot's folder (for example lot-B).

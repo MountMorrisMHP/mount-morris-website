@@ -1,0 +1,27 @@
+name: Validate listing data
+
+# Runs whenever a commit changes anything in the listing-data folder, on any
+# branch. The client's commit gets a green check (data OK) or a red X (a typo
+# they can click into to see exactly which file and line to fix).
+on:
+  push:
+    paths:
+      - "mount-morris-management/**"
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repository
+        uses: actions/checkout@v5
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: 20
+
+      - name: Check listing data
+        run: node validate.js
