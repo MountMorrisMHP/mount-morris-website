@@ -1,10 +1,12 @@
 name: Deploy to Production
 
-# Production deploys ONLY when you press the button:
-#   Actions tab -> "Deploy to Production" -> Run workflow
-# It builds whatever is on the branch you pick (default: main), publishes it to
-# the public site root, and VERSIONS the release with a git tag + GitHub Release.
-# No PR, no approval, no change list.
+# Production updates two ways:
+#   (a) MANUAL button (workflow_dispatch) — for CODE releases. Versioned with a
+#       git tag + GitHub Release.
+#   (b) AUTOMATIC — when the client edits listing data on main. A push to main
+#       that touches mount-morris-management/** deploys with no button, no tag.
+# Code-only pushes to main do NOT match the paths filter, so they never
+# auto-deploy — promote those through the staging branch instead.
 on:
   workflow_dispatch:
     inputs:
@@ -12,6 +14,10 @@ on:
         description: "Version tag (leave blank to auto-generate, e.g. v2026.06.11-1430)"
         required: false
         default: ""
+  push:
+    branches: [main]
+    paths:
+      - "mount-morris-management/**"
 
 permissions:
   contents: write        # push the built site to gh-pages AND create tags/releases
@@ -37,14 +43,14 @@ jobs:
         with:
           node-version: 20
 
-      # Use the typed version, or auto-generate one from the UTC date/time.
+      # Manual run: use the typed version (or auto). Auto/data push: timestamp.
       - name: Determine version
         id: ver
         run: |
           V="${{ github.event.inputs.version }}"
           if [ -z "$V" ]; then V="v$(date -u +'%Y.%m.%d-%H%M')"; fi
           echo "version=$V" >> "$GITHUB_OUTPUT"
-          echo "Releasing production version: $V"
+          echo "Deploying production $V (trigger: ${{ github.event_name }})"
 
       - name: Build static site (folders 1-3 only)
         run: node build.js
@@ -57,12 +63,14 @@ jobs:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: gh-pages
           publish_dir: ./dist
-          # keep_files preserves the staging/ and pr-preview/ subfolders.
+          # keep_files preserves the /staging subfolder on the same branch.
           keep_files: true
           full_commit_message: "Deploy production ${{ steps.ver.outputs.version }} (${{ github.sha }})"
 
-      # Record the exact source that went live as a tag + Release for rollback/history.
+      # Only MANUAL code releases get a tag + Release. Automatic client data
+      # deploys just publish, so we don't create a tag on every listing edit.
       - name: Tag and create GitHub Release
+        if: github.event_name == 'workflow_dispatch'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
