@@ -17,7 +17,7 @@ const path = require('path');
 const fs = require('fs/promises');
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3000; // deploy-trigger test: code-only change, must NOT auto-deploy
 
 const ROOT = __dirname;
 const DATA_DIR = path.join(ROOT, 'mount-morris-management');
