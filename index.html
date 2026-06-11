@@ -203,12 +203,14 @@
   .car-dots{position:absolute;left:0;right:0;bottom:9px;z-index:3;display:flex;gap:5px;justify-content:center;pointer-events:none}
   .car-dots .dot{pointer-events:auto;position:relative;overflow:hidden;width:6px;height:6px;padding:0;border:none;border-radius:6px;cursor:pointer;background:rgba(251,245,234,.6);box-shadow:0 1px 3px rgba(28,58,42,.4);transition:width .3s ease,background .3s ease}
   .car-dots .dot.active{width:18px;background:var(--cream)}   /* active dot stretches into a pill */
-  .car-dots .dot .dot-fill{position:absolute;left:0;top:0;bottom:0;width:0;background:var(--cream);border-radius:inherit;pointer-events:none}
+  /* Progress fill: full-width element scaled with transform (GPU-composited,
+     sub-pixel smooth) rather than animating width (which snaps to whole pixels). */
+  .car-dots .dot .dot-fill{position:absolute;left:0;top:0;bottom:0;width:100%;background:var(--pine);border-radius:inherit;pointer-events:none;transform:scaleX(0);transform-origin:left center}
   /* autoplay: the active pill becomes a left-to-right progress track filling over ~5s */
   .carousel.autoplay .car-dots .dot.active{background:rgba(251,245,234,.42)}
   .carousel.autoplay .car-dots .dot.active .dot-fill{animation:dotfill 5000ms linear}
   .carousel.autoplay.ap-paused .car-dots .dot.active .dot-fill{animation-play-state:paused}
-  @keyframes dotfill{from{width:0}to{width:100%}}
+  @keyframes dotfill{from{transform:scaleX(0)}to{transform:scaleX(1)}}
   @media (prefers-reduced-motion: reduce){
     .carousel-track,.car-dots .dot,.car-arrow{transition:none}
     .carousel.autoplay .car-dots .dot.active .dot-fill{animation:none}  /* no autoplay when reduced motion */
