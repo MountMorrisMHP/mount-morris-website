@@ -1,6 +1,6 @@
 {
-  "version": "v2026.06.11-0449",
-  "generatedAt": "2026-06-11T04:49:08.382Z",
+  "version": "v2026.06.11-0450",
+  "generatedAt": "2026-06-11T04:50:32.558Z",
   "counts": {
     "emptyLots": 0,
     "homesForRent": 1,
@@ -52,7 +52,7 @@
         },
         {
           "label": "Parking Spaces",
-          "value": "3"
+          "value": "2"
         },
         {
           "label": "Sewer System",
