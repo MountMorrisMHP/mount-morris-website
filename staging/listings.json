@@ -1,6 +1,6 @@
 {
   "version": "dev",
-  "generatedAt": "2026-06-11T04:29:52.340Z",
+  "generatedAt": "2026-06-11T06:28:12.348Z",
   "counts": {
     "emptyLots": 0,
     "homesForRent": 1,
@@ -32,7 +32,7 @@
         },
         {
           "label": "Base Lot Rent",
-          "value": "$575"
+          "value": "$275"
         },
         {
           "label": "Total Lot Area (sqft)",
