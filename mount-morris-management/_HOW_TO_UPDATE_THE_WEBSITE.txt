@@ -90,3 +90,34 @@ TO "MOVE" A LOT TO A DIFFERENT FOLDER ON GITHUB:
   >>> Remember: a lot should only exist in ONE folder at a time. <<<
 =======================================================================
 
+-----------------------------------------------------------------------
+  COMMUNITY PHOTOS & AMENITIES  (the "community" folder)
+-----------------------------------------------------------------------
+Everything about the park itself - amenities and lifestyle photos - lives in
+the "community" folder, right next to the lot folders.
+
+AMENITIES (community/amenities/...):
+  There is one folder per amenity (clubhouse, playground, pet_friendly, and
+  so on). Each shows as an icon on the website; clicking it opens a popup.
+  - To add details: open that amenity's "info.txt" and type after the colons,
+    e.g. "Hours: 9am - 9pm". Add your own lines too (e.g. "Rules: ...").
+    Everything you fill in shows in the popup. Blank lines are skipped.
+  - To add photos: open the amenity's folder, "Add file" -> "Upload files",
+    drag photos in, commit. They appear as a swipeable slideshow in the popup.
+    Name the first one "main.jpg" to control which shows first.
+  - Two special lines: "Display Name:" changes the title shown (otherwise the
+    folder name is used), and "Order:" (a number) sets the position in the grid.
+  - To add a BRAND-NEW amenity: make a new folder under community/amenities/
+    with an "info.txt" inside. It gets a generic icon automatically.
+
+LIFESTYLE PHOTOS (community/general_scenery/):
+  Drop photos here for the ambient "Life at Mount Morris" slider on the home
+  page. If the folder is empty, that section simply doesn't appear.
+
+PARK RULES (community/community_rules.txt):
+  Type the full community rules into this file. When it has text, it appears
+  as a "Community Rules" entry in the FAQ. Leave it empty to hide it.
+
+(The green-check / red-X check covers these files too - same as lots.)
+=======================================================================
+
