@@ -1,10 +1,12 @@
 {
-  "version": "phone_swipe_&_scrollbar",
-  "generatedAt": "2026-06-12T05:40:01.629Z",
+  "version": "v2026.06.12-093823",
+  "generatedAt": "2026-06-12T09:38:23.409Z",
   "counts": {
     "emptyLots": 0,
     "homesForRent": 9,
-    "homesForSale": 1
+    "homesForSale": 1,
+    "amenities": 9,
+    "scenery": 0
   },
   "emptyLots": [],
   "homesForRent": [
@@ -1058,5 +1060,83 @@
         }
       ]
     }
-  ]
+  ],
+  "community": {
+    "amenities": [
+      {
+        "id": "basketball_court",
+        "displayName": "Basketball Court",
+        "order": null,
+        "details": [],
+        "mainImage": null,
+        "gallery": []
+      },
+      {
+        "id": "clubhouse",
+        "displayName": "Clubhouse",
+        "order": null,
+        "details": [],
+        "mainImage": null,
+        "gallery": []
+      },
+      {
+        "id": "community_events",
+        "displayName": "Community Events",
+        "order": null,
+        "details": [],
+        "mainImage": null,
+        "gallery": []
+      },
+      {
+        "id": "green_spaces",
+        "displayName": "Green Spaces",
+        "order": null,
+        "details": [],
+        "mainImage": null,
+        "gallery": []
+      },
+      {
+        "id": "laundry_facility",
+        "displayName": "Laundry Facility",
+        "order": null,
+        "details": [],
+        "mainImage": null,
+        "gallery": []
+      },
+      {
+        "id": "onsite_management",
+        "displayName": "Onsite Management",
+        "order": null,
+        "details": [],
+        "mainImage": null,
+        "gallery": []
+      },
+      {
+        "id": "pet_friendly",
+        "displayName": "Pet Friendly",
+        "order": null,
+        "details": [],
+        "mainImage": null,
+        "gallery": []
+      },
+      {
+        "id": "playground",
+        "displayName": "Playground",
+        "order": null,
+        "details": [],
+        "mainImage": null,
+        "gallery": []
+      },
+      {
+        "id": "storage_parking",
+        "displayName": "Storage Parking",
+        "order": null,
+        "details": [],
+        "mainImage": null,
+        "gallery": []
+      }
+    ],
+    "scenery": [],
+    "communityRules": ""
+  }
 }

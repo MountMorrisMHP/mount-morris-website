@@ -144,6 +144,9 @@
   .amen:hover .a-ic{color:var(--honey)}
   .amen .a-ic{color:var(--pine);margin-bottom:10px;transition:.2s}
   .amen .a-t{font-weight:600;font-size:.92rem}
+  .amen{font:inherit;color:inherit;cursor:pointer;width:100%}   /* clickable icon button */
+  .life-slider{position:relative;aspect-ratio:16/9;border-radius:22px;overflow:hidden;box-shadow:var(--shadow);background:var(--cream)}
+  @media(max-width:600px){.life-slider{aspect-ratio:4/3}}
 
   /* FAQ */
   .faq{background:var(--paper)}
@@ -427,14 +430,20 @@
       <h2>Everything close to home</h2>
       <p>Shared spaces and little comforts that make the neighborhood feel like one.</p>
     </div>
-    <div class="amen-grid">
-      <div class="amen"><div class="a-ic"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 17c1.5 1 3 1 4.5 0s3-1 4.5 0 3 1 4.5 0 3-1 4.5 0M3 12c1.5 1 3 1 4.5 0s3-1 4.5 0 3 1 4.5 0 3-1 4.5 0"/></svg></div><div class="a-t">Swimming Pool</div></div>
-      <div class="amen"><div class="a-ic"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 21V8l9-5 9 5v13"/><path d="M9 21v-6h6v6"/></svg></div><div class="a-t">Clubhouse</div></div>
-      <div class="amen"><div class="a-ic"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="8" r="3"/><path d="M5 21v-4a4 4 0 0 1 4-4h6a4 4 0 0 1 4 4v4"/></svg></div><div class="a-t">Playground</div></div>
-      <div class="amen"><div class="a-ic"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="6" cy="10" r="2"/><circle cx="18" cy="10" r="2"/><circle cx="9" cy="6" r="2"/><circle cx="15" cy="6" r="2"/><path d="M9 14c-3 0-4 3-4 5h14c0-2-1-5-4-5a3 3 0 0 0-6 0z"/></svg></div><div class="a-t">Pet Friendly</div></div>
-      <div class="amen"><div class="a-ic"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 19V8a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v11"/><path d="M2 19h20M8 6V4h8v2"/></svg></div><div class="a-t">Community Events</div></div>
-      <div class="amen"><div class="a-ic"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2v20M5 8c0-3 3-5 7-5s7 2 7 5-3 5-7 5"/></svg></div><div class="a-t">Green Spaces</div></div>
+    <!-- Icon cards are rendered from community/amenities/* (see script at bottom). -->
+    <div class="amen-grid" id="amenGrid"></div>
+  </div>
+</section>
+
+<!-- LIFE AT THE PARK — ambient scenery slider; stays hidden until general_scenery has photos -->
+<section id="life" style="display:none">
+  <div class="wrap">
+    <div class="sec-head">
+      <span class="eyebrow">Around the park</span>
+      <h2>Life at Mount Morris Mobile Home Park</h2>
+      <p>A glimpse of everyday life around the community.</p>
     </div>
+    <div class="life-slider" id="lifeSlider"></div>
   </div>
 </section>
 
@@ -445,6 +454,8 @@
       <span class="eyebrow">Good to know</span>
       <h2>Questions we hear a lot</h2>
     </div>
+    <!-- Community Rules from community_rules.txt is injected here when present. -->
+    <div id="faqExtra"></div>
     <div class="faq-item">
       <button class="faq-q">What are the community rules?<span class="pm">+</span></button>
       <div class="faq-a"><p>Our community guidelines keep the neighborhood safe, quiet, and well-kept for everyone. You'll get a full copy of the rules during your tour, covering upkeep, parking, guests, and quiet hours.</p></div>
@@ -674,6 +685,7 @@
         ...(data.emptyLots    || []),
       ];
       render();
+      renderCommunity(data.community || {});
     }catch(err){
       console.error('Could not load listings:', err);
       grid.innerHTML = `<p style="grid-column:1/-1;text-align:center;color:#55624f;padding:30px 0">
@@ -693,24 +705,60 @@
   const modal = document.getElementById('listingModal');
   const galleryEl = document.getElementById('modalGallery');
 
-  function openModal(item, startIdx){
-    document.getElementById('modalTitle').textContent = item.title;
-    document.getElementById('modalPrice').innerHTML =
-      esc(item.price) + (item.priceSmall ? `<small style="font-size:.8rem;color:#7a8678"> ${esc(item.priceSmall)}</small>` : '');
+  // Money fields render formatted ($ + commas) in the details list.
+  const MONEY_KEYS = new Set(['price', 'baselotrent', 'lotrent']);
+  function fmtDetail(label, value){
+    if (MONEY_KEYS.has(String(label).toLowerCase().replace(/[^a-z0-9]/g, ''))){
+      const v = String(value).trim().replace(/^\$/, '').replace(/,/g, '');
+      if (/^\d+(\.\d+)?$/.test(v)) return '$' + Number(v).toLocaleString('en-US');
+    }
+    return value;
+  }
 
+  function imgSlides(urls, alt){
+    return (urls || []).map((u, i) =>
+      `<img class="cslide-img" src="${esc(API_BASE + u)}" alt="${esc(alt)} — photo ${i + 1}" loading="lazy" draggable="false" data-fallback="${i}">`);
+  }
+
+  // Shared modal filler — used by BOTH listings and amenities (one interaction language).
+  function fillModal({ title, priceHTML, details, slides, startIdx }){
+    document.getElementById('modalTitle').textContent = title || '';
+    const priceEl = document.getElementById('modalPrice');
+    priceEl.innerHTML = priceHTML || '';
+    priceEl.style.display = priceHTML ? '' : 'none';
     document.getElementById('modalDetails').innerHTML =
-      (item.details || []).map(d => `<div><dt>${esc(d.label)}</dt><dd>${esc(d.value)}</dd></div>`).join('');
-
-    // Build the identical carousel, opening on the slide the card was showing.
-    const slides = buildSlides(item);
-    galleryEl.innerHTML = carouselHTML(slides, 'modal-carousel');
-    initCarousel(galleryEl.querySelector('.carousel'), { observe: false, startIdx: Math.min(startIdx || 0, slides.length - 1) });
-
-    // Pause the card carousels (now behind the modal) while it's open.
+      (details || []).map(d => `<div><dt>${esc(d.label)}</dt><dd>${esc(fmtDetail(d.label, d.value))}</dd></div>`).join('');
+    if (slides && slides.length){
+      galleryEl.style.display = '';
+      galleryEl.innerHTML = carouselHTML(slides, 'modal-carousel');
+      initCarousel(galleryEl.querySelector('.carousel'), { observe: false, startIdx: Math.min(startIdx || 0, slides.length - 1) });
+    } else {
+      galleryEl.style.display = 'none';   // details but no photos: no broken carousel
+      galleryEl.innerHTML = '';
+    }
     grid.querySelectorAll('.carousel').forEach(c => c._pauseAP && c._pauseAP('modal'));
-
     modal.classList.add('open');
     document.body.style.overflow = 'hidden';
+  }
+
+  function openModal(item, startIdx){
+    fillModal({
+      title: item.title,
+      priceHTML: esc(item.price) + (item.priceSmall ? `<small style="font-size:.8rem;color:#7a8678"> ${esc(item.priceSmall)}</small>` : ''),
+      details: item.details,
+      slides: buildSlides(item),
+      startIdx,
+    });
+  }
+
+  function openAmenityModal(am){
+    fillModal({
+      title: am.displayName,
+      priceHTML: '',
+      details: am.details,
+      slides: (am.gallery && am.gallery.length) ? imgSlides(am.gallery, am.displayName) : null,
+      startIdx: 0,
+    });
   }
 
   function closeModal(){
@@ -897,14 +945,81 @@
     if(e.key === 'ArrowRight'){ e.preventDefault(); setSlide(car, +car.dataset.idx + 1, true, { wrap: true }); }
   });
 
+  /* ===================================================================
+   * COMMUNITY & AMENITIES — icon grid, amenity modal (reuses the carousel),
+   * ambient scenery slider, and Community Rules in the FAQ.
+   * =================================================================== */
+  let AMENITIES = [];
+
+  // Fixed icons for the known folders; a tasteful generic icon for anything new
+  // the client adds later, so an unknown folder never breaks the grid.
+  const AMEN_ICONS = {
+    clubhouse:        '<path d="M3 21V8l9-5 9 5v13"/><path d="M9 21v-6h6v6"/>',
+    playground:       '<circle cx="12" cy="7" r="2.5"/><path d="M5 21v-3a4 4 0 0 1 4-4h6a4 4 0 0 1 4 4v3"/>',
+    pet_friendly:     '<circle cx="6" cy="11" r="1.7"/><circle cx="18" cy="11" r="1.7"/><circle cx="9.5" cy="7" r="1.7"/><circle cx="14.5" cy="7" r="1.7"/><path d="M9 14.5c-2.6 0-3.6 2.6-3.6 4.5h13.2c0-1.9-1-4.5-3.6-4.5a3 3 0 0 0-6 0z"/>',
+    community_events: '<rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/>',
+    green_spaces:     '<path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.5 19 2c1 2 2 4.2 2 8 0 5.5-4.8 10-10 10z"/><path d="M2 22c0-3 1.9-5.4 5.1-6"/>',
+    basketball_court: '<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3v18M5.6 5.6c3.5 3.5 3.5 9.3 0 12.8M18.4 5.6c-3.5 3.5-3.5 9.3 0 12.8"/>',
+    laundry_facility: '<rect x="5" y="2" width="14" height="20" rx="2"/><circle cx="12" cy="13" r="5"/><circle cx="12" cy="13" r="1.6"/><path d="M8.5 5h.01M11.5 5h.01"/>',
+    storage_parking:  '<path d="M3 21V9l9-5 9 5v12"/><path d="M3 21h18M7 21v-7h10v7"/><path d="M9 14h6"/>',
+    onsite_management:'<path d="M3 21h18M6 21V5a1 1 0 0 1 1-1h7a1 1 0 0 1 1 1v16M15 21V9h4v12"/><path d="M9 8h.01M12 8h.01M9 12h.01M12 12h.01"/>',
+    _generic:         '<rect x="3" y="3" width="18" height="18" rx="4"/><path d="M8 12h8M12 8v8"/>',
+  };
+  function amenityIcon(id){
+    const inner = AMEN_ICONS[id] || AMEN_ICONS._generic;
+    return `<svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${inner}</svg>`;
+  }
+
+  function renderAmenities(amenities){
+    AMENITIES = amenities || [];
+    document.getElementById('amenGrid').innerHTML = AMENITIES.map(a =>
+      `<button class="amen" data-id="${esc(a.id)}" aria-label="${esc(a.displayName)}">
+        <div class="a-ic">${amenityIcon(a.id)}</div>
+        <div class="a-t">${esc(a.displayName)}</div>
+      </button>`).join('');
+  }
+
+  function renderScenery(scenery){
+    const sec = document.getElementById('life');
+    const box = document.getElementById('lifeSlider');
+    if (!scenery || !scenery.length){ sec.style.display = 'none'; box.innerHTML = ''; return; }
+    box.innerHTML = carouselHTML(imgSlides(scenery, 'Around the park'), 'life-carousel');
+    initCarousel(box.querySelector('.carousel'), { observe: false });
+    sec.style.display = '';
+  }
+
+  function renderCommunityRules(text){
+    const host = document.getElementById('faqExtra');
+    if (!host) return;
+    host.innerHTML = text
+      ? `<div class="faq-item"><button class="faq-q">Community Rules<span class="pm">+</span></button>
+           <div class="faq-a"><p style="white-space:pre-line">${esc(text)}</p></div></div>`
+      : '';
+  }
+
+  function renderCommunity(c){
+    renderAmenities(c.amenities || []);
+    renderScenery(c.scenery || []);
+    renderCommunityRules(c.communityRules || '');
+  }
+
+  // Click an amenity icon -> open its modal (same component as listings).
+  document.getElementById('amenGrid').addEventListener('click', (e)=>{
+    const card = e.target.closest('.amen');
+    if(!card) return;
+    const am = AMENITIES.find(a => a.id === card.dataset.id);
+    if(am) openAmenityModal(am);
+  });
+
   loadListings();
 
-  // faq accordion
-  document.querySelectorAll('.faq-q').forEach(q=>q.addEventListener('click',()=>{
-    const item=q.parentElement,a=item.querySelector('.faq-a'),open=item.classList.contains('open');
+  // faq accordion (event-delegated so the injected Community Rules item works too)
+  document.querySelector('.faq .wrap').addEventListener('click', (e)=>{
+    const q = e.target.closest('.faq-q'); if(!q) return;
+    const item=q.parentElement, a=item.querySelector('.faq-a'), open=item.classList.contains('open');
     document.querySelectorAll('.faq-item').forEach(i=>{i.classList.remove('open');i.querySelector('.faq-a').style.maxHeight=null;});
     if(!open){item.classList.add('open');a.style.maxHeight=a.scrollHeight+'px';}
-  }));
+  });
 </script>
 </body>
 </html> 
