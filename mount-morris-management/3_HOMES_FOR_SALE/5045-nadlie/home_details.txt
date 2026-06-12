@@ -1,5 +1,5 @@
 Deal Type:
-Price:
+Price: 24000
 Home Manufacturer:
 Home Model:
 Bedrooms: 3
