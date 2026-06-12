@@ -101,6 +101,12 @@
   .tab{font-weight:600;font-size:.88rem;padding:9px 18px;border-radius:30px;border:1.5px solid var(--line);background:transparent;cursor:pointer;transition:.2s;color:#55624f}
   .tab.active{background:var(--pine);color:#fff;border-color:var(--pine)}
   .homes-grid{display:grid;grid-template-columns:1fr;gap:20px}
+  /* When a tab has >3 cards (toggled in JS), cap the height and scroll vertically. */
+  .homes-grid.scrolls{max-height:78vh;overflow-y:auto;overflow-x:hidden;padding:6px 12px 10px 2px;scrollbar-width:thin;scrollbar-color:var(--sage) transparent}
+  .homes-grid.scrolls::-webkit-scrollbar{width:9px}
+  .homes-grid.scrolls::-webkit-scrollbar-track{background:transparent;margin:6px 0}
+  .homes-grid.scrolls::-webkit-scrollbar-thumb{background:var(--sage);border-radius:20px}
+  .homes-grid.scrolls::-webkit-scrollbar-thumb:hover{background:var(--pine)}
   .card{background:var(--paper);border:1px solid var(--line);border-radius:20px;overflow:hidden;transition:transform .25s,box-shadow .25s}
   .card:hover{transform:translateY(-4px);box-shadow:var(--shadow)}
   .card .photo{position:relative;aspect-ratio:4/3;overflow:hidden}
@@ -615,6 +621,8 @@
     const shown = activeFilter === 'all'
       ? LISTINGS
       : LISTINGS.filter(i => i.dataCat === activeFilter);
+    // More than 3 cards in this tab -> cap height + show a vertical scrollbar.
+    grid.classList.toggle('scrolls', shown.length > 3);
     if (!shown.length){
       grid.innerHTML = `<p style="grid-column:1/-1;text-align:center;color:#55624f;padding:30px 0">
         Nothing available in this category right now — check back soon.</p>`;
