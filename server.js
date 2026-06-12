@@ -31,7 +31,7 @@ const CATEGORIES = [
 ];
 const SLUG_TO_DIR = Object.fromEntries(CATEGORIES.map(c => [c.slug, c.dir]));
 
-const IMAGE_EXTS = new Set(['.jpg', '.jpeg', '.png', '.webp', '.gif']);
+const IMAGE_EXTS = new Set(['.jpg', '.jpeg', '.png', '.webp', '.gif', '.svg']);
 const MAIN_BASENAME = 'main'; // we look for main.jpg / main.png / main.* (any image ext)
 
 /* ------------------------------------------------------------------ helpers */

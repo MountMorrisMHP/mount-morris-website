@@ -31,7 +31,7 @@ const CATEGORIES = [
   { key: 'homesForSale', dir: '3_HOMES_FOR_SALE', slug: 'sale',  dataCat: 'sale', needsHome: true  },
 ];
 
-const IMAGE_EXTS = new Set(['.jpg', '.jpeg', '.png', '.webp', '.gif']);
+const IMAGE_EXTS = new Set(['.jpg', '.jpeg', '.png', '.webp', '.gif', '.svg']);
 const MAIN_BASENAME = 'main';
 
 /* ------------------------------------------------------------------ helpers */
