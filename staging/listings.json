@@ -1,6 +1,6 @@
 {
   "version": "dev",
-  "generatedAt": "2026-06-12T08:55:38.981Z",
+  "generatedAt": "2026-06-12T14:37:26.819Z",
   "counts": {
     "emptyLots": 0,
     "homesForRent": 9,
@@ -1137,6 +1137,7 @@
       }
     ],
     "scenery": [],
+    "mapImage": null,
     "communityRules": ""
   }
 }

@@ -134,8 +134,24 @@
   .lots p{color:rgba(246,238,224,.78);margin-bottom:22px}
   .legend{display:flex;flex-wrap:wrap;gap:16px;margin-bottom:24px;font-size:.85rem;font-weight:600}
   .legend i{width:12px;height:12px;border-radius:50%;display:inline-block;margin-right:7px;vertical-align:middle}
-  .map-box{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.14);border-radius:22px;padding:18px;aspect-ratio:5/4}
+  .map-box{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.14);border-radius:22px;padding:18px;aspect-ratio:5/4;position:relative}
   .map-box svg{width:100%;height:100%}
+  .map-box.has-slider{padding:0;overflow:hidden}      /* scenery slider fills the framed box */
+  .btn.soon{background:var(--sage);color:var(--pine-deep);cursor:default}
+
+  /* FULLSCREEN COMMUNITY MAP */
+  .map-modal{position:fixed;inset:0;z-index:600;display:none;flex-direction:column;background:rgba(20,30,24,.93);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+  .map-modal.open{display:flex;animation:mapIn .28s ease}
+  @keyframes mapIn{from{opacity:0}to{opacity:1}}
+  .map-stage{flex:1;min-height:0;overflow:hidden;display:flex;align-items:center;justify-content:center;padding:28px}
+  .map-stage img{max-width:100%;max-height:100%;border-radius:10px;box-shadow:0 24px 70px -24px rgba(0,0,0,.7);transform-origin:center center;transition:transform .12s ease;cursor:zoom-in;animation:mapImgIn .4s cubic-bezier(.2,.7,.2,1);-webkit-user-select:none;user-select:none;-webkit-user-drag:none}
+  .map-stage img.zoomed{cursor:grab}
+  @keyframes mapImgIn{from{opacity:0;transform:scale(.95)}to{opacity:1;transform:none}}
+  .map-close{position:absolute;top:16px;right:18px;z-index:3;width:42px;height:42px;border-radius:50%;border:none;background:rgba(255,255,255,.16);color:#fff;font-size:1.6rem;line-height:1;cursor:pointer;transition:background .2s}
+  .map-close:hover{background:rgba(255,255,255,.3)}
+  .map-legend{display:flex;gap:18px;justify-content:center;align-items:center;flex-wrap:wrap;padding:12px 16px 18px;color:var(--cream);font-size:.85rem;font-weight:600}
+  .map-legend i{width:12px;height:12px;border-radius:50%;display:inline-block;margin-right:7px;vertical-align:middle}
+  .map-legend .map-hint{opacity:.6;font-weight:500}
 
   /* AMENITIES */
   .amen-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
@@ -389,14 +405,10 @@
       <span class="eyebrow">Pick your spot</span>
       <h2>Find your homesite among 391</h2>
       <p>Browse the community map to see which lots are open, where the amenities sit, and which spot feels like yours. Tap a lot to see what's available there.</p>
-      <div class="legend">
-        <span><i style="background:#8AA189"></i>Available</span>
-        <span><i style="background:#E2A23D"></i>Reserved</span>
-        <span><i style="background:#5d6b5e"></i>Occupied</span>
-      </div>
-      <a href="#" class="btn btn-primary">Explore the Map</a>
+      <button class="btn btn-primary" id="exploreMapBtn">Explore the Map</button>
     </div>
-    <div class="map-box">
+    <!-- Right side: scenery slider when general_scenery has photos; otherwise this static map graphic stays so the section never looks broken. -->
+    <div class="map-box" id="mapBox">
       <svg viewBox="0 0 320 256" aria-hidden="true">
         <rect width="320" height="256" rx="12" fill="rgba(255,255,255,.04)"/>
         <path d="M0 128h320M160 0v256M40 40h240v176H40z" stroke="rgba(255,255,255,.12)" fill="none" stroke-width="2"/>
@@ -432,18 +444,6 @@
     </div>
     <!-- Icon cards are rendered from community/amenities/* (see script at bottom). -->
     <div class="amen-grid" id="amenGrid"></div>
-  </div>
-</section>
-
-<!-- LIFE AT THE PARK — ambient scenery slider; stays hidden until general_scenery has photos -->
-<section id="life" style="display:none">
-  <div class="wrap">
-    <div class="sec-head">
-      <span class="eyebrow">Around the park</span>
-      <h2>Life at Mount Morris Mobile Home Park</h2>
-      <p>A glimpse of everyday life around the community.</p>
-    </div>
-    <div class="life-slider" id="lifeSlider"></div>
   </div>
 </section>
 
@@ -532,6 +532,20 @@
       <div class="mprice" id="modalPrice"></div>
       <dl class="detail-grid" id="modalDetails"></dl>
     </div>
+  </div>
+</div>
+
+<!-- FULLSCREEN COMMUNITY MAP (opened from "Explore the Map") -->
+<div class="map-modal" id="mapModal" role="dialog" aria-modal="true" aria-label="Community map">
+  <button class="map-close" id="mapClose" aria-label="Close map">&times;</button>
+  <div class="map-stage" id="mapStage">
+    <img id="mapImg" alt="Mount Morris community map" draggable="false">
+  </div>
+  <div class="map-legend">
+    <span><i style="background:#8AA189"></i>Available</span>
+    <span><i style="background:#E2A23D"></i>Reserved</span>
+    <span><i style="background:#5d6b5e"></i>Occupied</span>
+    <span class="map-hint">Scroll / double-click to zoom</span>
   </div>
 </div>
 
@@ -979,13 +993,15 @@
       </button>`).join('');
   }
 
+  // Scenery slider lives in the homesite section's right side. With photos it
+  // replaces the static map graphic; with none it leaves the graphic untouched.
   function renderScenery(scenery){
-    const sec = document.getElementById('life');
-    const box = document.getElementById('lifeSlider');
-    if (!scenery || !scenery.length){ sec.style.display = 'none'; box.innerHTML = ''; return; }
+    const box = document.getElementById('mapBox');
+    if (!box) return;
+    if (!scenery || !scenery.length){ box.classList.remove('has-slider'); return; }
+    box.classList.add('has-slider');
     box.innerHTML = carouselHTML(imgSlides(scenery, 'Around the park'), 'life-carousel');
     initCarousel(box.querySelector('.carousel'), { observe: false });
-    sec.style.display = '';
   }
 
   function renderCommunityRules(text){
@@ -1001,7 +1017,54 @@
     renderAmenities(c.amenities || []);
     renderScenery(c.scenery || []);
     renderCommunityRules(c.communityRules || '');
+    setupMap(c.mapImage || null);
   }
+
+  /* ----- Fullscreen community map (Explore the Map) ----- */
+  let MAP_IMAGE = null;
+  const mapModal = document.getElementById('mapModal');
+  const mapStage = document.getElementById('mapStage');
+  const mapImg   = document.getElementById('mapImg');
+
+  function setupMap(url){
+    MAP_IMAGE = url;
+    const btn = document.getElementById('exploreMapBtn');
+    if (!btn) return;
+    btn.textContent = url ? 'Explore the Map' : 'Map coming soon';   // graceful empty state
+    btn.classList.toggle('soon', !url);
+  }
+
+  let mz = 1, mpx = 0, mpy = 0, mdrag = false, mlx = 0, mly = 0;
+  const applyMap = () => { mapImg.style.transform = `translate(${mpx}px,${mpy}px) scale(${mz})`; mapImg.classList.toggle('zoomed', mz > 1); };
+  const resetMap = () => { mz = 1; mpx = 0; mpy = 0; mapImg.style.transform = ''; mapImg.classList.remove('zoomed'); };
+
+  function openMap(){
+    if (!MAP_IMAGE) return;                 // no broken modal when there's no map yet
+    mapImg.src = API_BASE + MAP_IMAGE;
+    resetMap();
+    mapModal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeMap(){ mapModal.classList.remove('open'); document.body.style.overflow = ''; }
+
+  document.getElementById('exploreMapBtn').addEventListener('click', openMap);
+  document.getElementById('mapClose').addEventListener('click', closeMap);
+  mapStage.addEventListener('click', (e)=>{ if (e.target === mapStage) closeMap(); });   // click outside the image
+  document.addEventListener('keydown', (e)=>{ if (mapModal.classList.contains('open') && e.key === 'Escape') closeMap(); });
+
+  // wheel/double-click zoom (desktop); touch devices use the browser's native pinch-zoom
+  mapStage.addEventListener('wheel', (e)=>{
+    if (!mapModal.classList.contains('open')) return;
+    e.preventDefault();
+    mz = Math.min(5, Math.max(1, mz * (e.deltaY < 0 ? 1.2 : 1 / 1.2)));
+    if (mz === 1){ mpx = 0; mpy = 0; }
+    applyMap();
+  }, { passive: false });
+  mapImg.addEventListener('dblclick', (e)=>{ e.preventDefault(); if (mz > 1) resetMap(); else { mz = 2.4; applyMap(); } });
+  mapImg.addEventListener('pointerdown', (e)=>{ if (e.pointerType === 'touch' || mz <= 1) return; mdrag = true; mlx = e.clientX; mly = e.clientY; try{ mapImg.setPointerCapture(e.pointerId); }catch(_){} });
+  mapImg.addEventListener('pointermove', (e)=>{ if (!mdrag) return; mpx += e.clientX - mlx; mpy += e.clientY - mly; mlx = e.clientX; mly = e.clientY; applyMap(); });
+  mapImg.addEventListener('pointerup',     ()=>{ mdrag = false; });
+  mapImg.addEventListener('pointercancel', ()=>{ mdrag = false; });
 
   // Click an amenity icon -> open its modal (same component as listings).
   document.getElementById('amenGrid').addEventListener('click', (e)=>{
