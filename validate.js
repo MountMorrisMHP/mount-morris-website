@@ -150,6 +150,23 @@ async function main() {
     }
   }
 
+  // --- Community amenities: everything is free text, but "Order:" must be numeric if filled.
+  const AMEN_DIR = path.join(DATA_DIR, 'community', 'amenities');
+  const amenEntries = await safeReadDir(AMEN_DIR);
+  let amenityCount = 0;
+  for (const folder of amenEntries.filter(e => e.isDirectory() && !e.name.startsWith('.'))) {
+    const info = await parseFields(path.join(AMEN_DIR, folder.name, 'info.txt'));
+    if (info === null) continue;          // a photos-only amenity (no info.txt) is fine
+    amenityCount++;
+    const order = info.find(f => f.key === 'order');
+    if (order && order.value && !/^-?\d+(\.\d+)?$/.test(order.value)) {
+      errors.push(
+        `ERROR in community/amenities/${folder.name}/info.txt (line ${order.lineNo}): "Order: ${order.value}" — ` +
+        `Order must be a number, like 1, 2 or 3 (it sets where this amenity appears).`
+      );
+    }
+  }
+
   if (warnings.length) {
     console.log('\nWarnings (these do NOT block publishing):');
     warnings.forEach(w => console.log('  ' + w));
@@ -162,7 +179,7 @@ async function main() {
     process.exit(1);
   }
 
-  console.log(`\nAll listing data looks good — checked ${lotCount} lot(s), no problems found.`);
+  console.log(`\nAll data looks good — checked ${lotCount} lot(s) and ${amenityCount} amenity file(s), no problems found.`);
 }
 
 main().catch((err) => {

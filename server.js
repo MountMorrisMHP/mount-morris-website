@@ -265,6 +265,69 @@ async function scanCategory(category) {
     .sort((a, b) => String(a.lotNumber).localeCompare(String(b.lotNumber), undefined, { numeric: true }));
 }
 
+/* ---------------------------------------------------- community & amenities
+ * Mirrors build.js scanCommunity(), but returns absolute /community/... URLs
+ * served by the routes below (build.js copies the files into dist instead). */
+
+const COMMUNITY_DIR = path.join(DATA_DIR, 'community');
+const AMENITIES_DIR = path.join(COMMUNITY_DIR, 'amenities');
+const SCENERY_DIR   = path.join(COMMUNITY_DIR, 'general_scenery');
+
+function titleCase(name) {
+  return name.replace(/[_-]+/g, ' ').trim().replace(/\b\w/g, c => c.toUpperCase());
+}
+
+async function communityImageUrls(srcDir, urlPrefix) {
+  const entries = await safeReadDir(srcDir);
+  const images = entries
+    .filter(e => e.isFile() && IMAGE_EXTS.has(path.extname(e.name).toLowerCase()))
+    .map(e => e.name)
+    .sort((a, b) => a.localeCompare(b));
+  if (images.length === 0) return [];
+  const mainName = images.find(n => path.parse(n).name.toLowerCase() === MAIN_BASENAME) || images[0];
+  const ordered = [mainName, ...images.filter(n => n !== mainName)];
+  return ordered.map(name => `${urlPrefix}/${encodeURIComponent(name)}`);
+}
+
+async function buildAmenity(folder) {
+  const dir = path.join(AMENITIES_DIR, folder);
+  let infoExists = false;
+  try { await fs.access(path.join(dir, 'info.txt')); infoExists = true; } catch (_) {}
+  const info = await parseKeyValueFile(path.join(dir, 'info.txt'));
+  const gallery = await communityImageUrls(dir, `/community/amenities/${encodeURIComponent(folder)}`);
+  if (!infoExists && gallery.length === 0) return null;          // neither file nor photos -> skip
+  const orderRaw = pick(info.map, 'order');
+  const order = /^-?\d+(\.\d+)?$/.test(orderRaw) ? parseFloat(orderRaw) : Number.POSITIVE_INFINITY;
+  const details = info.ordered.filter(
+    d => d.value !== '' && !['displayname', 'name', 'order'].includes(normalizeKey(d.label))
+  );
+  return {
+    id: folder,
+    displayName: pick(info.map, 'displayname', 'name') || titleCase(folder),
+    order,
+    details,
+    mainImage: gallery[0] || null,
+    gallery,
+  };
+}
+
+async function scanCommunity() {
+  const entries = await safeReadDir(AMENITIES_DIR);
+  const folders = entries.filter(e => e.isDirectory() && !e.name.startsWith('.'));
+  let amenities = (await Promise.all(folders.map(async f => {
+    try { return await buildAmenity(f.name); }
+    catch (err) { console.warn(`[community] skipping amenity ${f.name}: ${err.message}`); return null; }
+  }))).filter(Boolean);
+  amenities.sort((a, b) => (a.order - b.order) || a.displayName.localeCompare(b.displayName));
+  const scenery = await communityImageUrls(SCENERY_DIR, '/community/scenery');
+  let communityRules = '';
+  try {
+    const t = await fs.readFile(path.join(COMMUNITY_DIR, 'community_rules.txt'), 'utf8');
+    if (t.trim()) communityRules = t.trim();
+  } catch (_) {}
+  return { amenities, scenery, communityRules };
+}
+
 /* ------------------------------------------------------------------ routes */
 
 // Consolidated data endpoint — one fetch gives the frontend everything.
@@ -273,6 +336,7 @@ app.get('/api/listings', async (req, res) => {
     const [emptyLots, homesForRent, homesForSale] = await Promise.all(
       CATEGORIES.map(scanCategory)
     );
+    const community = await scanCommunity();
     res.set('Cache-Control', 'no-store'); // always reflect the live folders
     res.json({
       generatedAt: new Date().toISOString(),
@@ -280,10 +344,13 @@ app.get('/api/listings', async (req, res) => {
         emptyLots: emptyLots.length,
         homesForRent: homesForRent.length,
         homesForSale: homesForSale.length,
+        amenities: community.amenities.length,
+        scenery: community.scenery.length,
       },
       emptyLots,
       homesForRent,
       homesForSale,
+      community,
     });
   } catch (err) {
     console.error('[api] /api/listings failed:', err);
@@ -292,6 +359,7 @@ app.get('/api/listings', async (req, res) => {
       generatedAt: new Date().toISOString(),
       error: 'Could not read listings right now.',
       emptyLots: [], homesForRent: [], homesForSale: [],
+      community: { amenities: [], scenery: [], communityRules: '' },
     });
   }
 });
@@ -315,6 +383,21 @@ app.get('/listings/:slug/:folder/:file', async (req, res) => {
     if (err && !res.headersSent) res.status(404).end();
   });
 });
+
+// Community image server — amenity photos and scenery, same traversal guards.
+function serveUnder(res, rootDir, ...segments) {
+  const file = segments[segments.length - 1];
+  const ext = path.extname(file).toLowerCase();
+  if (ext && !IMAGE_EXTS.has(ext)) return res.status(404).end();
+  const target = path.normalize(path.join(rootDir, ...segments));
+  const base = path.normalize(rootDir);
+  if (target !== base && !target.startsWith(base + path.sep)) return res.status(403).end();
+  res.sendFile(target, (err) => { if (err && !res.headersSent) res.status(404).end(); });
+}
+app.get('/community/amenities/:folder/:file', (req, res) =>
+  serveUnder(res, AMENITIES_DIR, req.params.folder, req.params.file));
+app.get('/community/scenery/:file', (req, res) =>
+  serveUnder(res, SCENERY_DIR, req.params.file));
 
 // Serve the homepage. We deliberately do NOT expose the whole project root as
 // static (that would leak the management folder); index.html is served on its own.

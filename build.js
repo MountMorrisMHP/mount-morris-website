@@ -241,6 +241,90 @@ async function scanCategory(category) {
     .sort((a, b) => String(a.lotNumber).localeCompare(String(b.lotNumber), undefined, { numeric: true }));
 }
 
+/* ---------------------------------------------------- community & amenities */
+
+const COMMUNITY_DIR = path.join(DATA_DIR, 'community');
+const AMENITIES_DIR = path.join(COMMUNITY_DIR, 'amenities');
+const SCENERY_DIR   = path.join(COMMUNITY_DIR, 'general_scenery');
+
+/** "pet_friendly" -> "Pet Friendly" (fallback display name from a folder). */
+function titleCase(name) {
+  return name.replace(/[_-]+/g, ' ').trim().replace(/\b\w/g, c => c.toUpperCase());
+}
+
+/** Copy images from a community subfolder into dist; return relative URLs (main first). */
+async function copyCommunityImages(srcDir, destSubdir, urlPrefix) {
+  const entries = await safeReadDir(srcDir);
+  const images = entries
+    .filter(e => e.isFile() && IMAGE_EXTS.has(path.extname(e.name).toLowerCase()))
+    .map(e => e.name)
+    .sort((a, b) => a.localeCompare(b));
+  if (images.length === 0) return [];
+
+  const mainName = images.find(n => path.parse(n).name.toLowerCase() === MAIN_BASENAME) || images[0];
+  const ordered = [mainName, ...images.filter(n => n !== mainName)];
+
+  const destDir = path.join(OUT_DIR, destSubdir);
+  await fs.mkdir(destDir, { recursive: true });
+  for (const name of ordered) await fs.copyFile(path.join(srcDir, name), path.join(destDir, name));
+
+  return ordered.map(name => `${urlPrefix}/${encodeURIComponent(name)}`);
+}
+
+async function buildAmenity(folder) {
+  const dir = path.join(AMENITIES_DIR, folder);
+
+  let infoExists = false;
+  try { await fs.access(path.join(dir, 'info.txt')); infoExists = true; } catch (_) {}
+  const info = await parseKeyValueFile(path.join(dir, 'info.txt'));
+
+  const gallery = await copyCommunityImages(
+    dir,
+    path.join('community', 'amenities', folder),
+    `community/amenities/${encodeURIComponent(folder)}`
+  );
+
+  // Empty state: neither an info.txt nor any photos -> don't render this amenity.
+  if (!infoExists && gallery.length === 0) return null;
+
+  const orderRaw = pick(info.map, 'order');
+  const order = /^-?\d+(\.\d+)?$/.test(orderRaw) ? parseFloat(orderRaw) : Number.POSITIVE_INFINITY;
+  // Display Name / Order are control fields, not shown in the details list.
+  const details = info.ordered.filter(
+    d => d.value !== '' && !['displayname', 'name', 'order'].includes(normalizeKey(d.label))
+  );
+
+  return {
+    id: folder,
+    displayName: pick(info.map, 'displayname', 'name') || titleCase(folder),
+    order,
+    details,
+    mainImage: gallery[0] || null,
+    gallery,
+  };
+}
+
+async function scanCommunity() {
+  const entries = await safeReadDir(AMENITIES_DIR);
+  const folders = entries.filter(e => e.isDirectory() && !e.name.startsWith('.'));
+
+  let amenities = (await Promise.all(folders.map(async f => {
+    try { return await buildAmenity(f.name); }
+    catch (err) { console.warn(`[community] skipping amenity ${f.name}: ${err.message}`); return null; }
+  }))).filter(Boolean);
+  amenities.sort((a, b) => (a.order - b.order) || a.displayName.localeCompare(b.displayName));
+
+  const scenery = await copyCommunityImages(SCENERY_DIR, path.join('community', 'scenery'), 'community/scenery');
+
+  let communityRules = '';
+  try {
+    const t = await fs.readFile(path.join(COMMUNITY_DIR, 'community_rules.txt'), 'utf8');
+    if (t.trim()) communityRules = t.trim();
+  } catch (_) {}
+
+  return { amenities, scenery, communityRules };
+}
+
 /* ------------------------------------------------------------------- build */
 
 async function main() {
@@ -248,6 +332,7 @@ async function main() {
   await fs.mkdir(OUT_DIR, { recursive: true });
 
   const [emptyLots, homesForRent, homesForSale] = await Promise.all(CATEGORIES.map(scanCategory));
+  const community = await scanCommunity();
 
   // Production sets VERSION (e.g. v2026.06.11-1430); local builds default to "dev".
   const version = process.env.VERSION || 'dev';
@@ -260,10 +345,13 @@ async function main() {
       emptyLots: emptyLots.length,
       homesForRent: homesForRent.length,
       homesForSale: homesForSale.length,
+      amenities: community.amenities.length,
+      scenery: community.scenery.length,
     },
     emptyLots,
     homesForRent,
     homesForSale,
+    community,
   };
 
   await fs.writeFile(path.join(OUT_DIR, 'listings.json'), JSON.stringify(data, null, 2));
