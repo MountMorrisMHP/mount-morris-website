@@ -102,7 +102,7 @@
   .tab.active{background:var(--pine);color:#fff;border-color:var(--pine)}
   .homes-grid{display:grid;grid-template-columns:1fr;gap:20px}
   /* When a tab has >3 cards (toggled in JS), cap the height and scroll vertically. */
-  .homes-grid.scrolls{max-height:78vh;overflow-y:auto;overflow-x:hidden;padding:6px 12px 10px 2px;scrollbar-width:thin;scrollbar-color:var(--sage) transparent}
+  .homes-grid.scrolls{overflow-y:auto;overflow-x:hidden;padding:6px 12px 10px 2px;scrollbar-width:thin;scrollbar-color:var(--sage) transparent}
   .homes-grid.scrolls::-webkit-scrollbar{width:9px}
   .homes-grid.scrolls::-webkit-scrollbar-track{background:transparent;margin:6px 0}
   .homes-grid.scrolls::-webkit-scrollbar-thumb{background:var(--sage);border-radius:20px}
@@ -621,15 +621,40 @@
     const shown = activeFilter === 'all'
       ? LISTINGS
       : LISTINGS.filter(i => i.dataCat === activeFilter);
-    // More than 3 cards in this tab -> cap height + show a vertical scrollbar.
-    grid.classList.toggle('scrolls', shown.length > 3);
     if (!shown.length){
+      grid.classList.remove('scrolls'); grid.style.maxHeight = '';
       grid.innerHTML = `<p style="grid-column:1/-1;text-align:center;color:#55624f;padding:30px 0">
         Nothing available in this category right now — check back soon.</p>`;
       return;
     }
     grid.innerHTML = shown.map(cardHTML).join('');
     initCarousels();
+    sizeGridScroll();
+  }
+
+  // When a tab has >3 cards, cap the grid to a WHOLE number of card rows (so no
+  // half-rows peek) and show a vertical scrollbar for the rest. We aim for ~3
+  // cards visible: 1 row on desktop (3 across), as many full rows as fit the
+  // screen on mobile (1 across). Snapping to a row boundary is the whole point.
+  function sizeGridScroll(){
+    const cards = [...grid.querySelectorAll('.card')];
+    if (cards.length <= 3){ grid.classList.remove('scrolls'); grid.style.maxHeight = ''; return; }
+    grid.classList.add('scrolls');
+    grid.scrollTop = 0;
+    const gTop = grid.getBoundingClientRect().top;
+    const padB = parseFloat(getComputedStyle(grid).paddingBottom) || 0;
+    const top0 = cards[0].getBoundingClientRect().top;
+    const cols = Math.max(1, cards.filter(c => Math.abs(c.getBoundingClientRect().top - top0) < 2).length);
+    const totalRows = Math.ceil(cards.length / cols);
+    const wantRows = Math.ceil(3 / cols);                 // ~3 cards => rows needed at this column count
+    const maxAllowed = window.innerHeight * 0.82;          // never taller than the screen
+    const rowBottom = (r) =>
+      Math.ceil(cards[Math.min(r * cols, cards.length) - 1].getBoundingClientRect().bottom - gTop) + padB;
+    let rows = 1;
+    for (let r = 1; r <= totalRows; r++){ if (rowBottom(r) <= maxAllowed) rows = r; else break; }
+    rows = Math.max(1, Math.min(rows, wantRows));
+    if (rows >= totalRows){ grid.classList.remove('scrolls'); grid.style.maxHeight = ''; return; } // all fits
+    grid.style.maxHeight = rowBottom(rows) + 'px';
   }
 
   async function loadListings(){
@@ -831,7 +856,7 @@
   let rszT;
   addEventListener('resize', () => {
     clearTimeout(rszT);
-    rszT = setTimeout(() => document.querySelectorAll('.carousel.is-multi').forEach(c => setSlide(c, +c.dataset.idx, false)), 120);
+    rszT = setTimeout(() => { document.querySelectorAll('.carousel.is-multi').forEach(c => setSlide(c, +c.dataset.idx, false)); sizeGridScroll(); }, 120);
   });
 
   // Which slide is a card currently showing? (so the modal opens on the same one)
