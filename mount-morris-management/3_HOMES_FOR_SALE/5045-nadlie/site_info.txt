@@ -1,6 +1,6 @@
-Lot Number:
-Lot Address:
-Base Lot Rent: $
+Lot Number: TBD
+Lot Address: 5045 Nadlie
+Base Lot Rent: $550
 Total Lot Area (sqft):
 Max Home Width:
 Max Home Length (ft):
