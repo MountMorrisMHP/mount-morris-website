@@ -1,0 +1,13 @@
+<!-- TEMPORARY sample scenery image — delete once real photos are added -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 270" preserveAspectRatio="xMidYMid slice">
+  <defs><linearGradient id="s3" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#F3D9A6"/><stop offset="1" stop-color="#C25A35"/></linearGradient></defs>
+  <rect width="480" height="270" fill="url(#s3)"/>
+  <circle cx="240" cy="150" r="54" fill="#E2A23D"/>
+  <rect y="186" width="480" height="84" fill="#6E8A6B"/>
+  <rect y="214" width="480" height="56" fill="#2C5540"/>
+  <path d="M120 186l14-30 14 30z" fill="#1C3A2A"/>
+  <path d="M340 186l16-36 16 36z" fill="#1C3A2A"/>
+  <rect x="132" y="180" width="4" height="10" fill="#1C3A2A"/>
+  <rect x="354" y="178" width="4" height="12" fill="#1C3A2A"/>
+</svg>
