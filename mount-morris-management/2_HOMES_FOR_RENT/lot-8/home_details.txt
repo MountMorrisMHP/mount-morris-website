@@ -1,0 +1,8 @@
+Deal Type: For Rent
+Price: 1250
+Home Manufacturer: Clayton
+Home Model: The Riverbend
+Bedrooms: 3
+Bathrooms: 2
+Square Feet: 1280
+Amenities: Central air, dishwasher, washer/dryer hookups, vinyl plank flooring

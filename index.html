@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mount Morris — Manufactured Home Community</title>
+<title>Mount Morris Mobile Home Park — Manufactured Home Community</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -101,6 +101,12 @@
   .tab{font-weight:600;font-size:.88rem;padding:9px 18px;border-radius:30px;border:1.5px solid var(--line);background:transparent;cursor:pointer;transition:.2s;color:#55624f}
   .tab.active{background:var(--pine);color:#fff;border-color:var(--pine)}
   .homes-grid{display:grid;grid-template-columns:1fr;gap:20px}
+  /* When a tab has >3 cards (toggled in JS), cap the height and scroll vertically. */
+  .homes-grid.scrolls{overflow-y:auto;overflow-x:hidden;padding:6px 12px 10px 2px;scrollbar-width:thin;scrollbar-color:var(--sage) transparent}
+  .homes-grid.scrolls::-webkit-scrollbar{width:9px}
+  .homes-grid.scrolls::-webkit-scrollbar-track{background:transparent;margin:6px 0}
+  .homes-grid.scrolls::-webkit-scrollbar-thumb{background:var(--sage);border-radius:20px}
+  .homes-grid.scrolls::-webkit-scrollbar-thumb:hover{background:var(--pine)}
   .card{background:var(--paper);border:1px solid var(--line);border-radius:20px;overflow:hidden;transition:transform .25s,box-shadow .25s}
   .card:hover{transform:translateY(-4px);box-shadow:var(--shadow)}
   .card .photo{position:relative;aspect-ratio:4/3;overflow:hidden}
@@ -190,9 +196,9 @@
   .carousel{position:absolute;inset:0;overflow:hidden}
   .carousel-track{display:flex;height:100%;transition:transform .3s ease-out;will-change:transform;touch-action:pan-y}
   .carousel-track.dragging{transition:none}
-  .cslide{flex:0 0 100%;width:100%;height:100%;position:relative}
+  .cslide{flex:0 0 100%;width:100%;height:100%;position:relative;touch-action:pan-y}
   .cslide img,.cslide svg{width:100%;height:100%;display:block;object-fit:cover}
-  .cslide img{pointer-events:none;user-select:none;-webkit-user-drag:none}
+  .cslide img,.cslide svg{pointer-events:none;-webkit-user-select:none;user-select:none;-webkit-user-drag:none}
   .card .photo .badge{z-index:4}
   .car-arrow{position:absolute;top:50%;transform:translateY(-50%);z-index:3;display:flex;align-items:center;justify-content:center;width:30px;height:30px;padding:0;border:none;border-radius:50%;cursor:pointer;color:var(--pine-deep);background:rgba(246,238,224,.78);box-shadow:0 2px 10px -3px rgba(28,58,42,.5);opacity:0;transition:opacity .25s ease,background .2s,transform .15s}
   .car-arrow.prev{left:8px}
@@ -252,7 +258,7 @@
         <path d="M11 21l9-8 9 8v8a1 1 0 0 1-1 1h-5v-6h-6v6h-5a1 1 0 0 1-1-1z" fill="#E2A23D"/>
         <path d="M20 9c2 3 2 5 0 7-2-2-2-4 0-7z" fill="#8AA189"/>
       </svg>
-      Mount Morris
+      Mount Morris Mobile Home Park
     </a>
     <nav class="desktop">
       <a href="#ways">Find a Home</a>
@@ -478,7 +484,7 @@
       <div>
         <div class="logo">
           <svg class="mark" viewBox="0 0 40 40" fill="none"><circle cx="20" cy="20" r="20" fill="#2C5540"/><path d="M11 21l9-8 9 8v8a1 1 0 0 1-1 1h-5v-6h-6v6h-5a1 1 0 0 1-1-1z" fill="#E2A23D"/><path d="M20 9c2 3 2 5 0 7-2-2-2-4 0-7z" fill="#8AA189"/></svg>
-          Mount Morris
+          Mount Morris Mobile Home Park
         </div>
         <p>A manufactured home community in Michigan. Homes to rent, buy, or move in — and a neighborhood to call your own.</p>
         <p class="finance">Financing available through trusted lending partners.</p>
@@ -499,7 +505,7 @@
       </div>
     </div>
     <div class="copyright">
-      <span>© 2026 Mount Morris. Placeholder design.</span>
+      <span>© 2026 Mount Morris Mobile Home Park. Placeholder design.</span>
       <span>Privacy · Terms</span>
     </div>
   </div>
@@ -616,12 +622,39 @@
       ? LISTINGS
       : LISTINGS.filter(i => i.dataCat === activeFilter);
     if (!shown.length){
+      grid.classList.remove('scrolls'); grid.style.maxHeight = '';
       grid.innerHTML = `<p style="grid-column:1/-1;text-align:center;color:#55624f;padding:30px 0">
         Nothing available in this category right now — check back soon.</p>`;
       return;
     }
     grid.innerHTML = shown.map(cardHTML).join('');
     initCarousels();
+    sizeGridScroll();
+  }
+
+  // When a tab has >3 cards, cap the grid to a WHOLE number of card rows (so no
+  // half-rows peek) and show a vertical scrollbar for the rest. We aim for ~3
+  // cards visible: 1 row on desktop (3 across), as many full rows as fit the
+  // screen on mobile (1 across). Snapping to a row boundary is the whole point.
+  function sizeGridScroll(){
+    const cards = [...grid.querySelectorAll('.card')];
+    if (cards.length <= 3){ grid.classList.remove('scrolls'); grid.style.maxHeight = ''; return; }
+    grid.classList.add('scrolls');
+    grid.scrollTop = 0;
+    const gTop = grid.getBoundingClientRect().top;
+    const padB = parseFloat(getComputedStyle(grid).paddingBottom) || 0;
+    const top0 = cards[0].getBoundingClientRect().top;
+    const cols = Math.max(1, cards.filter(c => Math.abs(c.getBoundingClientRect().top - top0) < 2).length);
+    const totalRows = Math.ceil(cards.length / cols);
+    const wantRows = Math.ceil(3 / cols);                 // ~3 cards => rows needed at this column count
+    const maxAllowed = window.innerHeight * 0.82;          // never taller than the screen
+    const rowBottom = (r) =>
+      Math.ceil(cards[Math.min(r * cols, cards.length) - 1].getBoundingClientRect().bottom - gTop) + padB;
+    let rows = 1;
+    for (let r = 1; r <= totalRows; r++){ if (rowBottom(r) <= maxAllowed) rows = r; else break; }
+    rows = Math.max(1, Math.min(rows, wantRows));
+    if (rows >= totalRows){ grid.classList.remove('scrolls'); grid.style.maxHeight = ''; return; } // all fits
+    grid.style.maxHeight = rowBottom(rows) + 'px';
   }
 
   async function loadListings(){
@@ -778,8 +811,11 @@
       if (!active) return;
       const mx = e.clientX - startX, my = e.clientY - startY;
       if (!decided){
-        if (Math.abs(mx) < 6 && Math.abs(my) < 6) return;
-        if (Math.abs(my) > Math.abs(mx)){ active = false; if (car._resumeAP) car._resumeAP('drag'); return; }
+        // Lock to a horizontal swipe only once intent is CLEARLY horizontal.
+        // Don't abort on vertical/diagonal: touch-action:pan-y lets the browser
+        // scroll the page and it cancels our pointer — so a swipe that starts with
+        // a little vertical jitter (very common on phones) is no longer killed.
+        if (Math.abs(mx) < 8 || Math.abs(mx) <= Math.abs(my)) return;
         decided = true;
         track.classList.add('dragging');
         try { track.setPointerCapture(e.pointerId); } catch (_) {}
@@ -820,7 +856,7 @@
   let rszT;
   addEventListener('resize', () => {
     clearTimeout(rszT);
-    rszT = setTimeout(() => document.querySelectorAll('.carousel.is-multi').forEach(c => setSlide(c, +c.dataset.idx, false)), 120);
+    rszT = setTimeout(() => { document.querySelectorAll('.carousel.is-multi').forEach(c => setSlide(c, +c.dataset.idx, false)); sizeGridScroll(); }, 120);
   });
 
   // Which slide is a card currently showing? (so the modal opens on the same one)
