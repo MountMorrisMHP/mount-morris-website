@@ -118,6 +118,9 @@ PARK RULES (community/community_rules.txt):
   Type the full community rules into this file. When it has text, it appears
   as a "Community Rules" entry in the FAQ. Leave it empty to hide it.
 
+THE COMMUNITY MAP (community/map.jpg):
+  To update the community map, replace community/map.jpg (or map.png).
+
 (The green-check / red-X check covers these files too - same as lots.)
 =======================================================================
 

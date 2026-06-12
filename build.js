@@ -304,6 +304,19 @@ async function buildAmenity(folder) {
   };
 }
 
+/** Find community/map.{jpg,jpeg,png,webp}; copy it into dist and return its URL, or null. */
+async function copyCommunityMap() {
+  for (const ext of ['jpg', 'jpeg', 'png', 'webp']) {
+    const src = path.join(COMMUNITY_DIR, `map.${ext}`);
+    try { await fs.access(src); } catch (_) { continue; }
+    const destDir = path.join(OUT_DIR, 'community');
+    await fs.mkdir(destDir, { recursive: true });
+    await fs.copyFile(src, path.join(destDir, `map.${ext}`));
+    return `community/map.${ext}`;
+  }
+  return null;
+}
+
 async function scanCommunity() {
   const entries = await safeReadDir(AMENITIES_DIR);
   const folders = entries.filter(e => e.isDirectory() && !e.name.startsWith('.'));
@@ -315,6 +328,7 @@ async function scanCommunity() {
   amenities.sort((a, b) => (a.order - b.order) || a.displayName.localeCompare(b.displayName));
 
   const scenery = await copyCommunityImages(SCENERY_DIR, path.join('community', 'scenery'), 'community/scenery');
+  const mapImage = await copyCommunityMap();
 
   let communityRules = '';
   try {
@@ -322,7 +336,7 @@ async function scanCommunity() {
     if (t.trim()) communityRules = t.trim();
   } catch (_) {}
 
-  return { amenities, scenery, communityRules };
+  return { amenities, scenery, mapImage, communityRules };
 }
 
 /* ------------------------------------------------------------------- build */

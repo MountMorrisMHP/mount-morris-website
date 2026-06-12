@@ -320,12 +320,16 @@ async function scanCommunity() {
   }))).filter(Boolean);
   amenities.sort((a, b) => (a.order - b.order) || a.displayName.localeCompare(b.displayName));
   const scenery = await communityImageUrls(SCENERY_DIR, '/community/scenery');
+  let mapImage = null;
+  for (const ext of ['jpg', 'jpeg', 'png', 'webp']) {
+    try { await fs.access(path.join(COMMUNITY_DIR, `map.${ext}`)); mapImage = `/community/map.${ext}`; break; } catch (_) {}
+  }
   let communityRules = '';
   try {
     const t = await fs.readFile(path.join(COMMUNITY_DIR, 'community_rules.txt'), 'utf8');
     if (t.trim()) communityRules = t.trim();
   } catch (_) {}
-  return { amenities, scenery, communityRules };
+  return { amenities, scenery, mapImage, communityRules };
 }
 
 /* ------------------------------------------------------------------ routes */
@@ -398,6 +402,11 @@ app.get('/community/amenities/:folder/:file', (req, res) =>
   serveUnder(res, AMENITIES_DIR, req.params.folder, req.params.file));
 app.get('/community/scenery/:file', (req, res) =>
   serveUnder(res, SCENERY_DIR, req.params.file));
+// Community map — only "map.<imageext>" is reachable directly under /community.
+app.get('/community/:file', (req, res) => {
+  if (!/^map\.(jpe?g|png|webp|gif)$/i.test(req.params.file)) return res.status(404).end();
+  serveUnder(res, COMMUNITY_DIR, req.params.file);
+});
 
 // Serve the homepage. We deliberately do NOT expose the whole project root as
 // static (that would leak the management folder); index.html is served on its own.
