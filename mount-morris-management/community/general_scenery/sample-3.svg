@@ -1,0 +1,10 @@
+<!-- TEMPORARY sample scenery image (3:2 landscape) — delete once real photos are added -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 320" preserveAspectRatio="xMidYMid slice">
+  <defs><linearGradient id="s3" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#F3D9A6"/><stop offset="1" stop-color="#C25A35"/></linearGradient></defs>
+  <rect width="480" height="320" fill="url(#s3)"/>
+  <circle cx="240" cy="172" r="62" fill="#E2A23D"/>
+  <rect y="214" width="480" height="106" fill="#6E8A6B"/>
+  <rect y="256" width="480" height="64" fill="#2C5540"/>
+  <path d="M118 214l16-36 16 36z" fill="#1C3A2A"/>
+  <path d="M342 214l18-42 18 42z" fill="#1C3A2A"/>
+</svg>

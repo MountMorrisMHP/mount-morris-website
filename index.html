@@ -22,6 +22,8 @@
   }
   *{margin:0;padding:0;box-sizing:border-box}
   html{scroll-behavior:smooth}
+  body{touch-action:manipulation}                                  /* no double-tap zoom on mobile */
+  .btn,.tab,.amen,.card,button,a,.faq-q,.car-arrow,.car-dots .dot{touch-action:manipulation}
   body{
     font-family:'Hanken Grotesk',system-ui,sans-serif;
     background:var(--cream);
@@ -134,14 +136,46 @@
   .lots p{color:rgba(246,238,224,.78);margin-bottom:22px}
   .legend{display:flex;flex-wrap:wrap;gap:16px;margin-bottom:24px;font-size:.85rem;font-weight:600}
   .legend i{width:12px;height:12px;border-radius:50%;display:inline-block;margin-right:7px;vertical-align:middle}
-  .map-box{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.14);border-radius:22px;padding:18px;aspect-ratio:5/4}
+  .map-box{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.14);border-radius:22px;padding:18px;aspect-ratio:5/4;position:relative}
   .map-box svg{width:100%;height:100%}
+  .map-box.has-slider{padding:0;overflow:hidden;aspect-ratio:3/2}   /* landscape lifestyle slider (tall via a wider frame) */
+  .btn.soon{background:var(--sage);color:var(--pine-deep);cursor:default}
+
+  /* FULLSCREEN COMMUNITY MAP */
+  .map-modal{position:fixed;inset:0;z-index:600;display:none;flex-direction:column;background:rgba(20,30,24,.93);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+  .map-modal.open{display:flex;animation:mapIn .28s ease}
+  @keyframes mapIn{from{opacity:0}to{opacity:1}}
+  .map-stage{flex:1;min-height:0;overflow:hidden;display:flex;align-items:center;justify-content:center;padding:28px;touch-action:pinch-zoom}
+  .map-illustration{width:min(92vw,640px);max-height:100%;background:var(--pine-deep);border:1px solid rgba(255,255,255,.14);border-radius:16px;padding:18px;box-shadow:0 24px 70px -24px rgba(0,0,0,.7)}
+  /* TEMPORARY sample interactive map */
+  .map-stage{position:relative}                       /* anchor for the lot tooltip */
+  .sample-map .lot,.sample-map .zone{cursor:pointer}
+  .sample-map text{pointer-events:none}
+  .sample-map .lot rect,.sample-map .zone rect{transition:stroke .12s ease,stroke-width .12s ease}
+  .sample-map .lot:hover rect,.sample-map .lot.hot rect,.sample-map .lot:focus rect,
+  .sample-map .zone:hover rect,.sample-map .zone.hot rect,.sample-map .zone:focus rect{stroke:#fff;stroke-width:2.5}
+  .sample-map .lot:focus,.sample-map .zone:focus{outline:none}
+  .map-tip{position:absolute;transform:translate(-50%,-100%);background:rgba(20,30,24,.96);color:var(--cream);font-size:.78rem;font-weight:700;padding:5px 10px;border-radius:8px;white-space:nowrap;pointer-events:none;opacity:0;transition:opacity .12s ease;z-index:4;box-shadow:0 8px 20px -8px rgba(0,0,0,.7)}
+  .map-tip.show{opacity:1}
+  .map-stage img{max-width:100%;max-height:100%;border-radius:10px;box-shadow:0 24px 70px -24px rgba(0,0,0,.7);transform-origin:center center;transition:transform .12s ease;cursor:zoom-in;animation:mapImgIn .4s cubic-bezier(.2,.7,.2,1);-webkit-user-select:none;user-select:none;-webkit-user-drag:none}
+  .map-stage img.zoomed{cursor:grab}
+  @keyframes mapImgIn{from{opacity:0;transform:scale(.95)}to{opacity:1;transform:none}}
+  .map-close{position:absolute;top:16px;right:18px;z-index:3;width:42px;height:42px;border-radius:50%;border:none;background:rgba(255,255,255,.16);color:#fff;font-size:1.6rem;line-height:1;cursor:pointer;transition:background .2s}
+  .map-close:hover{background:rgba(255,255,255,.3)}
+  .map-legend{display:flex;gap:18px;justify-content:center;align-items:center;flex-wrap:wrap;padding:12px 16px 18px;color:var(--cream);font-size:.85rem;font-weight:600}
+  .map-legend i{width:12px;height:12px;border-radius:50%;display:inline-block;margin-right:7px;vertical-align:middle}
+  .map-legend .map-hint{opacity:.6;font-weight:500}
 
   /* AMENITIES */
   .amen-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
   .amen{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:20px 16px;text-align:center;transition:.2s}
-  .amen:hover{background:var(--pine);color:#fff}
-  .amen:hover .a-ic{color:var(--honey)}
+  @media (hover:hover){
+    .amen:hover{background:var(--pine);color:#fff}
+    .amen:hover .a-ic{color:var(--honey)}
+  }
+  /* deterministic tap feedback (not hover-dependent): brief green press state */
+  .amen:active,.amen.pressed{background:var(--pine);color:#fff}
+  .amen:active .a-ic,.amen.pressed .a-ic{color:var(--honey)}
   .amen .a-ic{color:var(--pine);margin-bottom:10px;transition:.2s}
   .amen .a-t{font-weight:600;font-size:.92rem}
   .amen{font:inherit;color:inherit;cursor:pointer;width:100%}   /* clickable icon button */
@@ -234,7 +268,7 @@
     .ways-grid{grid-template-columns:repeat(2,1fr)}
     .homes-grid{grid-template-columns:repeat(3,1fr)}
     .amen-grid{grid-template-columns:repeat(3,1fr)}
-    .lots-inner{grid-template-columns:1.05fr 1fr}
+    .lots-inner{grid-template-columns:1fr 1.3fr}   /* slider column wider so the 3:2 frame stays tall */
     .foot-top{grid-template-columns:2fr 1fr 1fr}
   }
   @media(min-width:980px){
@@ -270,7 +304,7 @@
       <a href="#amenities">Amenities</a>
       <a href="#faq">FAQ</a>
     </nav>
-    <a href="#cta" class="btn btn-pine nav-cta">Schedule a Visit</a>
+    <a href="#cta" class="btn btn-primary nav-cta">Schedule a Visit</a>
     <button class="menu-toggle" id="menuBtn" aria-label="Menu"><span></span><span></span><span></span></button>
   </div>
 </header>
@@ -386,39 +420,13 @@
 <section class="lots" id="lots">
   <div class="wrap lots-inner">
     <div>
-      <span class="eyebrow">Pick your spot</span>
-      <h2>Find your homesite among 391</h2>
+      <span class="eyebrow">See it for yourself</span>
+      <h2>Life at Mount Morris Mobile Home Park</h2>
       <p>Browse the community map to see which lots are open, where the amenities sit, and which spot feels like yours. Tap a lot to see what's available there.</p>
-      <div class="legend">
-        <span><i style="background:#8AA189"></i>Available</span>
-        <span><i style="background:#E2A23D"></i>Reserved</span>
-        <span><i style="background:#5d6b5e"></i>Occupied</span>
-      </div>
-      <a href="#" class="btn btn-primary">Explore the Map</a>
+      <button class="btn btn-primary" id="exploreMapBtn">Explore the Map</button>
     </div>
-    <div class="map-box">
-      <svg viewBox="0 0 320 256" aria-hidden="true">
-        <rect width="320" height="256" rx="12" fill="rgba(255,255,255,.04)"/>
-        <path d="M0 128h320M160 0v256M40 40h240v176H40z" stroke="rgba(255,255,255,.12)" fill="none" stroke-width="2"/>
-        <ellipse cx="160" cy="128" rx="34" ry="22" fill="#3E7C9C" opacity=".5"/>
-        <g>
-          <rect x="55" y="55" width="22" height="16" rx="3" fill="#8AA189"/>
-          <rect x="85" y="55" width="22" height="16" rx="3" fill="#5d6b5e"/>
-          <rect x="115" y="55" width="22" height="16" rx="3" fill="#5d6b5e"/>
-          <rect x="213" y="55" width="22" height="16" rx="3" fill="#E2A23D"/>
-          <rect x="243" y="55" width="22" height="16" rx="3" fill="#8AA189"/>
-          <rect x="55" y="185" width="22" height="16" rx="3" fill="#5d6b5e"/>
-          <rect x="85" y="185" width="22" height="16" rx="3" fill="#8AA189"/>
-          <rect x="213" y="185" width="22" height="16" rx="3" fill="#5d6b5e"/>
-          <rect x="243" y="185" width="22" height="16" rx="3" fill="#E2A23D"/>
-          <rect x="55" y="100" width="22" height="16" rx="3" fill="#5d6b5e"/>
-          <rect x="55" y="140" width="22" height="16" rx="3" fill="#8AA189"/>
-          <rect x="243" y="100" width="22" height="16" rx="3" fill="#8AA189"/>
-          <rect x="243" y="140" width="22" height="16" rx="3" fill="#5d6b5e"/>
-        </g>
-        <text x="160" y="132" font-size="9" fill="#fff" text-anchor="middle" opacity=".8" font-family="sans-serif">Clubhouse &amp; Pond</text>
-      </svg>
-    </div>
+    <!-- Right side: ambient scenery slider from general_scenery. The static map graphic now lives in the Explore-the-Map modal. -->
+    <div class="map-box" id="mapBox"></div>
   </div>
 </section>
 
@@ -432,18 +440,6 @@
     </div>
     <!-- Icon cards are rendered from community/amenities/* (see script at bottom). -->
     <div class="amen-grid" id="amenGrid"></div>
-  </div>
-</section>
-
-<!-- LIFE AT THE PARK — ambient scenery slider; stays hidden until general_scenery has photos -->
-<section id="life" style="display:none">
-  <div class="wrap">
-    <div class="sec-head">
-      <span class="eyebrow">Around the park</span>
-      <h2>Life at Mount Morris Mobile Home Park</h2>
-      <p>A glimpse of everyday life around the community.</p>
-    </div>
-    <div class="life-slider" id="lifeSlider"></div>
   </div>
 </section>
 
@@ -535,6 +531,26 @@
   </div>
 </div>
 
+<!-- FULLSCREEN COMMUNITY MAP (opened from "Explore the Map") -->
+<div class="map-modal" id="mapModal" role="dialog" aria-modal="true" aria-label="Community map">
+  <button class="map-close" id="mapClose" aria-label="Close map">&times;</button>
+  <div class="map-stage" id="mapStage">
+    <img id="mapImg" alt="Mount Morris Mobile Home Park community map" draggable="false" style="display:none">
+    <!-- ===== TEMPORARY sample interactive map (NOT the real park layout) =====
+         A stylized grid of ~40 clickable lots, generated by buildSampleMap()
+         in the script below. Replace with a real community/map.jpg (or a real
+         SVG layout) when available. ============================================ -->
+    <svg id="mapSvg" class="map-illustration sample-map" role="img" aria-label="Sample community lot map"></svg>
+    <div class="map-tip" id="mapTip" aria-hidden="true"></div>
+  </div>
+  <div class="map-legend">
+    <span><i style="background:#8AA189"></i>Available</span>
+    <span><i style="background:#E2A23D"></i>Reserved</span>
+    <span><i style="background:#C0392B"></i>Occupied</span>
+    <span class="map-hint">Tap a lot for its status</span>
+  </div>
+</div>
+
 <script>
   // mobile menu
   const mb=document.getElementById('menuBtn'),mm=document.getElementById('mobileMenu');
@@ -596,7 +612,7 @@
        >>> DELETE this block once lots have real images. <<<
        After deletion, a lot with 0 or 1 images falls back to a single static
        placeholder/photo with no carousel controls (the original behavior). */
-    return [0,1,2,3].map(v => housePlaceholder(v));
+    return [0,1,2,3,4,5].map(v => housePlaceholder(v));   // 6 slides so swipe is testable with 6+ images
     /* =================== END TEMPORARY placeholder slides =================== */
   }
 
@@ -844,53 +860,56 @@
     car.querySelectorAll('.car-dots .dot').forEach(d =>
       d.addEventListener('click', e => { e.stopPropagation(); setSlide(car, +d.dataset.i, true); }));
 
-    // drag / swipe
-    let startX = 0, startY = 0, dx = 0, base = 0, w = 0, active = false, decided = false, lastX = 0, lastT = 0, vel = 0;
-    track.addEventListener('pointerdown', e => {
+    // drag / swipe — robust across consecutive swipes and any image count
+    let startX = 0, startY = 0, dx = 0, base = 0, w = 0, startIdx = 0, active = false, decided = false, pid = null, lastX = 0, lastT = 0, vel = 0;
+    const onDown = e => {
+      if (active) return;                              // ignore secondary pointers mid-drag
       if (e.button && e.button !== 0) return;
-      w = car.clientWidth;
-      base = -(+car.dataset.idx) * w;
+      pid = e.pointerId;
+      w = car.clientWidth || 1;
+      startIdx = +car.dataset.idx || 0;                // capture index at drag start (don't trust dataset mid-gesture)
+      base = -startIdx * w;
       startX = lastX = e.clientX; startY = e.clientY; lastT = e.timeStamp;
       dx = 0; vel = 0; active = true; decided = false;
       suppressCardClick = false;
-      if (car._pauseAP) car._pauseAP('drag');          // requirement 3: pause while finger down
-    });
-    track.addEventListener('pointermove', e => {
-      if (!active) return;
+      if (car._pauseAP) car._pauseAP('drag');
+    };
+    const onMove = e => {
+      if (!active || e.pointerId !== pid) return;
       const mx = e.clientX - startX, my = e.clientY - startY;
       if (!decided){
-        // Lock to a horizontal swipe only once intent is CLEARLY horizontal.
-        // Don't abort on vertical/diagonal: touch-action:pan-y lets the browser
-        // scroll the page and it cancels our pointer — so a swipe that starts with
-        // a little vertical jitter (very common on phones) is no longer killed.
+        // Lock horizontal only once intent is clearly horizontal; vertical is left
+        // to the page (touch-action:pan-y cancels us). No premature abort.
         if (Math.abs(mx) < 8 || Math.abs(mx) <= Math.abs(my)) return;
         decided = true;
-        track.classList.add('dragging');
-        try { track.setPointerCapture(e.pointerId); } catch (_) {}
+        track.classList.add('dragging');               // .dragging sets transition:none for 1:1 tracking
+        try { track.setPointerCapture(pid); } catch (_) {}
       }
       e.preventDefault();
       dx = mx;
-      const dt = Math.max(1, e.timeStamp - lastT);
-      vel = (e.clientX - lastX) / dt;                 // px/ms, for momentum/flick
+      const dt = Math.max(8, e.timeStamp - lastT);
+      vel = (e.clientX - lastX) / dt;                  // px/ms, for momentum
       lastX = e.clientX; lastT = e.timeStamp;
-      track.style.transition = 'none';
-      track.style.transform = `translateX(${base + dx}px)`;
-    });
-    const end = () => {
-      if (!active) return;
-      active = false;
-      if (car._resumeAP) car._resumeAP('drag');        // resume when the finger lifts
-      if (!decided) return;                            // a tap, not a drag: let click open the modal
-      track.classList.remove('dragging');
-      let idx = +car.dataset.idx;
-      const flick = Math.abs(vel) > 0.4;               // quick flick advances even on a small drag
-      if (dx <= -w * 0.2 || (flick && vel < 0)) idx++;
-      else if (dx >= w * 0.2 || (flick && vel > 0)) idx--;
-      setSlide(car, idx, true);                        // smooth snap to nearest slide (clamped at ends)
-      suppressCardClick = true;                        // a drag happened: don't open the modal
+      track.style.transform = `translateX(${base + dx}px)`;   // follow the finger 1:1
     };
-    track.addEventListener('pointerup', end);
-    track.addEventListener('pointercancel', end);
+    const onUp = e => {
+      if (!active) return;
+      if (e && e.type !== 'pointercancel' && e.pointerId !== pid) return;
+      active = false; pid = null;
+      if (car._resumeAP) car._resumeAP('drag');
+      if (!decided) return;                            // a tap, not a drag: let the click open the modal
+      track.classList.remove('dragging');
+      let target = startIdx;
+      const flick = Math.abs(vel) > 0.35;              // a quick flick advances on a small drag
+      if (dx <= -w * 0.2 || (flick && vel < 0)) target = startIdx + 1;
+      else if (dx >= w * 0.2 || (flick && vel > 0)) target = startIdx - 1;
+      setSlide(car, target, true);                     // animated momentum snap (clamped at the ends)
+      suppressCardClick = true;
+    };
+    track.addEventListener('pointerdown', onDown);
+    track.addEventListener('pointermove', onMove);
+    track.addEventListener('pointerup', onUp);
+    track.addEventListener('pointercancel', onUp);
 
     setupAutoplay(car, opts.observe !== false);        // cards observe viewport; modal passes observe:false
   }
@@ -979,13 +998,15 @@
       </button>`).join('');
   }
 
+  // Scenery slider lives in the homesite section's right side. With photos it
+  // replaces the static map graphic; with none it leaves the graphic untouched.
   function renderScenery(scenery){
-    const sec = document.getElementById('life');
-    const box = document.getElementById('lifeSlider');
-    if (!scenery || !scenery.length){ sec.style.display = 'none'; box.innerHTML = ''; return; }
+    const box = document.getElementById('mapBox');
+    if (!box) return;
+    if (!scenery || !scenery.length){ box.classList.remove('has-slider'); return; }
+    box.classList.add('has-slider');
     box.innerHTML = carouselHTML(imgSlides(scenery, 'Around the park'), 'life-carousel');
     initCarousel(box.querySelector('.carousel'), { observe: false });
-    sec.style.display = '';
   }
 
   function renderCommunityRules(text){
@@ -1001,8 +1022,128 @@
     renderAmenities(c.amenities || []);
     renderScenery(c.scenery || []);
     renderCommunityRules(c.communityRules || '');
+    setupMap(c.mapImage || null);
   }
 
+  /* ----- Fullscreen community map (Explore the Map) ----- */
+  let MAP_IMAGE = null;
+  const mapModal = document.getElementById('mapModal');
+  const mapStage = document.getElementById('mapStage');
+  const mapImg   = document.getElementById('mapImg');
+  const mapSvg   = document.getElementById('mapSvg');
+  const mapTip   = document.getElementById('mapTip');
+
+  // null URL => the modal shows the TEMPORARY sample interactive map below; button stays "Explore the Map".
+  function setupMap(url){ MAP_IMAGE = url; }
+
+  /* ===== TEMPORARY sample interactive map (NOT the real park layout) =====
+     A stylized top-down site map: horizontal roads with rows of lots in blocks
+     on both sides, plus Clubhouse / Playground amenity zones. Replace this whole
+     function and the #mapSvg markup with the real map (community/map.jpg). ===== */
+  function buildSampleMap(){
+    if (mapSvg.dataset.built) return;
+    mapSvg.dataset.built = '1';
+    const W = 620, H = 410;
+    const COLOR = { available:'#8AA189', reserved:'#E2A23D', occupied:'#C0392B' };
+    const LABEL = { available:'Available', reserved:'Reserved', occupied:'Occupied' };
+    const ROAD = '#9C9277', LINE = 'rgba(246,238,224,.5)';
+    const lotW = 30, lotH = 18, gap = 8, blockGap = 46, x0 = 124, blocks = [3, 3, 2], roadsY = [140, 250, 360];
+    const zone = (x,y,w,h,fill,name,round) =>
+      `<g class="zone" data-tip="${name}" tabindex="0" role="button" aria-label="${name}">`
+      + `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${round}" fill="${fill}" opacity=".92"/>`
+      + `<text x="${x+w/2}" y="${y+h/2+4}" text-anchor="middle" font-size="13" font-weight="700" fill="#fff" font-family="'Hanken Grotesk',sans-serif">${name}</text></g>`;
+    let s = `<rect x="0" y="0" width="${W}" height="${H}" rx="14" fill="#24382B"/>`;   // ground
+    s += zone(44, 30, 150, 54, '#C25A35', 'Clubhouse', 8);            // amenity zones (distinct from lots)
+    s += zone(426, 30, 150, 54, '#6E9C6A', 'Playground', 26);
+    roadsY.forEach(ry => {                                            // horizontal roads + dashed centre lines
+      s += `<rect x="20" y="${ry}" width="${W-40}" height="16" fill="${ROAD}"/>`;
+      s += `<line x1="28" y1="${ry+8}" x2="${W-28}" y2="${ry+8}" stroke="${LINE}" stroke-width="2" stroke-dasharray="10 8"/>`;
+    });
+    [246, 398].forEach(vx =>                                          // vertical connector roads (in the block gaps)
+      s += `<rect x="${vx}" y="${roadsY[0]}" width="14" height="${roadsY[2]-roadsY[0]+16}" fill="${ROAD}"/>`);
+    let num = 1;                                                      // lots: a row above and below each road, in blocks
+    roadsY.forEach(ry => {
+      [ry - 6 - lotH, ry + 16 + 6].forEach(ly => {
+        let x = x0;
+        blocks.forEach(b => {
+          for (let i = 0; i < b; i++){
+            const m = (num * 37 + 13) % 10;
+            const st = m < 5 ? 'available' : m < 8 ? 'reserved' : 'occupied';   // ~50/30/20 varied mix
+            s += `<g class="lot" data-tip="Lot ${num} · ${LABEL[st]}" tabindex="0" role="button" aria-label="Lot ${num}, ${LABEL[st]}">`
+               + `<rect x="${x}" y="${ly}" width="${lotW}" height="${lotH}" rx="3" fill="${COLOR[st]}"/></g>`;
+            x += lotW + gap; num++;
+          }
+          x += blockGap;
+        });
+      });
+    });
+    mapSvg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+    mapSvg.innerHTML = s;
+  }
+  function showTip(g){
+    mapSvg.querySelectorAll('.hot').forEach(x => x.classList.remove('hot'));
+    g.classList.add('hot');
+    const r = g.getBoundingClientRect(), st = mapStage.getBoundingClientRect();
+    mapTip.textContent = g.dataset.tip;
+    mapTip.style.left = (r.left - st.left + r.width / 2) + 'px';
+    mapTip.style.top  = (r.top - st.top - 6) + 'px';
+    mapTip.classList.add('show');
+  }
+  function hideTip(){ mapTip.classList.remove('show'); mapSvg.querySelectorAll('.hot').forEach(x => x.classList.remove('hot')); }
+  mapSvg.addEventListener('pointermove', e => { if (e.buttons) return; const g = e.target.closest('.lot,.zone'); g ? showTip(g) : hideTip(); });
+  mapSvg.addEventListener('pointerleave', hideTip);
+  mapSvg.addEventListener('click',     e => { const g = e.target.closest('.lot,.zone'); if (g) showTip(g); });
+  mapSvg.addEventListener('focusin',   e => { const g = e.target.closest('.lot,.zone'); if (g) showTip(g); });
+
+  // Pan/zoom applies to whichever element is showing (real image OR sample map).
+  let mz = 1, mpx = 0, mpy = 0, mdrag = false, mlx = 0, mly = 0, mapZoomEl = mapImg;
+  const applyMap = () => { mapZoomEl.style.transform = `translate(${mpx}px,${mpy}px) scale(${mz})`; mapZoomEl.classList.toggle('zoomed', mz > 1); };
+  const resetMap = () => { mz = 1; mpx = 0; mpy = 0; [mapImg, mapSvg].forEach(el => { el.style.transform = ''; el.classList.remove('zoomed'); }); };
+
+  function openMap(){
+    if (MAP_IMAGE){                          // real uploaded map -> zoomable image
+      mapImg.src = API_BASE + MAP_IMAGE;
+      mapImg.style.display = ''; mapSvg.style.display = 'none';
+      mapZoomEl = mapImg;
+    } else {                                 // no map yet -> TEMPORARY sample interactive map
+      mapImg.style.display = 'none'; mapSvg.style.display = '';
+      buildSampleMap();
+      mapZoomEl = mapSvg;
+    }
+    resetMap();
+    mapModal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeMap(){ mapModal.classList.remove('open'); document.body.style.overflow = ''; hideTip(); }
+
+  document.getElementById('exploreMapBtn').addEventListener('click', openMap);
+  document.getElementById('mapClose').addEventListener('click', closeMap);
+  mapStage.addEventListener('click', (e)=>{ if (e.target === mapStage) closeMap(); });   // click outside the image
+  document.addEventListener('keydown', (e)=>{ if (mapModal.classList.contains('open') && e.key === 'Escape') closeMap(); });
+
+  // wheel/double-click zoom (desktop); touch devices use the browser's native pinch-zoom
+  mapStage.addEventListener('wheel', (e)=>{
+    if (!mapModal.classList.contains('open')) return;
+    e.preventDefault();
+    mz = Math.min(5, Math.max(1, mz * (e.deltaY < 0 ? 1.2 : 1 / 1.2)));
+    if (mz === 1){ mpx = 0; mpy = 0; }
+    applyMap();
+  }, { passive: false });
+  mapStage.addEventListener('dblclick', (e)=>{ e.preventDefault(); if (mz > 1) resetMap(); else { mz = 2.4; applyMap(); } });
+  // drag-to-pan with a mouse when zoomed (touch devices use native pinch-zoom)
+  mapStage.addEventListener('pointerdown', (e)=>{ if (e.pointerType === 'touch' || mz <= 1) return; mdrag = true; mlx = e.clientX; mly = e.clientY; });
+  mapStage.addEventListener('pointermove', (e)=>{ if (!mdrag) return; mpx += e.clientX - mlx; mpy += e.clientY - mly; mlx = e.clientX; mly = e.clientY; applyMap(); });
+  addEventListener('pointerup',     ()=>{ mdrag = false; });
+  addEventListener('pointercancel', ()=>{ mdrag = false; });
+
+  // Deterministic press feedback on touch: green flash on pointerdown (~150ms),
+  // independent of hover. The click below always opens the modal (never swallowed).
+  document.getElementById('amenGrid').addEventListener('pointerdown', (e)=>{
+    const card = e.target.closest('.amen');
+    if(!card) return;
+    card.classList.add('pressed');
+    setTimeout(() => card.classList.remove('pressed'), 160);
+  });
   // Click an amenity icon -> open its modal (same component as listings).
   document.getElementById('amenGrid').addEventListener('click', (e)=>{
     const card = e.target.closest('.amen');

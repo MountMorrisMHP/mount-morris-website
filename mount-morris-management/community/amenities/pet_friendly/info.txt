@@ -1,5 +1,9 @@
-Display Name:
+Display Name: Pet Friendly
 Order:
-Hours:
-Rules:
-Description:
+Description: Mount Morris is a proudly pet-friendly community. Leashed dogs and cats are welcome, with plenty of green space and a dedicated dog-walk area for your four-legged family members.
+Max Pets Per Home: 2
+Leash Rule: Pets must be leashed (6 ft max) any time they are outside your homesite.
+Cleanup: Always pick up after your pet - waste stations with bags are placed throughout the park.
+Size & Breed: Dogs up to 60 lbs welcome; a short breed-restriction list applies - ask the office for details.
+Vaccinations: Current rabies vaccination and county license required on file.
+Quiet Hours: Please keep pets from excessive barking between 9pm and 8am.
