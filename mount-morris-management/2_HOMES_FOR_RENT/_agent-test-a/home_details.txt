@@ -1,5 +1,0 @@
-Deal Type: For Rent
-Price: 1000
-Bedrooms: 3
-Bathrooms: 2
-Square Feet: 1100
