@@ -149,11 +149,12 @@
   .map-illustration{width:min(92vw,640px);max-height:100%;background:var(--pine-deep);border:1px solid rgba(255,255,255,.14);border-radius:16px;padding:18px;box-shadow:0 24px 70px -24px rgba(0,0,0,.7)}
   /* TEMPORARY sample interactive map */
   .map-stage{position:relative}                       /* anchor for the lot tooltip */
-  .sample-map .lot{cursor:pointer}
+  .sample-map .lot,.sample-map .zone{cursor:pointer}
   .sample-map text{pointer-events:none}
-  .sample-map .lot rect{transition:stroke .12s ease,stroke-width .12s ease}
-  .sample-map .lot:hover rect,.sample-map .lot.hot rect,.sample-map .lot:focus rect{stroke:#fff;stroke-width:2.5}
-  .sample-map .lot:focus{outline:none}
+  .sample-map .lot rect,.sample-map .zone rect{transition:stroke .12s ease,stroke-width .12s ease}
+  .sample-map .lot:hover rect,.sample-map .lot.hot rect,.sample-map .lot:focus rect,
+  .sample-map .zone:hover rect,.sample-map .zone.hot rect,.sample-map .zone:focus rect{stroke:#fff;stroke-width:2.5}
+  .sample-map .lot:focus,.sample-map .zone:focus{outline:none}
   .map-tip{position:absolute;transform:translate(-50%,-100%);background:rgba(20,30,24,.96);color:var(--cream);font-size:.78rem;font-weight:700;padding:5px 10px;border-radius:8px;white-space:nowrap;pointer-events:none;opacity:0;transition:opacity .12s ease;z-index:4;box-shadow:0 8px 20px -8px rgba(0,0,0,.7)}
   .map-tip.show{opacity:1}
   .map-stage img{max-width:100%;max-height:100%;border-radius:10px;box-shadow:0 24px 70px -24px rgba(0,0,0,.7);transform-origin:center center;transition:transform .12s ease;cursor:zoom-in;animation:mapImgIn .4s cubic-bezier(.2,.7,.2,1);-webkit-user-select:none;user-select:none;-webkit-user-drag:none}
@@ -1035,62 +1036,85 @@
   // null URL => the modal shows the TEMPORARY sample interactive map below; button stays "Explore the Map".
   function setupMap(url){ MAP_IMAGE = url; }
 
-  /* ===== TEMPORARY sample interactive map — a stylized ~40-lot grid (NOT the
-     real park layout). Replace this function and the #mapSvg markup with the
-     real map (upload community/map.jpg, or drop in a real SVG layout). ===== */
+  /* ===== TEMPORARY sample interactive map (NOT the real park layout) =====
+     A stylized top-down site map: horizontal roads with rows of lots in blocks
+     on both sides, plus Clubhouse / Playground amenity zones. Replace this whole
+     function and the #mapSvg markup with the real map (community/map.jpg). ===== */
   function buildSampleMap(){
-    if (mapSvg.dataset.built) return;                  // build once
+    if (mapSvg.dataset.built) return;
     mapSvg.dataset.built = '1';
-    const cols = 8, rows = 5, cw = 44, ch = 34, gx = 8, gy = 12, pad = 16;
-    const W = pad * 2 + cols * cw + (cols - 1) * gx, H = pad * 2 + rows * ch + (rows - 1) * gy;
+    const W = 620, H = 410;
     const COLOR = { available:'#8AA189', reserved:'#E2A23D', occupied:'#C0392B' };
     const LABEL = { available:'Available', reserved:'Reserved', occupied:'Occupied' };
-    const PAT = ['available','available','occupied','reserved','available','occupied','available','reserved'];
-    let cells = '';
-    for (let i = 0; i < cols * rows; i++){
-      const r = Math.floor(i / cols), c = i % cols;
-      const x = pad + c * (cw + gx), y = pad + r * (ch + gy);
-      const st = PAT[(i + r * 3) % PAT.length], num = i + 1;
-      cells += `<g class="lot" data-n="${num}" data-label="${LABEL[st]}" tabindex="0" role="button" aria-label="Lot ${num}, ${LABEL[st]}">`
-             + `<rect x="${x}" y="${y}" width="${cw}" height="${ch}" rx="6" fill="${COLOR[st]}"/>`
-             + `<text x="${x + cw / 2}" y="${y + ch / 2 + 4}" text-anchor="middle" font-size="12" fill="rgba(255,255,255,.92)" font-family="'Hanken Grotesk',sans-serif">${num}</text>`
-             + `</g>`;
-    }
+    const ROAD = '#9C9277', LINE = 'rgba(246,238,224,.5)';
+    const lotW = 30, lotH = 18, gap = 8, blockGap = 46, x0 = 124, blocks = [3, 3, 2], roadsY = [140, 250, 360];
+    const zone = (x,y,w,h,fill,name,round) =>
+      `<g class="zone" data-tip="${name}" tabindex="0" role="button" aria-label="${name}">`
+      + `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${round}" fill="${fill}" opacity=".92"/>`
+      + `<text x="${x+w/2}" y="${y+h/2+4}" text-anchor="middle" font-size="13" font-weight="700" fill="#fff" font-family="'Hanken Grotesk',sans-serif">${name}</text></g>`;
+    let s = `<rect x="0" y="0" width="${W}" height="${H}" rx="14" fill="#24382B"/>`;   // ground
+    s += zone(44, 30, 150, 54, '#C25A35', 'Clubhouse', 8);            // amenity zones (distinct from lots)
+    s += zone(426, 30, 150, 54, '#6E9C6A', 'Playground', 26);
+    roadsY.forEach(ry => {                                            // horizontal roads + dashed centre lines
+      s += `<rect x="20" y="${ry}" width="${W-40}" height="16" fill="${ROAD}"/>`;
+      s += `<line x1="28" y1="${ry+8}" x2="${W-28}" y2="${ry+8}" stroke="${LINE}" stroke-width="2" stroke-dasharray="10 8"/>`;
+    });
+    [246, 398].forEach(vx =>                                          // vertical connector roads (in the block gaps)
+      s += `<rect x="${vx}" y="${roadsY[0]}" width="14" height="${roadsY[2]-roadsY[0]+16}" fill="${ROAD}"/>`);
+    let num = 1;                                                      // lots: a row above and below each road, in blocks
+    roadsY.forEach(ry => {
+      [ry - 6 - lotH, ry + 16 + 6].forEach(ly => {
+        let x = x0;
+        blocks.forEach(b => {
+          for (let i = 0; i < b; i++){
+            const m = (num * 37 + 13) % 10;
+            const st = m < 5 ? 'available' : m < 8 ? 'reserved' : 'occupied';   // ~50/30/20 varied mix
+            s += `<g class="lot" data-tip="Lot ${num} · ${LABEL[st]}" tabindex="0" role="button" aria-label="Lot ${num}, ${LABEL[st]}">`
+               + `<rect x="${x}" y="${ly}" width="${lotW}" height="${lotH}" rx="3" fill="${COLOR[st]}"/></g>`;
+            x += lotW + gap; num++;
+          }
+          x += blockGap;
+        });
+      });
+    });
     mapSvg.setAttribute('viewBox', `0 0 ${W} ${H}`);
-    mapSvg.innerHTML = cells;
+    mapSvg.innerHTML = s;
   }
-  function showLotTip(g){
-    mapSvg.querySelectorAll('.lot.hot').forEach(x => x.classList.remove('hot'));
+  function showTip(g){
+    mapSvg.querySelectorAll('.hot').forEach(x => x.classList.remove('hot'));
     g.classList.add('hot');
-    const r = g.getBoundingClientRect(), s = mapStage.getBoundingClientRect();
-    mapTip.textContent = `Lot ${g.dataset.n} · ${g.dataset.label}`;
-    mapTip.style.left = (r.left - s.left + r.width / 2) + 'px';
-    mapTip.style.top  = (r.top - s.top - 6) + 'px';
+    const r = g.getBoundingClientRect(), st = mapStage.getBoundingClientRect();
+    mapTip.textContent = g.dataset.tip;
+    mapTip.style.left = (r.left - st.left + r.width / 2) + 'px';
+    mapTip.style.top  = (r.top - st.top - 6) + 'px';
     mapTip.classList.add('show');
   }
-  function hideLotTip(){ mapTip.classList.remove('show'); mapSvg.querySelectorAll('.lot.hot').forEach(x => x.classList.remove('hot')); }
-  mapSvg.addEventListener('pointermove', e => { const g = e.target.closest('.lot'); g ? showLotTip(g) : hideLotTip(); });
-  mapSvg.addEventListener('pointerleave', hideLotTip);
-  mapSvg.addEventListener('click',     e => { const g = e.target.closest('.lot'); if (g) showLotTip(g); });
-  mapSvg.addEventListener('focusin',   e => { const g = e.target.closest('.lot'); if (g) showLotTip(g); });
+  function hideTip(){ mapTip.classList.remove('show'); mapSvg.querySelectorAll('.hot').forEach(x => x.classList.remove('hot')); }
+  mapSvg.addEventListener('pointermove', e => { if (e.buttons) return; const g = e.target.closest('.lot,.zone'); g ? showTip(g) : hideTip(); });
+  mapSvg.addEventListener('pointerleave', hideTip);
+  mapSvg.addEventListener('click',     e => { const g = e.target.closest('.lot,.zone'); if (g) showTip(g); });
+  mapSvg.addEventListener('focusin',   e => { const g = e.target.closest('.lot,.zone'); if (g) showTip(g); });
 
-  let mz = 1, mpx = 0, mpy = 0, mdrag = false, mlx = 0, mly = 0;
-  const applyMap = () => { mapImg.style.transform = `translate(${mpx}px,${mpy}px) scale(${mz})`; mapImg.classList.toggle('zoomed', mz > 1); };
-  const resetMap = () => { mz = 1; mpx = 0; mpy = 0; mapImg.style.transform = ''; mapImg.classList.remove('zoomed'); };
+  // Pan/zoom applies to whichever element is showing (real image OR sample map).
+  let mz = 1, mpx = 0, mpy = 0, mdrag = false, mlx = 0, mly = 0, mapZoomEl = mapImg;
+  const applyMap = () => { mapZoomEl.style.transform = `translate(${mpx}px,${mpy}px) scale(${mz})`; mapZoomEl.classList.toggle('zoomed', mz > 1); };
+  const resetMap = () => { mz = 1; mpx = 0; mpy = 0; [mapImg, mapSvg].forEach(el => { el.style.transform = ''; el.classList.remove('zoomed'); }); };
 
   function openMap(){
     if (MAP_IMAGE){                          // real uploaded map -> zoomable image
       mapImg.src = API_BASE + MAP_IMAGE;
       mapImg.style.display = ''; mapSvg.style.display = 'none';
-      resetMap();
+      mapZoomEl = mapImg;
     } else {                                 // no map yet -> TEMPORARY sample interactive map
       mapImg.style.display = 'none'; mapSvg.style.display = '';
       buildSampleMap();
+      mapZoomEl = mapSvg;
     }
+    resetMap();
     mapModal.classList.add('open');
     document.body.style.overflow = 'hidden';
   }
-  function closeMap(){ mapModal.classList.remove('open'); document.body.style.overflow = ''; hideLotTip(); }
+  function closeMap(){ mapModal.classList.remove('open'); document.body.style.overflow = ''; hideTip(); }
 
   document.getElementById('exploreMapBtn').addEventListener('click', openMap);
   document.getElementById('mapClose').addEventListener('click', closeMap);
@@ -1105,11 +1129,12 @@
     if (mz === 1){ mpx = 0; mpy = 0; }
     applyMap();
   }, { passive: false });
-  mapImg.addEventListener('dblclick', (e)=>{ e.preventDefault(); if (mz > 1) resetMap(); else { mz = 2.4; applyMap(); } });
-  mapImg.addEventListener('pointerdown', (e)=>{ if (e.pointerType === 'touch' || mz <= 1) return; mdrag = true; mlx = e.clientX; mly = e.clientY; try{ mapImg.setPointerCapture(e.pointerId); }catch(_){} });
-  mapImg.addEventListener('pointermove', (e)=>{ if (!mdrag) return; mpx += e.clientX - mlx; mpy += e.clientY - mly; mlx = e.clientX; mly = e.clientY; applyMap(); });
-  mapImg.addEventListener('pointerup',     ()=>{ mdrag = false; });
-  mapImg.addEventListener('pointercancel', ()=>{ mdrag = false; });
+  mapStage.addEventListener('dblclick', (e)=>{ e.preventDefault(); if (mz > 1) resetMap(); else { mz = 2.4; applyMap(); } });
+  // drag-to-pan with a mouse when zoomed (touch devices use native pinch-zoom)
+  mapStage.addEventListener('pointerdown', (e)=>{ if (e.pointerType === 'touch' || mz <= 1) return; mdrag = true; mlx = e.clientX; mly = e.clientY; });
+  mapStage.addEventListener('pointermove', (e)=>{ if (!mdrag) return; mpx += e.clientX - mlx; mpy += e.clientY - mly; mlx = e.clientX; mly = e.clientY; applyMap(); });
+  addEventListener('pointerup',     ()=>{ mdrag = false; });
+  addEventListener('pointercancel', ()=>{ mdrag = false; });
 
   // Deterministic press feedback on touch: green flash on pointerdown (~150ms),
   // independent of hover. The click below always opens the modal (never swallowed).
