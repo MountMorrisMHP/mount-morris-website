@@ -149,12 +149,14 @@
   .map-illustration{width:min(92vw,640px);max-height:100%;background:var(--pine-deep);border:1px solid rgba(255,255,255,.14);border-radius:16px;padding:18px;box-shadow:0 24px 70px -24px rgba(0,0,0,.7)}
   /* TEMPORARY sample interactive map */
   .map-stage{position:relative}                       /* anchor for the lot tooltip */
-  .sample-map .lot,.sample-map .zone{cursor:pointer}
   .sample-map text{pointer-events:none}
-  .sample-map .lot rect,.sample-map .zone rect{transition:stroke .12s ease,stroke-width .12s ease}
-  .sample-map .lot:hover rect,.sample-map .lot.hot rect,.sample-map .lot:focus rect,
-  .sample-map .zone:hover rect,.sample-map .zone.hot rect,.sample-map .zone:focus rect{stroke:#fff;stroke-width:2.5}
-  .sample-map .lot:focus,.sample-map .zone:focus{outline:none}
+  .sample-map .site-lot{fill:var(--pine)}                 /* lots: pine-green, static */
+  .sample-map .site-green{fill:#4E7A52;opacity:.5}        /* wooded / green patches */
+  .sample-map .street-label{fill:rgba(246,238,224,.82);font-size:11px;font-weight:600;font-family:'Hanken Grotesk',sans-serif}
+  .sample-map .amen-pin{cursor:pointer}                   /* amenities: orange CTA, clickable */
+  .sample-map .amen-pin circle{fill:var(--clay);transition:stroke .12s ease}
+  .sample-map .amen-pin:hover circle,.sample-map .amen-pin.hot circle,.sample-map .amen-pin:focus circle{stroke:#fff;stroke-width:3}
+  .sample-map .amen-pin:focus{outline:none}
   .map-tip{position:absolute;transform:translate(-50%,-100%);background:rgba(20,30,24,.96);color:var(--cream);font-size:.78rem;font-weight:700;padding:5px 10px;border-radius:8px;white-space:nowrap;pointer-events:none;opacity:0;transition:opacity .12s ease;z-index:4;box-shadow:0 8px 20px -8px rgba(0,0,0,.7)}
   .map-tip.show{opacity:1}
   .map-stage img{max-width:100%;max-height:100%;border-radius:10px;box-shadow:0 24px 70px -24px rgba(0,0,0,.7);transform-origin:center center;transition:transform .12s ease;cursor:zoom-in;animation:mapImgIn .4s cubic-bezier(.2,.7,.2,1);-webkit-user-select:none;user-select:none;-webkit-user-drag:none}
@@ -208,7 +210,7 @@
   .copyright{padding-top:24px;display:flex;flex-wrap:wrap;gap:8px;justify-content:space-between;font-size:.82rem;opacity:.6}
 
   /* LISTING MODAL */
-  .modal{position:fixed;inset:0;z-index:500;display:none;align-items:flex-start;justify-content:center;padding:24px;overflow-y:auto;background:rgba(28,58,42,.55);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
+  .modal{position:fixed;inset:0;z-index:700;display:none;align-items:flex-start;justify-content:center;padding:24px;overflow-y:auto;background:rgba(28,58,42,.55);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
   .modal.open{display:flex}
   .modal-card{background:var(--paper);border-radius:22px;max-width:760px;width:100%;margin:auto;overflow:hidden;box-shadow:var(--shadow);position:relative}
   .modal-close{position:absolute;top:14px;right:14px;z-index:3;width:38px;height:38px;border-radius:50%;border:none;background:rgba(30,42,34,.6);color:#fff;font-size:1.3rem;cursor:pointer;line-height:1}
@@ -544,10 +546,9 @@
     <div class="map-tip" id="mapTip" aria-hidden="true"></div>
   </div>
   <div class="map-legend">
-    <span><i style="background:#8AA189"></i>Available</span>
-    <span><i style="background:#E2A23D"></i>Reserved</span>
-    <span><i style="background:#C0392B"></i>Occupied</span>
-    <span class="map-hint">Tap a lot for its status</span>
+    <span><i style="background:#2C5540"></i>Homesites</span>
+    <span><i style="background:#C25A35"></i>Amenities — tap for info</span>
+    <span class="map-hint">Drag / pinch to explore</span>
   </div>
 </div>
 
@@ -1036,46 +1037,76 @@
   // null URL => the modal shows the TEMPORARY sample interactive map below; button stays "Explore the Map".
   function setupMap(url){ MAP_IMAGE = url; }
 
-  /* ===== TEMPORARY sample interactive map (NOT the real park layout) =====
-     A stylized top-down site map: horizontal roads with rows of lots in blocks
-     on both sides, plus Clubhouse / Playground amenity zones. Replace this whole
-     function and the #mapSvg markup with the real map (community/map.jpg). ===== */
+  /* ===== TEMPORARY hand-crafted site map for Mount Morris Mobile Park =====
+     Built from a written layout description (central spine + named branch
+     streets, denser lower cluster) — representative, NOT survey-accurate.
+     EVERYTHING is driven by the small data arrays below (spine / streets /
+     greens / amenities); tweak those numbers to move roads, lot rows, and
+     amenity pins. Lots are static green; amenity pins are orange and open the
+     real community/amenities/<id> data. Swap for community/map.jpg when ready.
+     ====================================================================== */
   function buildSampleMap(){
     if (mapSvg.dataset.built) return;
     mapSvg.dataset.built = '1';
-    const W = 620, H = 410;
-    const COLOR = { available:'#8AA189', reserved:'#E2A23D', occupied:'#C0392B' };
-    const LABEL = { available:'Available', reserved:'Reserved', occupied:'Occupied' };
-    const ROAD = '#9C9277', LINE = 'rgba(246,238,224,.5)';
-    const lotW = 30, lotH = 18, gap = 8, blockGap = 46, x0 = 124, blocks = [3, 3, 2], roadsY = [140, 250, 360];
-    const zone = (x,y,w,h,fill,name,round) =>
-      `<g class="zone" data-tip="${name}" tabindex="0" role="button" aria-label="${name}">`
-      + `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${round}" fill="${fill}" opacity=".92"/>`
-      + `<text x="${x+w/2}" y="${y+h/2+4}" text-anchor="middle" font-size="13" font-weight="700" fill="#fff" font-family="'Hanken Grotesk',sans-serif">${name}</text></g>`;
-    let s = `<rect x="0" y="0" width="${W}" height="${H}" rx="14" fill="#24382B"/>`;   // ground
-    s += zone(44, 30, 150, 54, '#C25A35', 'Clubhouse', 8);            // amenity zones (distinct from lots)
-    s += zone(426, 30, 150, 54, '#6E9C6A', 'Playground', 26);
-    roadsY.forEach(ry => {                                            // horizontal roads + dashed centre lines
-      s += `<rect x="20" y="${ry}" width="${W-40}" height="16" fill="${ROAD}"/>`;
-      s += `<line x1="28" y1="${ry+8}" x2="${W-28}" y2="${ry+8}" stroke="${LINE}" stroke-width="2" stroke-dasharray="10 8"/>`;
+    const W = 600, H = 700;
+    const ROAD = '#9C9277', LINE = 'rgba(246,238,224,.55)';
+    const lotW = 14, lotH = 9;
+
+    // ----- EDIT THESE ARRAYS to adjust the layout ----------------------------
+    const spine = { x: 300, y1: 70, y2: 648, w: 16 };          // central spine road
+    const streets = [   // straight branch streets; name:'' = unlabelled connector
+      { name: 'Spruce',   y: 140, x1: 106, x2: 494, lots: 13 },
+      { name: 'Hickory',  y: 222, x1: 106, x2: 494, lots: 13 },
+      { name: 'Hemlock',  y: 300, x1: 92,  x2: 508, lots: 15 },
+      { name: 'Fernwood', y: 392, x1: 78,  x2: 522, lots: 17 },
+      { name: 'Hawthorn', y: 462, x1: 78,  x2: 522, lots: 17 },
+      { name: '',         y: 528, x1: 96,  x2: 504, lots: 16 },   // denser lower cluster
+      { name: '',         y: 592, x1: 96,  x2: 504, lots: 16 },
+    ];
+    const greens = [    // wooded / green-space patches
+      { x: 22,  y: 96,  w: 58, h: 150, r: 24 },
+      { x: 520, y: 96,  w: 58, h: 150, r: 24 },
+      { x: 24,  y: 486, w: 60, h: 150, r: 24 },
+    ];
+    const amenities = [ // orange interactive pins -> community/amenities/<id>
+      { id: 'onsite_management', x: 300, y: 96,  name: 'Office' },
+      { id: 'clubhouse',         x: 300, y: 352, name: 'Clubhouse' },
+      { id: 'playground',        x: 150, y: 352, name: 'Playground' },
+      { id: 'basketball_court',  x: 452, y: 352, name: 'Sport Court' },
+      { id: 'green_spaces',      x: 552, y: 168, name: 'Green Space' },
+      { id: 'pet_friendly',      x: 58,  y: 548, name: 'Pet Area' },
+      { id: 'laundry_facility',  x: 368, y: 300, name: 'Laundry' },
+      { id: 'storage_parking',   x: 300, y: 624, name: 'Storage & Parking' },
+    ];
+    // -------------------------------------------------------------------------
+
+    const lotRow = (x1, x2, y, count) => {
+      let out = ''; const pitch = (x2 - x1) / count;
+      for (let i = 0; i < count; i++){
+        const x = x1 + i * pitch + (pitch - lotW) / 2;
+        if (x + lotW < spine.x - spine.w / 2 - 2 || x > spine.x + spine.w / 2 + 2)   // keep the spine corridor clear
+          out += `<rect class="site-lot" x="${x.toFixed(1)}" y="${y}" width="${lotW}" height="${lotH}" rx="2"/>`;
+      }
+      return out;
+    };
+
+    let s = `<rect x="0" y="0" width="${W}" height="${H}" rx="14" fill="#24382B"/>`;            // ground
+    greens.forEach(g => s += `<rect class="site-green" x="${g.x}" y="${g.y}" width="${g.w}" height="${g.h}" rx="${g.r}"/>`);
+    s += `<rect x="${spine.x - spine.w / 2}" y="${spine.y1}" width="${spine.w}" height="${spine.y2 - spine.y1}" fill="${ROAD}"/>`;
+    s += `<line x1="${spine.x}" y1="${spine.y1 + 6}" x2="${spine.x}" y2="${spine.y2 - 6}" stroke="${LINE}" stroke-width="2" stroke-dasharray="9 8"/>`;
+    streets.forEach(st => {
+      s += `<rect x="${st.x1}" y="${st.y - 7}" width="${st.x2 - st.x1}" height="14" fill="${ROAD}"/>`;
+      s += `<line x1="${st.x1 + 6}" y1="${st.y}" x2="${st.x2 - 6}" y2="${st.y}" stroke="${LINE}" stroke-width="1.6" stroke-dasharray="8 7"/>`;
+      if (st.name) s += `<text class="street-label" x="${st.x1 - 6}" y="${st.y + 3}" text-anchor="end">${st.name}</text>`;
+      s += lotRow(st.x1, st.x2, st.y - 7 - 5 - lotH, st.lots);   // row above the street
+      s += lotRow(st.x1, st.x2, st.y + 7 + 5, st.lots);          // row below the street
     });
-    [246, 398].forEach(vx =>                                          // vertical connector roads (in the block gaps)
-      s += `<rect x="${vx}" y="${roadsY[0]}" width="14" height="${roadsY[2]-roadsY[0]+16}" fill="${ROAD}"/>`);
-    let num = 1;                                                      // lots: a row above and below each road, in blocks
-    roadsY.forEach(ry => {
-      [ry - 6 - lotH, ry + 16 + 6].forEach(ly => {
-        let x = x0;
-        blocks.forEach(b => {
-          for (let i = 0; i < b; i++){
-            const m = (num * 37 + 13) % 10;
-            const st = m < 5 ? 'available' : m < 8 ? 'reserved' : 'occupied';   // ~50/30/20 varied mix
-            s += `<g class="lot" data-tip="Lot ${num} · ${LABEL[st]}" tabindex="0" role="button" aria-label="Lot ${num}, ${LABEL[st]}">`
-               + `<rect x="${x}" y="${ly}" width="${lotW}" height="${lotH}" rx="3" fill="${COLOR[st]}"/></g>`;
-            x += lotW + gap; num++;
-          }
-          x += blockGap;
-        });
-      });
+    amenities.forEach(a => {
+      const icon = AMEN_ICONS[a.id] || AMEN_ICONS._generic;     // reuse the amenity icon set
+      s += `<g class="amen-pin" data-amenity="${a.id}" data-tip="${a.name}" tabindex="0" role="button" aria-label="${a.name}: open details">`
+         + `<circle cx="${a.x}" cy="${a.y}" r="17"/>`
+         + `<svg x="${a.x - 11}" y="${a.y - 11}" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${icon}</svg>`
+         + `</g>`;
     });
     mapSvg.setAttribute('viewBox', `0 0 ${W} ${H}`);
     mapSvg.innerHTML = s;
@@ -1119,7 +1150,7 @@
   document.getElementById('exploreMapBtn').addEventListener('click', openMap);
   document.getElementById('mapClose').addEventListener('click', closeMap);
   mapStage.addEventListener('click', (e)=>{ if (e.target === mapStage) closeMap(); });   // click outside the image
-  document.addEventListener('keydown', (e)=>{ if (mapModal.classList.contains('open') && e.key === 'Escape') closeMap(); });
+  document.addEventListener('keydown', (e)=>{ if (mapModal.classList.contains('open') && !modal.classList.contains('open') && e.key === 'Escape') closeMap(); });
 
   // wheel/double-click zoom (desktop); touch devices use the browser's native pinch-zoom
   mapStage.addEventListener('wheel', (e)=>{
