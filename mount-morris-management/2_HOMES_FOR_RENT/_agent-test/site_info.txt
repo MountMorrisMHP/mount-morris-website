@@ -1,0 +1,5 @@
+Lot Number: 999
+Base Lot Rent: $600
+Total Lot Area (sqft): 5000
+Max Home Width: 16 ft
+Parking Spaces: 2
