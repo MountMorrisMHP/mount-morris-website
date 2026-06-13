@@ -1,9 +1,9 @@
 {
   "version": "dev",
-  "generatedAt": "2026-06-13T02:54:41.206Z",
+  "generatedAt": "2026-06-13T08:17:00.450Z",
   "counts": {
     "emptyLots": 0,
-    "homesForRent": 9,
+    "homesForRent": 10,
     "homesForSale": 1,
     "amenities": 9,
     "scenery": 4
@@ -979,6 +979,74 @@
         {
           "label": "Amenities",
           "value": "Central air, dishwasher, washer/dryer hookups, vinyl plank flooring"
+        }
+      ]
+    },
+    {
+      "id": "rent-_agent-test",
+      "category": "homesForRent",
+      "dataCat": "rent",
+      "lotNumber": "999",
+      "title": "TestCo Verifier · Lot 999",
+      "badgeText": "For Rent",
+      "badgeClass": "b-rent",
+      "price": "$1,100",
+      "priceSmall": " / month",
+      "specs": [
+        "3 Bed",
+        "2 Bath",
+        "1,200 sq ft"
+      ],
+      "mainImage": null,
+      "gallery": [],
+      "details": [
+        {
+          "label": "Lot Number",
+          "value": "999"
+        },
+        {
+          "label": "Base Lot Rent",
+          "value": "$600"
+        },
+        {
+          "label": "Total Lot Area (sqft)",
+          "value": "5000"
+        },
+        {
+          "label": "Max Home Width",
+          "value": "16 ft"
+        },
+        {
+          "label": "Parking Spaces",
+          "value": "2"
+        },
+        {
+          "label": "Deal Type",
+          "value": "For Rent"
+        },
+        {
+          "label": "Price",
+          "value": "1100"
+        },
+        {
+          "label": "Home Manufacturer",
+          "value": "TestCo"
+        },
+        {
+          "label": "Home Model",
+          "value": "Verifier"
+        },
+        {
+          "label": "Bedrooms",
+          "value": "3"
+        },
+        {
+          "label": "Bathrooms",
+          "value": "2"
+        },
+        {
+          "label": "Square Feet",
+          "value": "1200"
         }
       ]
     }
