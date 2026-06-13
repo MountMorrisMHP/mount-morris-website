@@ -1,12 +1,12 @@
 {
-  "version": "v2026.06.12-093823",
-  "generatedAt": "2026-06-12T09:38:23.409Z",
+  "version": "v2026.06.13-025718",
+  "generatedAt": "2026-06-13T02:57:18.382Z",
   "counts": {
     "emptyLots": 0,
     "homesForRent": 9,
     "homesForSale": 1,
     "amenities": 9,
-    "scenery": 0
+    "scenery": 4
   },
   "emptyLots": [],
   "homesForRent": [
@@ -1115,9 +1115,42 @@
         "id": "pet_friendly",
         "displayName": "Pet Friendly",
         "order": null,
-        "details": [],
-        "mainImage": null,
-        "gallery": []
+        "details": [
+          {
+            "label": "Description",
+            "value": "Mount Morris is a proudly pet-friendly community. Leashed dogs and cats are welcome, with plenty of green space and a dedicated dog-walk area for your four-legged family members."
+          },
+          {
+            "label": "Max Pets Per Home",
+            "value": "2"
+          },
+          {
+            "label": "Leash Rule",
+            "value": "Pets must be leashed (6 ft max) any time they are outside your homesite."
+          },
+          {
+            "label": "Cleanup",
+            "value": "Always pick up after your pet - waste stations with bags are placed throughout the park."
+          },
+          {
+            "label": "Size & Breed",
+            "value": "Dogs up to 60 lbs welcome; a short breed-restriction list applies - ask the office for details."
+          },
+          {
+            "label": "Vaccinations",
+            "value": "Current rabies vaccination and county license required on file."
+          },
+          {
+            "label": "Quiet Hours",
+            "value": "Please keep pets from excessive barking between 9pm and 8am."
+          }
+        ],
+        "mainImage": "community/amenities/pet_friendly/pet-1.jpg",
+        "gallery": [
+          "community/amenities/pet_friendly/pet-1.jpg",
+          "community/amenities/pet_friendly/pet-2.jpg",
+          "community/amenities/pet_friendly/pet-3.jpg"
+        ]
       },
       {
         "id": "playground",
@@ -1136,7 +1169,13 @@
         "gallery": []
       }
     ],
-    "scenery": [],
+    "scenery": [
+      "community/scenery/sample-1.svg",
+      "community/scenery/sample-2.svg",
+      "community/scenery/sample-3.svg",
+      "community/scenery/sample-4.svg"
+    ],
+    "mapImage": null,
     "communityRules": ""
   }
 }
