@@ -1,10 +1,9 @@
-<!-- TEMPORARY sample scenery image — delete once real photos are added -->
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 270" preserveAspectRatio="xMidYMid slice">
-  <defs><linearGradient id="s1" x1="0" y1="0" x2="0" y2="1">
-    <stop offset="0" stop-color="#FBF5EA"/><stop offset="1" stop-color="#F0E6D2"/></linearGradient></defs>
-  <rect width="480" height="270" fill="url(#s1)"/>
-  <circle cx="360" cy="86" r="40" fill="#E2A23D" opacity=".75"/>
-  <path d="M0 200c80-30 150-18 240 6s180 14 240-8v72H0z" fill="#A9BE9C"/>
-  <path d="M0 224c90-26 170-10 250 10s150 8 230-12v48H0z" fill="#8AA189"/>
-  <path d="M0 246c100-18 180-2 260 12s130 2 220-10v22H0z" fill="#2C5540"/>
+<!-- TEMPORARY sample scenery image (3:2 landscape) — delete once real photos are added -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 320" preserveAspectRatio="xMidYMid slice">
+  <defs><linearGradient id="s1" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#FBF5EA"/><stop offset="1" stop-color="#F0E6D2"/></linearGradient></defs>
+  <rect width="480" height="320" fill="url(#s1)"/>
+  <circle cx="362" cy="96" r="46" fill="#E2A23D" opacity=".75"/>
+  <path d="M0 222c80-34 150-20 240 6s180 16 240-8v100H0z" fill="#A9BE9C"/>
+  <path d="M0 252c90-30 170-12 250 12s150 10 230-14v70H0z" fill="#8AA189"/>
+  <path d="M0 288c100-22 180-4 260 14s130 4 220-12v36H0z" fill="#2C5540"/>
 </svg>

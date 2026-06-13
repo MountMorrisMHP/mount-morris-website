@@ -1,15 +1,9 @@
-<!-- TEMPORARY sample scenery image — delete once real photos are added -->
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 270" preserveAspectRatio="xMidYMid slice">
-  <rect width="480" height="270" fill="#F6EEE0"/>
-  <rect y="170" width="480" height="100" fill="#A9BE9C"/>
-  <path d="M210 270l30-100h0l30 100z" fill="#FBF5EA"/>
-  <g fill="#2C5540">
-    <circle cx="120" cy="150" r="34"/><rect x="114" y="150" width="12" height="40"/>
-    <circle cx="360" cy="150" r="34"/><rect x="354" y="150" width="12" height="40"/>
-  </g>
-  <g fill="#8AA189">
-    <circle cx="190" cy="150" r="22"/><rect x="186" y="150" width="8" height="28"/>
-    <circle cx="290" cy="150" r="22"/><rect x="286" y="150" width="8" height="28"/>
-  </g>
-  <circle cx="400" cy="64" r="30" fill="#E2A23D" opacity=".6"/>
+<!-- TEMPORARY sample scenery image (3:2 landscape) — delete once real photos are added -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 320" preserveAspectRatio="xMidYMid slice">
+  <rect width="480" height="320" fill="#F6EEE0"/>
+  <rect y="192" width="480" height="128" fill="#A9BE9C"/>
+  <path d="M205 320l35-128 35 128z" fill="#FBF5EA"/>
+  <g fill="#2C5540"><circle cx="120" cy="166" r="40"/><rect x="112" y="166" width="16" height="52"/><circle cx="360" cy="166" r="40"/><rect x="352" y="166" width="16" height="52"/></g>
+  <g fill="#8AA189"><circle cx="196" cy="170" r="25"/><rect x="191" y="170" width="10" height="34"/><circle cx="290" cy="170" r="25"/><rect x="285" y="170" width="10" height="34"/></g>
+  <circle cx="406" cy="72" r="33" fill="#E2A23D" opacity=".6"/>
 </svg>

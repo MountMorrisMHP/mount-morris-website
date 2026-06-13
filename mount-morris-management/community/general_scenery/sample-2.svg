@@ -1,11 +1,11 @@
-<!-- TEMPORARY sample scenery image — delete once real photos are added -->
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 270" preserveAspectRatio="xMidYMid slice">
-  <rect width="480" height="270" fill="#EAF0E4"/>
-  <rect y="150" width="480" height="120" fill="#8AA189"/>
-  <ellipse cx="250" cy="200" rx="150" ry="44" fill="#3E7C9C" opacity=".75"/>
-  <ellipse cx="250" cy="194" rx="120" ry="30" fill="#5E96B0" opacity=".7"/>
-  <path d="M96 150c4 6 4 12 0 18-4-6-4-12 0-18z" fill="#2C5540"/>
-  <path d="M96 96c20 28 20 46 0 64-20-18-20-36 0-64z" fill="#2C5540"/>
-  <path d="M96 70c14 22 14 34 0 48-14-14-14-26 0-48z" fill="#1C3A2A"/>
-  <rect x="92" y="150" width="8" height="22" fill="#1C3A2A"/>
+<!-- TEMPORARY sample scenery image (3:2 landscape) — delete once real photos are added -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 480 320" preserveAspectRatio="xMidYMid slice">
+  <rect width="480" height="320" fill="#EAF0E4"/>
+  <rect y="172" width="480" height="148" fill="#8AA189"/>
+  <ellipse cx="250" cy="238" rx="162" ry="54" fill="#3E7C9C" opacity=".75"/>
+  <ellipse cx="250" cy="230" rx="130" ry="36" fill="#5E96B0" opacity=".7"/>
+  <path d="M100 172c5 8 5 14 0 22-5-8-5-14 0-22z" fill="#2C5540"/>
+  <path d="M100 92c24 34 24 56 0 78-24-22-24-44 0-78z" fill="#2C5540"/>
+  <path d="M100 64c16 26 16 38 0 54-16-16-16-28 0-54z" fill="#1C3A2A"/>
+  <rect x="96" y="172" width="8" height="26" fill="#1C3A2A"/>
 </svg>
