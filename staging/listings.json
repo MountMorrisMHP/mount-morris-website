@@ -1,6 +1,6 @@
 {
   "version": "dev",
-  "generatedAt": "2026-06-13T08:17:00.450Z",
+  "generatedAt": "2026-06-13T08:18:13.823Z",
   "counts": {
     "emptyLots": 0,
     "homesForRent": 10,
@@ -1006,19 +1006,11 @@
         },
         {
           "label": "Base Lot Rent",
-          "value": "$600"
+          "value": "abc"
         },
         {
           "label": "Total Lot Area (sqft)",
           "value": "5000"
-        },
-        {
-          "label": "Max Home Width",
-          "value": "16 ft"
-        },
-        {
-          "label": "Parking Spaces",
-          "value": "2"
         },
         {
           "label": "Deal Type",
