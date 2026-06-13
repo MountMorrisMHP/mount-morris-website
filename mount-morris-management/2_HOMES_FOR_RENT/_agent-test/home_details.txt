@@ -1,7 +1,0 @@
-Deal Type: For Rent
-Price: 1100
-Home Manufacturer: TestCo
-Home Model: Verifier
-Bedrooms: 3
-Bathrooms: 2
-Square Feet: 1200
