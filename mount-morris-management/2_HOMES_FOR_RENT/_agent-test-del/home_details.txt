@@ -1,0 +1,4 @@
+Deal Type: For Rent
+Price: 950
+Bedrooms: 2
+Bathrooms: 1
