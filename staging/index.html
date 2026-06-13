@@ -138,7 +138,7 @@
   .legend i{width:12px;height:12px;border-radius:50%;display:inline-block;margin-right:7px;vertical-align:middle}
   .map-box{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.14);border-radius:22px;padding:18px;aspect-ratio:5/4;position:relative}
   .map-box svg{width:100%;height:100%}
-  .map-box.has-slider{padding:0;overflow:hidden}      /* scenery slider fills the framed box */
+  .map-box.has-slider{padding:0;overflow:hidden;aspect-ratio:16/9}   /* wide landscape lifestyle slider */
   .btn.soon{background:var(--sage);color:var(--pine-deep);cursor:default}
 
   /* FULLSCREEN COMMUNITY MAP */
@@ -147,6 +147,15 @@
   @keyframes mapIn{from{opacity:0}to{opacity:1}}
   .map-stage{flex:1;min-height:0;overflow:hidden;display:flex;align-items:center;justify-content:center;padding:28px;touch-action:pinch-zoom}
   .map-illustration{width:min(92vw,640px);max-height:100%;background:var(--pine-deep);border:1px solid rgba(255,255,255,.14);border-radius:16px;padding:18px;box-shadow:0 24px 70px -24px rgba(0,0,0,.7)}
+  /* TEMPORARY sample interactive map */
+  .map-stage{position:relative}                       /* anchor for the lot tooltip */
+  .sample-map .lot{cursor:pointer}
+  .sample-map text{pointer-events:none}
+  .sample-map .lot rect{transition:stroke .12s ease,stroke-width .12s ease}
+  .sample-map .lot:hover rect,.sample-map .lot.hot rect,.sample-map .lot:focus rect{stroke:#fff;stroke-width:2.5}
+  .sample-map .lot:focus{outline:none}
+  .map-tip{position:absolute;transform:translate(-50%,-100%);background:rgba(20,30,24,.96);color:var(--cream);font-size:.78rem;font-weight:700;padding:5px 10px;border-radius:8px;white-space:nowrap;pointer-events:none;opacity:0;transition:opacity .12s ease;z-index:4;box-shadow:0 8px 20px -8px rgba(0,0,0,.7)}
+  .map-tip.show{opacity:1}
   .map-stage img{max-width:100%;max-height:100%;border-radius:10px;box-shadow:0 24px 70px -24px rgba(0,0,0,.7);transform-origin:center center;transition:transform .12s ease;cursor:zoom-in;animation:mapImgIn .4s cubic-bezier(.2,.7,.2,1);-webkit-user-select:none;user-select:none;-webkit-user-drag:none}
   .map-stage img.zoomed{cursor:grab}
   @keyframes mapImgIn{from{opacity:0;transform:scale(.95)}to{opacity:1;transform:none}}
@@ -294,7 +303,7 @@
       <a href="#amenities">Amenities</a>
       <a href="#faq">FAQ</a>
     </nav>
-    <a href="#cta" class="btn btn-pine nav-cta">Schedule a Visit</a>
+    <a href="#cta" class="btn btn-primary nav-cta">Schedule a Visit</a>
     <button class="menu-toggle" id="menuBtn" aria-label="Menu"><span></span><span></span><span></span></button>
   </div>
 </header>
@@ -411,7 +420,7 @@
   <div class="wrap lots-inner">
     <div>
       <span class="eyebrow">See it for yourself</span>
-      <h2>Life at Mount Morris</h2>
+      <h2>Life at Mount Morris Mobile Home Park</h2>
       <p>Browse the community map to see which lots are open, where the amenities sit, and which spot feels like yours. Tap a lot to see what's available there.</p>
       <button class="btn btn-primary" id="exploreMapBtn">Explore the Map</button>
     </div>
@@ -525,34 +534,19 @@
 <div class="map-modal" id="mapModal" role="dialog" aria-modal="true" aria-label="Community map">
   <button class="map-close" id="mapClose" aria-label="Close map">&times;</button>
   <div class="map-stage" id="mapStage">
-    <img id="mapImg" alt="Mount Morris community map" draggable="false" style="display:none">
-    <!-- Static fallback map graphic (shown when no community/map.jpg exists). -->
-    <svg id="mapSvg" class="map-illustration" viewBox="0 0 320 256" role="img" aria-label="Community map illustration">
-      <path d="M0 128h320M160 0v256M40 40h240v176H40z" stroke="rgba(255,255,255,.16)" fill="none" stroke-width="2"/>
-      <ellipse cx="160" cy="128" rx="34" ry="22" fill="#3E7C9C" opacity=".6"/>
-      <g>
-        <rect x="55" y="55" width="22" height="16" rx="3" fill="#8AA189"/>
-        <rect x="85" y="55" width="22" height="16" rx="3" fill="#C0392B"/>
-        <rect x="115" y="55" width="22" height="16" rx="3" fill="#C0392B"/>
-        <rect x="213" y="55" width="22" height="16" rx="3" fill="#E2A23D"/>
-        <rect x="243" y="55" width="22" height="16" rx="3" fill="#8AA189"/>
-        <rect x="55" y="185" width="22" height="16" rx="3" fill="#C0392B"/>
-        <rect x="85" y="185" width="22" height="16" rx="3" fill="#8AA189"/>
-        <rect x="213" y="185" width="22" height="16" rx="3" fill="#C0392B"/>
-        <rect x="243" y="185" width="22" height="16" rx="3" fill="#E2A23D"/>
-        <rect x="55" y="100" width="22" height="16" rx="3" fill="#C0392B"/>
-        <rect x="55" y="140" width="22" height="16" rx="3" fill="#8AA189"/>
-        <rect x="243" y="100" width="22" height="16" rx="3" fill="#8AA189"/>
-        <rect x="243" y="140" width="22" height="16" rx="3" fill="#C0392B"/>
-      </g>
-      <text x="160" y="132" font-size="9" fill="#fff" text-anchor="middle" opacity=".85" font-family="sans-serif">Clubhouse &amp; Pond</text>
-    </svg>
+    <img id="mapImg" alt="Mount Morris Mobile Home Park community map" draggable="false" style="display:none">
+    <!-- ===== TEMPORARY sample interactive map (NOT the real park layout) =====
+         A stylized grid of ~40 clickable lots, generated by buildSampleMap()
+         in the script below. Replace with a real community/map.jpg (or a real
+         SVG layout) when available. ============================================ -->
+    <svg id="mapSvg" class="map-illustration sample-map" role="img" aria-label="Sample community lot map"></svg>
+    <div class="map-tip" id="mapTip" aria-hidden="true"></div>
   </div>
   <div class="map-legend">
     <span><i style="background:#8AA189"></i>Available</span>
     <span><i style="background:#E2A23D"></i>Reserved</span>
     <span><i style="background:#C0392B"></i>Occupied</span>
-    <span class="map-hint">Scroll / double-click to zoom</span>
+    <span class="map-hint">Tap a lot for its status</span>
   </div>
 </div>
 
@@ -1036,9 +1030,49 @@
   const mapStage = document.getElementById('mapStage');
   const mapImg   = document.getElementById('mapImg');
   const mapSvg   = document.getElementById('mapSvg');
+  const mapTip   = document.getElementById('mapTip');
 
-  // null URL => the modal shows the static map illustration; button text stays "Explore the Map".
+  // null URL => the modal shows the TEMPORARY sample interactive map below; button stays "Explore the Map".
   function setupMap(url){ MAP_IMAGE = url; }
+
+  /* ===== TEMPORARY sample interactive map — a stylized ~40-lot grid (NOT the
+     real park layout). Replace this function and the #mapSvg markup with the
+     real map (upload community/map.jpg, or drop in a real SVG layout). ===== */
+  function buildSampleMap(){
+    if (mapSvg.dataset.built) return;                  // build once
+    mapSvg.dataset.built = '1';
+    const cols = 8, rows = 5, cw = 44, ch = 34, gx = 8, gy = 12, pad = 16;
+    const W = pad * 2 + cols * cw + (cols - 1) * gx, H = pad * 2 + rows * ch + (rows - 1) * gy;
+    const COLOR = { available:'#8AA189', reserved:'#E2A23D', occupied:'#C0392B' };
+    const LABEL = { available:'Available', reserved:'Reserved', occupied:'Occupied' };
+    const PAT = ['available','available','occupied','reserved','available','occupied','available','reserved'];
+    let cells = '';
+    for (let i = 0; i < cols * rows; i++){
+      const r = Math.floor(i / cols), c = i % cols;
+      const x = pad + c * (cw + gx), y = pad + r * (ch + gy);
+      const st = PAT[(i + r * 3) % PAT.length], num = i + 1;
+      cells += `<g class="lot" data-n="${num}" data-label="${LABEL[st]}" tabindex="0" role="button" aria-label="Lot ${num}, ${LABEL[st]}">`
+             + `<rect x="${x}" y="${y}" width="${cw}" height="${ch}" rx="6" fill="${COLOR[st]}"/>`
+             + `<text x="${x + cw / 2}" y="${y + ch / 2 + 4}" text-anchor="middle" font-size="12" fill="rgba(255,255,255,.92)" font-family="'Hanken Grotesk',sans-serif">${num}</text>`
+             + `</g>`;
+    }
+    mapSvg.setAttribute('viewBox', `0 0 ${W} ${H}`);
+    mapSvg.innerHTML = cells;
+  }
+  function showLotTip(g){
+    mapSvg.querySelectorAll('.lot.hot').forEach(x => x.classList.remove('hot'));
+    g.classList.add('hot');
+    const r = g.getBoundingClientRect(), s = mapStage.getBoundingClientRect();
+    mapTip.textContent = `Lot ${g.dataset.n} · ${g.dataset.label}`;
+    mapTip.style.left = (r.left - s.left + r.width / 2) + 'px';
+    mapTip.style.top  = (r.top - s.top - 6) + 'px';
+    mapTip.classList.add('show');
+  }
+  function hideLotTip(){ mapTip.classList.remove('show'); mapSvg.querySelectorAll('.lot.hot').forEach(x => x.classList.remove('hot')); }
+  mapSvg.addEventListener('pointermove', e => { const g = e.target.closest('.lot'); g ? showLotTip(g) : hideLotTip(); });
+  mapSvg.addEventListener('pointerleave', hideLotTip);
+  mapSvg.addEventListener('click',     e => { const g = e.target.closest('.lot'); if (g) showLotTip(g); });
+  mapSvg.addEventListener('focusin',   e => { const g = e.target.closest('.lot'); if (g) showLotTip(g); });
 
   let mz = 1, mpx = 0, mpy = 0, mdrag = false, mlx = 0, mly = 0;
   const applyMap = () => { mapImg.style.transform = `translate(${mpx}px,${mpy}px) scale(${mz})`; mapImg.classList.toggle('zoomed', mz > 1); };
@@ -1049,13 +1083,14 @@
       mapImg.src = API_BASE + MAP_IMAGE;
       mapImg.style.display = ''; mapSvg.style.display = 'none';
       resetMap();
-    } else {                                 // no map file yet -> static illustration (never broken)
+    } else {                                 // no map yet -> TEMPORARY sample interactive map
       mapImg.style.display = 'none'; mapSvg.style.display = '';
+      buildSampleMap();
     }
     mapModal.classList.add('open');
     document.body.style.overflow = 'hidden';
   }
-  function closeMap(){ mapModal.classList.remove('open'); document.body.style.overflow = ''; }
+  function closeMap(){ mapModal.classList.remove('open'); document.body.style.overflow = ''; hideLotTip(); }
 
   document.getElementById('exploreMapBtn').addEventListener('click', openMap);
   document.getElementById('mapClose').addEventListener('click', closeMap);
