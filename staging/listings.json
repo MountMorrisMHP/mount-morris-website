@@ -1,6 +1,6 @@
 {
   "version": "dev",
-  "generatedAt": "2026-06-14T11:46:30.031Z",
+  "generatedAt": "2026-06-14T11:58:09.130Z",
   "counts": {
     "preorderHomes": 0,
     "homesForRent": 9,
@@ -1202,7 +1202,7 @@
       "community/scenery/sample-3.svg",
       "community/scenery/sample-4.svg"
     ],
-    "mapImage": null,
+    "mapImage": "community/map.jpg",
     "communityRules": ""
   }
 }
