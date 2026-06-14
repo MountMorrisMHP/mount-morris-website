@@ -150,14 +150,13 @@
   /* TEMPORARY sample interactive map */
   .map-stage{position:relative}                       /* anchor for the lot tooltip */
   .sample-map text{pointer-events:none}
-  /* ----- Interactive green site map (Explore-the-Map modal) ----- */
-  .sample-map .gm-wood{fill:#33492B}                                  /* wooded borders */
-  .sample-map .gm-lot{fill:#3E5A33;stroke:#2B3E23;stroke-width:.5}    /* homesite lots, static */
-  .sample-map .gm-label{fill:#22331B;font-size:12px;font-weight:700;font-family:'Hanken Grotesk',sans-serif;paint-order:stroke;stroke:rgba(231,220,190,.65);stroke-width:2.4px;stroke-linejoin:round}
+  /* ----- Interactive illustrated site map (Explore-the-Map modal) ----- */
+  .sample-map .gm-lot{stroke:#27371D;stroke-width:.4}                 /* homesite lots (fill set inline) */
+  .sample-map .gm-label{fill:#22321A;font-size:12px;font-weight:700;font-family:'Hanken Grotesk',sans-serif;paint-order:stroke;stroke:rgba(236,225,196,.65);stroke-width:2.6px;stroke-linejoin:round}
   .sample-map .gm-amen{cursor:pointer}                                /* clickable amenity buttons */
-  .sample-map .gm-amen > rect{fill:var(--clay);stroke:#fff;stroke-opacity:0;stroke-width:2.5;transition:.12s ease;filter:drop-shadow(0 2px 4px rgba(0,0,0,.35))}
-  .sample-map .gm-amen text{fill:#fff;font-size:16px;font-weight:700;font-family:'Hanken Grotesk',sans-serif;pointer-events:none}
-  .sample-map .gm-amen:hover > rect,.sample-map .gm-amen:focus > rect{stroke-opacity:1;filter:brightness(1.08) drop-shadow(0 2px 5px rgba(0,0,0,.4))}
+  .sample-map .gm-amen > rect{transition:.12s ease}
+  .sample-map .gm-amen text{fill:#fff;font-size:15px;font-weight:700;font-family:'Hanken Grotesk',sans-serif;pointer-events:none}
+  .sample-map .gm-amen:hover > rect,.sample-map .gm-amen:focus > rect{stroke:#fff;stroke-width:2;filter:brightness(1.1)}
   .sample-map .gm-amen:focus{outline:none}
   .map-tip{position:absolute;transform:translate(-50%,-100%);background:rgba(20,30,24,.96);color:var(--cream);font-size:.78rem;font-weight:700;padding:5px 10px;border-radius:8px;white-space:nowrap;pointer-events:none;opacity:0;transition:opacity .12s ease;z-index:4;box-shadow:0 8px 20px -8px rgba(0,0,0,.7)}
   .map-tip.show{opacity:1}
@@ -1068,108 +1067,115 @@
   function setupMap(url){ MAP_IMAGE = url; }
 
   /* ===== Interactive site map for Mount Morris Village MHC ====================
-     Recreated in the green aerial style of the client blueprint. The road
-     network, lot rows, and wooded borders trace the real park layout (see
-     community/map-reference.jpg) and are the agreed BASE — leave them as-is
-     unless deliberately re-tracing. On top sit the interactive ORANGE amenity
-     rectangles (office, storm_shelter, mailbox, playground, green_spaces x3);
-     clicking one opens the SAME amenity modal/slideshow as the "Life Here"
-     cards. Positions live in small editable arrays so they're easy to nudge.
-     Coordinate space 760x1020 (portrait, matches the reference aspect). ======== */
-  const GROUND = '#86A064', ROAD = '#E7DCBE', ROAD_CASE = '#CFC09A';
+     A clean illustrated (vector) site map in the green aerial style of the
+     client blueprint: gradient ground, textured forest borders, cream roads
+     tracing the real park layout, green lot rows along the streets, and the
+     bottom grid cluster. On top sit the interactive ORANGE amenity buttons
+     (office, storm_shelter, mailbox, playground, green_spaces x3); clicking one
+     opens the SAME amenity modal/slideshow as the "Life Here" cards. Layout is
+     driven by the editable arrays below (roads* / streets / bottomGrid / woods /
+     labels / amenities) so positions are easy to nudge. 760x1020 (portrait). === */
   function buildSampleMap(){
     if (mapSvg.dataset.built) return;
     mapSvg.dataset.built = '1';
     const W = 760, H = 1020;
 
-    // ----- ROAD NETWORK — [SVG path data, stroke width] -----------------------
-    const roadsMain = [        // upper teardrop perimeter loop + spine + entrance
-      ['M555,48 C620,70 658,150 662,235 C666,320 632,392 575,448 L520,500 L470,548 L408,486 C360,440 338,350 346,262 C353,175 432,98 502,62 C522,52 540,48 555,48 Z', 11],
-      ['M560,10 L556,48', 9],
-      ['M500,92 C486,250 478,420 470,546', 9],
+    // ----- ROADS -------------------------------------------------------------
+    const roadsMain = [        // perimeter loop, north stub, spine, neck->grid, entrance spur
+      ['M555,40 C628,64 664,150 666,238 C669,330 632,402 575,452 L520,506 L470,556 L406,492 C356,444 332,348 342,256 C351,170 432,92 504,58 C524,49 542,40 555,40 Z', 12],
+      ['M560,8 L556,40', 8],
+      ['M505,86 C490,250 480,420 472,552', 8],
+      ['M470,556 C440,618 402,668 372,742', 9],
+      ['M452,572 C360,640 250,652 150,676 L60,676', 9],
     ];
-    const roadsStreet = [      // internal named residential streets (upper cluster)
-      ['M392,150 L600,128', 7], ['M372,205 L612,190', 7], ['M358,262 L602,258', 7],
-      ['M362,320 L584,330', 7], ['M374,382 L562,398', 7],
-      ['M628,160 L612,360', 7], ['M560,300 L520,500', 7],
+    // Internal residential streets [x1,y1,x2,y2] — also get a lot row on each side.
+    const streets = [
+      [410,150,590,140],[392,190,606,182],[378,230,612,226],[372,270,606,270],
+      [374,310,592,314],[384,350,576,358],[398,390,556,402],
+      [560,300,520,506],[628,152,616,366],
     ];
-    const roadsConnector = [    // neck -> entrance spur, and neck -> bottom grid
-      ['M455,565 C360,635 250,648 150,672 L70,672', 9],
-      ['M470,548 C440,610 400,662 372,748', 9],
-    ];
-    const roadsBottom = [       // bottom rectangular grid cluster
-      ['M210,748 L470,748 L470,1000 L210,1000 Z', 8],
-      ['M258,748 L258,1000', 6], ['M312,748 L312,1000', 6],
-      ['M366,748 L366,1000', 6], ['M420,748 L420,1000', 6],
-      ['M210,812 L470,812', 6], ['M210,876 L470,876', 6], ['M210,940 L470,940', 6],
-    ];
-    // Straight street segments that get a lot row on each side [x1,y1,x2,y2].
-    const lotStreets = [
-      [392,150,600,128],[372,205,612,190],[358,262,602,258],
-      [362,320,584,330],[374,382,562,398],[628,160,612,360],[560,300,520,500],
-      [218,768,462,768],[218,812,462,812],[218,876,462,876],[218,940,462,940],
-    ];
-    // Wooded borders (filled): top band, left edge, right edge, big SE corner.
+    const bottomGrid = { x:206, y:748, w:262, h:252, cols:5, rows:6 };
+    // Wooded borders (filled green + canopy texture): top, left, right, SE corner.
     const woods = [
-      'M0,0 L760,0 L760,52 C520,30 250,44 0,58 Z',
-      'M0,44 L66,56 C54,300 72,560 58,824 L0,846 Z',
-      'M760,40 L690,54 C702,300 686,584 704,860 L760,884 Z',
-      'M524,1020 C556,884 648,834 760,812 L760,1020 Z',
+      'M0,0 L760,0 L760,60 C520,34 250,50 0,66 Z',
+      'M0,48 L72,62 C58,300 78,560 60,840 L0,860 Z',
+      'M760,44 L686,60 C700,300 684,590 706,872 L760,892 Z',
+      'M512,1020 C548,876 648,824 760,800 L760,1020 Z',
     ];
-    const labels = [           // named streets only
-      { t:'Spruce',   x:398, y:150, r:-6 }, { t:'Hickory', x:378, y:205, r:-4 },
-      { t:'Hemlock',  x:360, y:262, r:-2 }, { t:'Fernwood', x:300, y:332, r:3 },
-      { t:'Hawthorn', x:300, y:392, r:4 },
+    const labels = [           // named streets, sitting on their roads
+      { t:'Spruce', x:452, y:146, r:-3 }, { t:'Hickory', x:448, y:228, r:-2 },
+      { t:'Hemlock', x:446, y:269, r:-1 }, { t:'Fernwood', x:452, y:312, r:1 },
+      { t:'Hawthorn', x:460, y:354, r:3 },
     ];
-    // Interactive amenities -> community/amenities/<id>. {id,x,y,w,h,label}
-    // x,y = rectangle top-left. Positioned to match the blueprint; easy to nudge.
+    // Interactive amenities -> community/amenities/<id>. {id,x,y,w,h,label}; easy to nudge.
     const amenities = [
-      { id:'office',        x:96,  y:706, w:104, h:32, label:'Office' },
-      { id:'storm_shelter', x:84,  y:748, w:128, h:32, label:'Storm Shelter' },
-      { id:'mailbox',       x:40,  y:628, w:96,  h:30, label:'Mailbox' },
-      { id:'playground',    x:430, y:600, w:118, h:32, label:'Playground' },
-      { id:'green_spaces',  x:150, y:420, w:120, h:32, label:'Greenspace' },
-      { id:'green_spaces',  x:600, y:368, w:120, h:32, label:'Greenspace' },
-      { id:'green_spaces',  x:500, y:806, w:120, h:32, label:'Greenspace' },
+      { id:'office',        x:96,  y:704, w:104, h:30, label:'Office' },
+      { id:'storm_shelter', x:84,  y:742, w:128, h:30, label:'Storm Shelter' },
+      { id:'mailbox',       x:44,  y:628, w:92,  h:28, label:'Mailbox' },
+      { id:'playground',    x:388, y:598, w:112, h:30, label:'Playground' },
+      { id:'green_spaces',  x:150, y:430, w:116, h:30, label:'Greenspace' },
+      { id:'green_spaces',  x:560, y:404, w:116, h:30, label:'Greenspace' },
+      { id:'green_spaces',  x:500, y:808, w:116, h:30, label:'Greenspace' },
     ];
-    // --------------------------------------------------------------------------
+    // -------------------------------------------------------------------------
 
-    const drawRoads = (arr) => {
-      let cas = '', top = '';
-      arr.forEach(([d, w]) => {
-        cas += `<path d="${d}" fill="none" stroke="${ROAD_CASE}" stroke-width="${w + 3}" stroke-linecap="round" stroke-linejoin="round"/>`;
-        top += `<path d="${d}" fill="none" stroke="${ROAD}" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round"/>`;
-      });
-      return cas + top;
+    const stroke = (d, col, w) => `<path d="${d}" fill="none" stroke="${col}" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round"/>`;
+    const drawRoads = () => {
+      const all = [...roadsMain, ...streets.map(s => ['M' + s[0] + ',' + s[1] + ' L' + s[2] + ',' + s[3], 6])];
+      const cas = all.map(([d, w]) => stroke(d, '#B9A876', w + 3.5)).join('');
+      const top = all.map(([d, w]) => stroke(d, '#ECE1C4', w)).join('');
+      return `<g filter="url(#sh)">${cas}</g>${top}`;
     };
-    const LOTW = 15, LOTH = 10, LOTOFF = 10;   // lot size + perpendicular offset from road centre
+    const LW = 13, LH = 9;
     const lotsAlong = (x1, y1, x2, y2) => {
       const dx = x2 - x1, dy = y2 - y1, len = Math.hypot(dx, dy) || 1;
-      const count = Math.max(3, Math.round(len / 22));
+      const n = Math.max(2, Math.round(len / 24));
       const ang = (Math.atan2(dy, dx) * 180 / Math.PI).toFixed(1);
       const nx = -dy / len, ny = dx / len;
-      let out = '';
-      for (const side of [1, -1]){
-        for (let i = 0; i < count; i++){
-          const t = (i + 0.5) / count;
-          const cx = x1 + dx * t + nx * LOTOFF * side, cy = y1 + dy * t + ny * LOTOFF * side;
-          out += `<rect class="gm-lot" x="${(cx - LOTW / 2).toFixed(1)}" y="${(cy - LOTH / 2).toFixed(1)}" width="${LOTW}" height="${LOTH}" rx="1.5" transform="rotate(${ang} ${cx.toFixed(1)} ${cy.toFixed(1)})"/>`;
-        }
+      let o = '';
+      for (const side of [1, -1]) for (let i = 0; i < n; i++){
+        const t = (i + 0.5) / n, cx = x1 + dx * t + nx * 10 * side, cy = y1 + dy * t + ny * 10 * side;
+        const sh = ((i + (side > 0 ? 0 : 1)) % 2) ? '#3E5A33' : '#476640';
+        o += `<rect class="gm-lot" x="${(cx - LW / 2).toFixed(1)}" y="${(cy - LH / 2).toFixed(1)}" width="${LW}" height="${LH}" rx="1.4" fill="${sh}" transform="rotate(${ang} ${cx.toFixed(1)} ${cy.toFixed(1)})"/>`;
       }
-      return out;
+      return o;
+    };
+    const gridLots = (g) => {
+      let o = ''; const cw = g.w / g.cols, ch = g.h / g.rows;
+      for (let r = 0; r < g.rows; r++) for (let c = 0; c < g.cols; c++) for (const k of [0, 1]){
+        const x = g.x + c * cw + 4, y = g.y + r * ch + 3 + k * (ch / 2 - 1);
+        const sh = ((r + c + k) % 2) ? '#3E5A33' : '#476640';
+        o += `<rect class="gm-lot" x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${(cw - 8).toFixed(1)}" height="${(ch / 2 - 5).toFixed(1)}" rx="1.4" fill="${sh}"/>`;
+      }
+      return o;
+    };
+    const forest = () => {
+      let o = woods.map(d => `<path d="${d}" fill="url(#fg)"/>`).join('');
+      let seed = 7; const rnd = () => { seed = (seed * 9301 + 49297) % 233280; return seed / 233280; };
+      const bands = [[0,72,0,1020],[686,760,0,1020],[0,760,0,66],[512,760,800,1020]];
+      const cols = ['#2C4226','#34502C','#3A5630','#26381F'];
+      bands.forEach(([x0,x1,y0,y1]) => { for (let i = 0; i < 80; i++){
+        const x = x0 + rnd() * (x1 - x0), y = y0 + rnd() * (y1 - y0), r = 4 + rnd() * 5;
+        o += `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${r.toFixed(1)}" fill="${cols[Math.floor(rnd() * 4)]}" opacity="0.92"/>`;
+      }});
+      return o;
     };
 
-    let s = `<rect x="0" y="0" width="${W}" height="${H}" rx="14" fill="${GROUND}"/>`;
-    s += `<g id="woods">`  + woods.map(d => `<path class="gm-wood" d="${d}"/>`).join('') + `</g>`;
-    s += `<g id="roads">`  + drawRoads([...roadsMain, ...roadsStreet, ...roadsConnector, ...roadsBottom]) + `</g>`;
-    s += `<g id="lots">`   + lotStreets.map(c => lotsAlong(c[0], c[1], c[2], c[3])).join('') + `</g>`;
-    s += `<g id="labels">` + labels.map(l =>
-          `<text class="gm-label" x="${l.x}" y="${l.y}" transform="rotate(${l.r} ${l.x} ${l.y})">${l.t}</text>`).join('') + `</g>`;
+    const defs = `<defs>`
+      + `<radialGradient id="gg" cx="46%" cy="38%" r="78%"><stop offset="0" stop-color="#A6BC85"/><stop offset="1" stop-color="#7B9258"/></radialGradient>`
+      + `<linearGradient id="fg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#334B2B"/><stop offset="1" stop-color="#27391F"/></linearGradient>`
+      + `<filter id="sh" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="1.2" stdDeviation="1.1" flood-color="#1d2a16" flood-opacity="0.32"/></filter>`
+      + `</defs>`;
+    let s = defs + `<rect width="${W}" height="${H}" rx="14" fill="url(#gg)"/>`;
+    s += `<g id="forest">` + forest() + `</g>`;
+    s += `<g id="roads">`  + drawRoads() + `</g>`;
+    s += `<g id="lots" filter="url(#sh)">` + streets.map(c => lotsAlong(c[0], c[1], c[2], c[3])).join('') + gridLots(bottomGrid) + `</g>`;
+    s += `<g id="labels">` + labels.map(l => `<text class="gm-label" x="${l.x}" y="${l.y}" transform="rotate(${l.r} ${l.x} ${l.y})">${l.t}</text>`).join('') + `</g>`;
     s += `<g id="amenities">` + amenities.map(a => {
       const cx = a.x + a.w / 2, cy = a.y + a.h / 2;
       return `<g class="gm-amen" data-amenity="${a.id}" tabindex="0" role="button" aria-label="${a.label}: open details">`
-        + `<rect x="${a.x}" y="${a.y}" width="${a.w}" height="${a.h}" rx="9"/>`
-        + `<text x="${cx}" y="${cy}" text-anchor="middle" dominant-baseline="central">${a.label}</text>`
+        + `<rect x="${a.x}" y="${a.y}" width="${a.w}" height="${a.h}" rx="8" fill="#C25A35" stroke="#8E3F22" stroke-width="1"/>`
+        + `<text x="${cx}" y="${(cy + 0.5).toFixed(1)}" text-anchor="middle" dominant-baseline="central">${a.label}</text>`
         + `</g>`;
     }).join('') + `</g>`;
     mapSvg.setAttribute('viewBox', `0 0 ${W} ${H}`);
