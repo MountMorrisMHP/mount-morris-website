@@ -26,7 +26,7 @@ const OUT_DIR = path.join(ROOT, 'dist');
 /* Only public categories. 0_TEMPLATES and 4_OCCUPIED_HOMES are intentionally
  * absent — that exclusion IS the privacy guarantee. */
 const CATEGORIES = [
-  { key: 'emptyLots',    dir: '1_EMPTY_LOTS',     slug: 'empty', dataCat: 'lot',  needsHome: false },
+  { key: 'preorderHomes', dir: '1_PREORDER_HOMES', slug: 'preorder', dataCat: 'preorder', needsHome: false },
   { key: 'homesForRent', dir: '2_HOMES_FOR_RENT', slug: 'rent',  dataCat: 'rent', needsHome: true  },
   { key: 'homesForSale', dir: '3_HOMES_FOR_SALE', slug: 'sale',  dataCat: 'sale', needsHome: true  },
 ];
@@ -174,11 +174,11 @@ async function buildListing(category, folder) {
   let badgeText, badgeClass, title, price, priceSmall, specs;
 
   if (!category.needsHome) {
-    badgeText = 'Open Lot';
-    badgeClass = 'b-lot';
-    title = `Open Homesite · Lot ${lotNumber}`;
+    badgeText = 'Pre-Order';
+    badgeClass = 'b-preorder';
+    title = `Pre-Order a New Home · Lot ${lotNumber}`;
     const rent = pick(site.map, 'baselotrent', 'lotrent');
-    price = rent ? formatPrice(rent) : 'Bring your home';
+    price = rent ? formatPrice(rent) : 'Pre-order a new home';
     priceSmall = rent ? ' / mo lot rent' : '';
     specs = lotSpecs(site.map);
   } else {
@@ -345,7 +345,7 @@ async function main() {
   await fs.rm(OUT_DIR, { recursive: true, force: true });
   await fs.mkdir(OUT_DIR, { recursive: true });
 
-  const [emptyLots, homesForRent, homesForSale] = await Promise.all(CATEGORIES.map(scanCategory));
+  const [preorderHomes, homesForRent, homesForSale] = await Promise.all(CATEGORIES.map(scanCategory));
   const community = await scanCommunity();
 
   // Production sets VERSION (e.g. v2026.06.11-1430); local builds default to "dev".
@@ -356,13 +356,13 @@ async function main() {
     version,
     generatedAt: builtAt,
     counts: {
-      emptyLots: emptyLots.length,
+      preorderHomes: preorderHomes.length,
       homesForRent: homesForRent.length,
       homesForSale: homesForSale.length,
       amenities: community.amenities.length,
       scenery: community.scenery.length,
     },
-    emptyLots,
+    preorderHomes,
     homesForRent,
     homesForSale,
     community,
@@ -375,7 +375,7 @@ async function main() {
   await fs.writeFile(path.join(OUT_DIR, '.nojekyll'), ''); // don't let Pages run Jekyll
 
   console.log(
-    `Built dist/ — version ${version} — ${data.counts.emptyLots} empty, ${data.counts.homesForRent} rent, ${data.counts.homesForSale} sale`
+    `Built dist/ — version ${version} — ${data.counts.preorderHomes} pre-order, ${data.counts.homesForRent} rent, ${data.counts.homesForSale} sale`
   );
 }
 
