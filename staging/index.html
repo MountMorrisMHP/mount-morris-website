@@ -181,10 +181,13 @@
   .amen .a-ic{color:var(--pine);margin-bottom:10px;transition:.2s}
   .amen .a-t{font-weight:600;font-size:.92rem}
   .amen{font:inherit;color:inherit;cursor:pointer;width:100%}   /* clickable icon button */
-  /* Coming-soon amenity: shown but dimmed, badged, and not interactive. */
-  .amen.coming{position:relative;cursor:default;opacity:.55;border-style:dashed}
+  /* Coming-soon amenities: own group below the active grid, dimmed + badged. */
+  .amen-soon-group{margin-top:26px}
+  .amen-soon-head{font-size:.78rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#7C8B74;text-align:center;margin:0 0 14px;display:flex;align-items:center;gap:12px}
+  .amen-soon-head::before,.amen-soon-head::after{content:"";flex:1;height:1px;background:var(--line)}
+  .amen.coming{position:relative;cursor:default;opacity:.6;border-style:dashed}
   .amen.coming .a-t{color:var(--ink)}
-  .amen-soon{position:absolute;top:8px;right:8px;background:var(--honey);color:var(--pine-deep);font-size:.6rem;font-weight:800;letter-spacing:.04em;text-transform:uppercase;padding:3px 7px;border-radius:999px}
+  .amen-badge{position:absolute;top:8px;right:8px;background:var(--honey);color:var(--pine-deep);font-size:.6rem;font-weight:800;letter-spacing:.04em;text-transform:uppercase;padding:3px 7px;border-radius:999px}
   .life-slider{position:relative;aspect-ratio:16/9;border-radius:22px;overflow:hidden;box-shadow:var(--shadow);background:var(--cream)}
   @media(max-width:600px){.life-slider{aspect-ratio:4/3}}
 
@@ -446,6 +449,11 @@
     </div>
     <!-- Icon cards are rendered from community/amenities/* (see script at bottom). -->
     <div class="amen-grid" id="amenGrid"></div>
+    <!-- Coming-soon amenities render in their own group below the active ones. -->
+    <div class="amen-soon-group" id="amenSoon" hidden>
+      <h3 class="amen-soon-head">Coming Soon</h3>
+      <div class="amen-grid" id="amenSoonGrid"></div>
+    </div>
   </div>
 </section>
 
@@ -999,17 +1007,24 @@
 
   function renderAmenities(amenities){
     AMENITIES = amenities || [];
-    document.getElementById('amenGrid').innerHTML = AMENITIES.map(a =>
-      a.comingSoon
-        ? `<div class="amen coming" aria-label="${esc(a.displayName)} — coming soon">
-            <span class="amen-soon">Coming Soon</span>
-            <div class="a-ic">${amenityIcon(a.id)}</div>
-            <div class="a-t">${esc(a.displayName)}</div>
-          </div>`
-        : `<button class="amen" data-id="${esc(a.id)}" aria-label="${esc(a.displayName)}">
-            <div class="a-ic">${amenityIcon(a.id)}</div>
-            <div class="a-t">${esc(a.displayName)}</div>
-          </button>`).join('');
+    const active = AMENITIES.filter(a => !a.comingSoon);
+    const soon   = AMENITIES.filter(a =>  a.comingSoon);
+
+    document.getElementById('amenGrid').innerHTML = active.map(a =>
+      `<button class="amen" data-id="${esc(a.id)}" aria-label="${esc(a.displayName)}">
+        <div class="a-ic">${amenityIcon(a.id)}</div>
+        <div class="a-t">${esc(a.displayName)}</div>
+      </button>`).join('');
+
+    // Coming-soon items live in their own badged group; not clickable, no modal.
+    const soonWrap = document.getElementById('amenSoon');
+    document.getElementById('amenSoonGrid').innerHTML = soon.map(a =>
+      `<div class="amen coming" aria-label="${esc(a.displayName)} — coming soon">
+        <span class="amen-badge">Coming Soon</span>
+        <div class="a-ic">${amenityIcon(a.id)}</div>
+        <div class="a-t">${esc(a.displayName)}</div>
+      </div>`).join('');
+    soonWrap.hidden = soon.length === 0;
   }
 
   // Scenery slider lives in the homesite section's right side. With photos it
