@@ -5,7 +5,7 @@
 Everything the website shows is controlled by the FOLDERS in here.
 There are four "live" folders. A lot lives in ONE of them at a time:
 
-  1_PREORDER_HOMES  -> shows on the site as "Pre-Order a New Home"
+  1_PREORDER_HOMES  -> shows on the site as "Pre-Order Your New Home"
                        (a homesite where a buyer can order a brand-new home)
   2_HOMES_FOR_RENT  -> shows on the site as a rental
   3_HOMES_FOR_SALE  -> shows on the site as a home for sale

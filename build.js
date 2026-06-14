@@ -176,9 +176,9 @@ async function buildListing(category, folder) {
   if (!category.needsHome) {
     badgeText = 'Pre-Order';
     badgeClass = 'b-preorder';
-    title = `Pre-Order a New Home · Lot ${lotNumber}`;
+    title = `Pre-Order Your New Home · Lot ${lotNumber}`;
     const rent = pick(site.map, 'baselotrent', 'lotrent');
-    price = rent ? formatPrice(rent) : 'Pre-order a new home';
+    price = rent ? formatPrice(rent) : 'Pre-order your new home';
     priceSmall = rent ? ' / mo lot rent' : '';
     specs = lotSpecs(site.map);
   } else {
