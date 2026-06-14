@@ -289,15 +289,18 @@ async function buildAmenity(folder) {
 
   const orderRaw = pick(info.map, 'order');
   const order = /^-?\d+(\.\d+)?$/.test(orderRaw) ? parseFloat(orderRaw) : Number.POSITIVE_INFINITY;
-  // Display Name / Order are control fields, not shown in the details list.
+  // "Coming Soon: yes" -> show the card but mark it not-yet-available.
+  const comingSoon = /^(yes|true|1)$/i.test(pick(info.map, 'comingsoon').trim());
+  // Display Name / Order / Coming Soon are control fields, not shown in the details list.
   const details = info.ordered.filter(
-    d => d.value !== '' && !['displayname', 'name', 'order'].includes(normalizeKey(d.label))
+    d => d.value !== '' && !['displayname', 'name', 'order', 'comingsoon'].includes(normalizeKey(d.label))
   );
 
   return {
     id: folder,
     displayName: pick(info.map, 'displayname', 'name') || titleCase(folder),
     order,
+    comingSoon,
     details,
     mainImage: gallery[0] || null,
     gallery,

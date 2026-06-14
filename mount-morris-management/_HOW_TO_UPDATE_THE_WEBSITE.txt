@@ -108,6 +108,9 @@ AMENITIES (community/amenities/...):
     Name the first one "main.jpg" to control which shows first.
   - Two special lines: "Display Name:" changes the title shown (otherwise the
     folder name is used), and "Order:" (a number) sets the position in the grid.
+  - To mark an amenity as not-ready-yet, add the line "Coming Soon: yes". The
+    card still shows (dimmed, with a "Coming Soon" badge) but can't be opened.
+    Delete that line (or set it to "no") when the amenity is ready.
   - To add a BRAND-NEW amenity: make a new folder under community/amenities/
     with an "info.txt" inside. It gets a generic icon automatically.
 

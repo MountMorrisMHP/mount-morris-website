@@ -1,5 +1,6 @@
-Display Name:
-Order:
+Display Name: Basketball Court
+Order: 10
+Coming Soon: yes
 Hours:
 Rules:
 Description:

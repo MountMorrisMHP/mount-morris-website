@@ -172,15 +172,19 @@
   .amen-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
   .amen{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:20px 16px;text-align:center;transition:.2s}
   @media (hover:hover){
-    .amen:hover{background:var(--pine);color:#fff}
-    .amen:hover .a-ic{color:var(--honey)}
+    .amen:not(.coming):hover{background:var(--pine);color:#fff}
+    .amen:not(.coming):hover .a-ic{color:var(--honey)}
   }
   /* deterministic tap feedback (not hover-dependent): brief green press state */
-  .amen:active,.amen.pressed{background:var(--pine);color:#fff}
-  .amen:active .a-ic,.amen.pressed .a-ic{color:var(--honey)}
+  .amen:not(.coming):active,.amen.pressed{background:var(--pine);color:#fff}
+  .amen:not(.coming):active .a-ic,.amen.pressed .a-ic{color:var(--honey)}
   .amen .a-ic{color:var(--pine);margin-bottom:10px;transition:.2s}
   .amen .a-t{font-weight:600;font-size:.92rem}
   .amen{font:inherit;color:inherit;cursor:pointer;width:100%}   /* clickable icon button */
+  /* Coming-soon amenity: shown but dimmed, badged, and not interactive. */
+  .amen.coming{position:relative;cursor:default;opacity:.55;border-style:dashed}
+  .amen.coming .a-t{color:var(--ink)}
+  .amen-soon{position:absolute;top:8px;right:8px;background:var(--honey);color:var(--pine-deep);font-size:.6rem;font-weight:800;letter-spacing:.04em;text-transform:uppercase;padding:3px 7px;border-radius:999px}
   .life-slider{position:relative;aspect-ratio:16/9;border-radius:22px;overflow:hidden;box-shadow:var(--shadow);background:var(--cream)}
   @media(max-width:600px){.life-slider{aspect-ratio:4/3}}
 
@@ -981,9 +985,11 @@
     community_events: '<rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/>',
     green_spaces:     '<path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.5 19 2c1 2 2 4.2 2 8 0 5.5-4.8 10-10 10z"/><path d="M2 22c0-3 1.9-5.4 5.1-6"/>',
     basketball_court: '<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3v18M5.6 5.6c3.5 3.5 3.5 9.3 0 12.8M18.4 5.6c-3.5 3.5-3.5 9.3 0 12.8"/>',
-    laundry_facility: '<rect x="5" y="2" width="14" height="20" rx="2"/><circle cx="12" cy="13" r="5"/><circle cx="12" cy="13" r="1.6"/><path d="M8.5 5h.01M11.5 5h.01"/>',
-    storage_parking:  '<path d="M3 21V9l9-5 9 5v12"/><path d="M3 21h18M7 21v-7h10v7"/><path d="M9 14h6"/>',
     onsite_management:'<path d="M3 21h18M6 21V5a1 1 0 0 1 1-1h7a1 1 0 0 1 1 1v16M15 21V9h4v12"/><path d="M9 8h.01M12 8h.01M9 12h.01M12 12h.01"/>',
+    office:           '<circle cx="12" cy="12" r="9"/><path d="M12 11v5"/><path d="M12 8h.01"/>',
+    storm_shelter:    '<path d="M12 3l8 3v5c0 5-3.4 8.5-8 10-4.6-1.5-8-5-8-10V6z"/><path d="M9 12l2 2 4-4"/>',
+    parking:          '<rect x="3" y="3" width="18" height="18" rx="3"/><path d="M9 17V7h4a3 3 0 0 1 0 6H9"/>',
+    mailbox:          '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/>',
     _generic:         '<rect x="3" y="3" width="18" height="18" rx="4"/><path d="M8 12h8M12 8v8"/>',
   };
   function amenityIcon(id){
@@ -994,10 +1000,16 @@
   function renderAmenities(amenities){
     AMENITIES = amenities || [];
     document.getElementById('amenGrid').innerHTML = AMENITIES.map(a =>
-      `<button class="amen" data-id="${esc(a.id)}" aria-label="${esc(a.displayName)}">
-        <div class="a-ic">${amenityIcon(a.id)}</div>
-        <div class="a-t">${esc(a.displayName)}</div>
-      </button>`).join('');
+      a.comingSoon
+        ? `<div class="amen coming" aria-label="${esc(a.displayName)} — coming soon">
+            <span class="amen-soon">Coming Soon</span>
+            <div class="a-ic">${amenityIcon(a.id)}</div>
+            <div class="a-t">${esc(a.displayName)}</div>
+          </div>`
+        : `<button class="amen" data-id="${esc(a.id)}" aria-label="${esc(a.displayName)}">
+            <div class="a-ic">${amenityIcon(a.id)}</div>
+            <div class="a-t">${esc(a.displayName)}</div>
+          </button>`).join('');
   }
 
   // Scenery slider lives in the homesite section's right side. With photos it
@@ -1174,14 +1186,14 @@
   // independent of hover. The click below always opens the modal (never swallowed).
   document.getElementById('amenGrid').addEventListener('pointerdown', (e)=>{
     const card = e.target.closest('.amen');
-    if(!card) return;
+    if(!card || card.classList.contains('coming')) return;   // coming-soon cards aren't interactive
     card.classList.add('pressed');
     setTimeout(() => card.classList.remove('pressed'), 160);
   });
   // Click an amenity icon -> open its modal (same component as listings).
   document.getElementById('amenGrid').addEventListener('click', (e)=>{
     const card = e.target.closest('.amen');
-    if(!card) return;
+    if(!card || card.classList.contains('coming')) return;   // coming-soon: no modal
     const am = AMENITIES.find(a => a.id === card.dataset.id);
     if(am) openAmenityModal(am);
   });

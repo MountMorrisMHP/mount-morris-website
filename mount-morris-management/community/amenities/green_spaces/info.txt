@@ -1,5 +1,5 @@
-Display Name:
-Order:
+Display Name: Green Spaces
+Order: 2
 Hours:
 Rules:
 Description:

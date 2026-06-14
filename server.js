@@ -298,13 +298,15 @@ async function buildAmenity(folder) {
   if (!infoExists && gallery.length === 0) return null;          // neither file nor photos -> skip
   const orderRaw = pick(info.map, 'order');
   const order = /^-?\d+(\.\d+)?$/.test(orderRaw) ? parseFloat(orderRaw) : Number.POSITIVE_INFINITY;
+  const comingSoon = /^(yes|true|1)$/i.test(pick(info.map, 'comingsoon').trim());
   const details = info.ordered.filter(
-    d => d.value !== '' && !['displayname', 'name', 'order'].includes(normalizeKey(d.label))
+    d => d.value !== '' && !['displayname', 'name', 'order', 'comingsoon'].includes(normalizeKey(d.label))
   );
   return {
     id: folder,
     displayName: pick(info.map, 'displayname', 'name') || titleCase(folder),
     order,
+    comingSoon,
     details,
     mainImage: gallery[0] || null,
     gallery,
