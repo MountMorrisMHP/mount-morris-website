@@ -36,6 +36,15 @@ WHAT GOES INSIDE A LOT FOLDER:
   - home_details.txt   (required ONLY for rent or for sale lots)
   - main.jpg           (the main photo shown on the card)
   - any other .jpg/.png photos (extra gallery photos)
+  - 360 photos         (the 3D "Virtual Tour"): name each panorama photo
+                       starting with "360" - for example 360-living-room.jpg,
+                       360-kitchen.jpg, 360-bedroom.jpg. Take them with a free
+                       360 phone app or a 360 camera. The home's "Virtual Tour"
+                       button then lets visitors look all around each room (the
+                       room name in the button comes from the file name). These
+                       photos do NOT clutter the normal photo carousel - they
+                       only power the tour. No 360 photos = the tour shows a
+                       friendly "coming soon" with your phone number.
 
 EDITING THE TEXT FILES:
   Open the .txt file, type your value after the colon ":". Leave a line
