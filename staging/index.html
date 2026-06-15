@@ -21,7 +21,8 @@
     --shadow:0 18px 40px -22px rgba(28,58,42,.55);
   }
   *{margin:0;padding:0;box-sizing:border-box}
-  html{scroll-behavior:smooth}
+  html{scroll-behavior:smooth;overflow-x:hidden;max-width:100%}
+  /* Mobile horizontal-pan guard: clip the off-canvas menu's off-screen region at the root. */
   body{touch-action:manipulation}                                  /* no double-tap zoom on mobile */
   .btn,.tab,.amen,.card,button,a,.faq-q,.car-arrow,.car-dots .dot{touch-action:manipulation}
   body{
@@ -31,6 +32,7 @@
     line-height:1.6;
     -webkit-font-smoothing:antialiased;
     overflow-x:hidden;
+    max-width:100%;
   }
   body::before{
     content:"";position:fixed;inset:0;pointer-events:none;z-index:9999;opacity:.035;
@@ -62,8 +64,8 @@
   .menu-toggle.open span:nth-child(1){transform:translateY(7.5px) rotate(45deg)}
   .menu-toggle.open span:nth-child(2){opacity:0}
   .menu-toggle.open span:nth-child(3){transform:translateY(-7.5px) rotate(-45deg)}
-  .mobile-menu{position:fixed;inset:66px 0 0;background:var(--pine-deep);color:var(--cream);transform:translateX(100%);transition:transform .35s cubic-bezier(.4,0,.2,1);z-index:150;padding:34px 26px;display:flex;flex-direction:column;gap:6px;overflow-y:auto}
-  .mobile-menu.open{transform:translateX(0)}
+  .mobile-menu{position:fixed;inset:66px 0 0;background:var(--pine-deep);color:var(--cream);transform:translateX(100%);transition:transform .35s cubic-bezier(.4,0,.2,1),visibility .35s;visibility:hidden;z-index:150;padding:34px 26px;display:flex;flex-direction:column;gap:6px;overflow-y:auto;max-width:100%}
+  .mobile-menu.open{transform:translateX(0);visibility:visible}
   .mobile-menu a{font-family:'Fraunces',serif;font-size:1.8rem;padding:14px 0;border-bottom:1px solid rgba(255,255,255,.12)}
   .mobile-menu .btn{margin-top:24px;justify-content:center;font-size:1rem}
 
@@ -84,6 +86,23 @@
   .sec-head{max-width:54ch;margin-bottom:34px}
   .sec-head h2{font-size:clamp(1.9rem,6vw,2.8rem);color:var(--pine-deep);margin:12px 0}
   .sec-head p{color:#55624f;font-size:1.04rem}
+  /* MOBILE TUNING (primary device): tighter spacing, fits within the screen */
+  @media(max-width:480px){
+    section{padding:46px 0}
+    .wrap{padding:0 18px}
+    .eyebrow{letter-spacing:.1em;word-break:normal;overflow-wrap:anywhere}
+    .hero{padding:38px 0 44px}
+    .hero h1{font-size:clamp(2.1rem,10vw,3rem)}
+    .hero p.lead{font-size:1.02rem}
+    .stats{gap:16px 22px;margin-top:30px;padding-top:22px}
+    .stat .num{font-size:1.65rem}
+    .sec-head{margin-bottom:26px}
+    /* comfy ~44px touch targets on mobile */
+    .tab{padding:11px 18px}
+    .mprice-actions a,.mprice-actions button{padding:11px 18px;font-size:.9rem}
+    .modal-body{padding:24px 20px 26px}
+    .modal{padding:14px}
+  }
 
   /* WAYS HOME */
   .ways{background:var(--paper)}
