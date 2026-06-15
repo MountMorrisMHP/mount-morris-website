@@ -46,8 +46,9 @@
   /* HEADER */
   header{position:sticky;top:0;z-index:200;background:rgba(246,238,224,.86);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
   .bar{display:flex;align-items:center;justify-content:space-between;height:66px;gap:18px}
-  .logo{display:flex;align-items:center;gap:10px;font-family:'Fraunces',serif;font-weight:600;font-size:1.18rem;color:var(--pine-deep);white-space:nowrap;flex:none}
+  .logo{display:flex;align-items:center;gap:10px;font-family:'Fraunces',serif;font-weight:600;font-size:1.18rem;color:var(--pine-deep);flex:0 1 auto;min-width:0}
   .logo .mark{width:34px;height:34px;flex:none}
+  .logo .logo-text{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
   nav.desktop{display:none;gap:28px;font-weight:600;font-size:.92rem;margin-left:auto}
   nav.desktop a{opacity:.8;transition:opacity .2s}
   nav.desktop a:hover{opacity:1;color:var(--pine)}
@@ -59,7 +60,7 @@
   .btn-ghost{background:transparent;color:var(--pine-deep);border:1.5px solid var(--pine)}
   .btn-ghost:hover{background:var(--pine);color:#fff}
   .bar .nav-cta{display:none;padding:10px 20px;font-size:.85rem;margin-left:10px;flex:none}
-  .menu-toggle{display:flex;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:8px}
+  .menu-toggle{display:flex;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:8px;flex:none}
   .menu-toggle span{width:24px;height:2.5px;background:var(--pine-deep);border-radius:2px;transition:.3s}
   .menu-toggle.open span:nth-child(1){transform:translateY(7.5px) rotate(45deg)}
   .menu-toggle.open span:nth-child(2){opacity:0}
@@ -97,6 +98,9 @@
     .stats{gap:16px 22px;margin-top:30px;padding-top:22px}
     .stat .num{font-size:1.65rem}
     .sec-head{margin-bottom:26px}
+    /* header: shrink logo so the full name + hamburger both fit the row */
+    .logo{font-size:.96rem;gap:8px}
+    .logo .mark{width:30px;height:30px}
     /* comfy ~44px touch targets on mobile */
     .tab{padding:11px 18px}
     .mprice-actions a,.mprice-actions button{padding:11px 18px;font-size:.9rem}
@@ -242,9 +246,12 @@
   .copyright{padding-top:24px;display:flex;flex-wrap:wrap;gap:8px;justify-content:space-between;font-size:.82rem;opacity:.6}
 
   /* LISTING MODAL */
-  .modal{position:fixed;inset:0;z-index:700;display:none;align-items:flex-start;justify-content:center;padding:24px;overflow-y:auto;background:rgba(28,58,42,.55);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
+  .modal{position:fixed;inset:0;z-index:700;display:none;align-items:flex-start;justify-content:center;padding:24px;overflow-y:auto;background:transparent}
+  /* Full-viewport dim+blur on a NON-scrolling fixed layer so it always covers the
+     whole screen (the scroll container can't reliably host backdrop-filter). */
+  .modal::before{content:"";position:fixed;inset:0;background:rgba(28,58,42,.55);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);z-index:0}
   .modal.open{display:flex}
-  .modal-card{background:var(--paper);border-radius:22px;max-width:760px;width:100%;margin:auto;overflow:hidden;box-shadow:var(--shadow);position:relative}
+  .modal-card{background:var(--paper);border-radius:22px;max-width:760px;width:100%;margin:auto;overflow:hidden;box-shadow:var(--shadow);position:relative;z-index:1}
   .modal-close{position:absolute;top:14px;right:14px;z-index:3;width:38px;height:38px;border-radius:50%;border:none;background:rgba(30,42,34,.6);color:#fff;font-size:1.3rem;cursor:pointer;line-height:1}
   .gallery{position:relative;aspect-ratio:16/10;background:var(--cream);overflow:hidden}
   .gallery img{width:100%;height:100%;object-fit:cover;display:block}
@@ -342,7 +349,7 @@
         <path d="M11 21l9-8 9 8v8a1 1 0 0 1-1 1h-5v-6h-6v6h-5a1 1 0 0 1-1-1z" fill="#E2A23D"/>
         <path d="M20 9c2 3 2 5 0 7-2-2-2-4 0-7z" fill="#8AA189"/>
       </svg>
-      Mount Morris Mobile Home Park
+      <span class="logo-text">Mount Morris Mobile Home Park</span>
     </a>
     <nav class="desktop">
       <a href="#ways">Find a Home</a>
