@@ -1,6 +1,6 @@
 {
-  "version": "v2026.06.15-115409",
-  "generatedAt": "2026-06-15T11:54:09.508Z",
+  "version": "v2026.06.15-195641",
+  "generatedAt": "2026-06-15T19:56:41.834Z",
   "counts": {
     "preorderHomes": 0,
     "homesForRent": 9,
@@ -25,8 +25,11 @@
         "2 Bath",
         "1,280 sq ft"
       ],
-      "mainImage": null,
-      "gallery": [],
+      "mainImage": "listings/rent/lot-1/360-kitchen.jpg",
+      "gallery": [
+        "listings/rent/lot-1/360-kitchen.jpg",
+        "listings/rent/lot-1/360-living-room.jpg"
+      ],
       "details": [
         {
           "label": "Lot Number",
