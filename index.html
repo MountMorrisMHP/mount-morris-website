@@ -237,7 +237,20 @@
   .gallery-dots i.on{background:#fff}
   .modal-body{padding:26px 28px 30px}
   .modal-body h3{font-size:1.7rem;color:var(--pine-deep);margin-bottom:4px}
-  .modal-body .mprice{font-family:'Fraunces',serif;font-size:1.5rem;color:var(--clay);font-weight:600;margin-bottom:18px}
+  .modal-body .mprice{font-family:'Fraunces',serif;font-size:1.5rem;color:var(--clay);font-weight:600}
+  /* Price + action buttons on one horizontal row; wraps on very narrow screens. */
+  .modal-body .mprice-row{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:18px}
+  .mprice-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  .mprice-actions a,.mprice-actions button{font:inherit;font-weight:700;font-size:.84rem;line-height:1;padding:9px 16px;border-radius:999px;border:1.5px solid transparent;cursor:pointer;white-space:nowrap;text-decoration:none;transition:background .15s,color .15s,filter .15s}
+  .mprice-actions .btn-virtual-tour{background:var(--clay);color:#fff}
+  .mprice-actions .btn-virtual-tour:hover{filter:brightness(1.07)}
+  .mprice-actions .btn-call{background:transparent;color:var(--pine);border-color:var(--pine)}
+  .mprice-actions .btn-call:hover{background:var(--pine);color:#fff}
+  /* Very narrow screens: stack the actions under the price so buttons stay tappable. */
+  @media(max-width:480px){
+    .modal-body .mprice-row{flex-direction:column;align-items:flex-start;gap:12px}
+    .mprice-actions{width:100%}
+  }
   .detail-grid{display:grid;grid-template-columns:1fr;gap:0}
   .detail-grid div{display:flex;justify-content:space-between;gap:18px;padding:9px 0;border-bottom:1px solid var(--line);font-size:.92rem}
   .detail-grid dt{color:#7a8678;font-weight:600}
@@ -546,7 +559,11 @@
     <div class="gallery" id="modalGallery"></div>
     <div class="modal-body">
       <h3 id="modalTitle"></h3>
-      <div class="mprice" id="modalPrice"></div>
+      <!-- Price + action buttons share one horizontal flex row (see .mprice-row). -->
+      <div class="mprice-row" id="modalPriceRow">
+        <div class="mprice" id="modalPrice"></div>
+        <div class="mprice-actions" id="modalActions"></div>
+      </div>
       <dl class="detail-grid" id="modalDetails"></dl>
     </div>
   </div>
@@ -757,11 +774,18 @@
   }
 
   // Shared modal filler — used by BOTH listings and amenities (one interaction language).
-  function fillModal({ title, priceHTML, details, slides, startIdx }){
+  function fillModal({ title, priceHTML, details, slides, startIdx, lotId }){
     document.getElementById('modalTitle').textContent = title || '';
     const priceEl = document.getElementById('modalPrice');
     priceEl.innerHTML = priceHTML || '';
     priceEl.style.display = priceHTML ? '' : 'none';
+    // Action buttons sit on the same row as the price — listings only (amenities pass no lotId).
+    const actionsEl = document.getElementById('modalActions');
+    actionsEl.innerHTML = lotId
+      ? `<button type="button" class="btn-virtual-tour" data-lot="${esc(lotId)}">Virtual Tour</button>`
+        + `<a class="btn-call" href="tel:3136864250">Call Us</a>`
+      : '';
+    document.getElementById('modalPriceRow').style.display = (priceHTML || lotId) ? '' : 'none';
     document.getElementById('modalDetails').innerHTML =
       (details || []).map(d => `<div><dt>${esc(d.label)}</dt><dd>${esc(fmtDetail(d.label, d.value))}</dd></div>`).join('');
     if (slides && slides.length){
@@ -784,6 +808,7 @@
       details: item.details,
       slides: buildSlides(item),
       startIdx,
+      lotId: item.id,
     });
   }
 
@@ -796,6 +821,12 @@
       startIdx: 0,
     });
   }
+
+  // Virtual Tour: placeholder action — logs the lot ID (delegated; container is stable).
+  document.getElementById('modalActions').addEventListener('click', (e) => {
+    const btn = e.target.closest('.btn-virtual-tour');
+    if (btn) console.log('Virtual Tour requested for lot:', btn.dataset.lot);
+  });
 
   function closeModal(){
     modal.classList.remove('open');
