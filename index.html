@@ -270,12 +270,77 @@
   .mprice-actions a,.mprice-actions button{font:inherit;font-weight:700;font-size:.84rem;line-height:1;padding:9px 16px;border-radius:999px;border:1.5px solid transparent;cursor:pointer;white-space:nowrap;text-decoration:none;transition:background .15s,color .15s,filter .15s}
   .mprice-actions .btn-virtual-tour{background:var(--clay);color:#fff}
   .mprice-actions .btn-virtual-tour:hover{filter:brightness(1.07)}
-  .mprice-actions .btn-call{background:transparent;color:var(--pine);border-color:var(--pine)}
-  .mprice-actions .btn-call:hover{background:var(--pine);color:#fff}
+  /* "Call Us" toggle reveals Call Now + Schedule a Call (siblings) with a soft slide-in. */
+  .mprice-actions .call-group{display:inline-flex;align-items:center;gap:10px;flex-wrap:wrap}
+  .mprice-actions .btn-call-toggle{background:transparent;color:var(--pine);border-color:var(--pine)}
+  .mprice-actions .btn-call-toggle:hover{background:var(--pine);color:#fff}
+  .mprice-actions .btn-callnow{background:var(--clay);color:#fff}
+  .mprice-actions .btn-callnow:hover{filter:brightness(1.07)}
+  .mprice-actions .btn-schedule{background:var(--pine);color:#fff}
+  .mprice-actions .btn-schedule:hover{filter:brightness(1.08)}
+  .call-group .btn-callnow,.call-group .btn-schedule{display:none}
+  .call-group.open .btn-call-toggle{display:none}
+  @keyframes revealBtn{from{opacity:0;transform:translateX(-6px)}to{opacity:1;transform:none}}
+  .call-group.open .btn-callnow,.call-group.open .btn-schedule{display:inline-flex;animation:revealBtn .22s ease both}
   /* Very narrow screens: stack the actions under the price so buttons stay tappable. */
   @media(max-width:480px){
     .modal-body .mprice-row{flex-direction:column;align-items:flex-start;gap:12px}
     .mprice-actions{width:100%}
+    .mprice-actions .call-group{width:100%}
+  }
+
+  /* ===== Schedule-a-Call appointment modal (forest-green theme) ===== */
+  .appt-modal{position:fixed;inset:0;z-index:800;display:none;align-items:flex-start;justify-content:center;padding:24px;overflow-y:auto;background:transparent}
+  .appt-modal::before{content:"";position:fixed;inset:0;background:rgba(15,28,20,.62);-webkit-backdrop-filter:blur(5px);backdrop-filter:blur(5px);z-index:0}
+  .appt-modal.open{display:flex}
+  .appt-card{position:relative;z-index:1;margin:auto;width:100%;max-width:440px;background:var(--pine-deep);color:var(--cream);border-radius:20px;padding:30px 26px 28px;box-shadow:0 30px 80px -24px rgba(0,0,0,.7);animation:apptIn .26s cubic-bezier(.2,.7,.2,1)}
+  @keyframes apptIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+  .appt-card h3{font-family:'Fraunces',serif;font-size:1.6rem;color:#fff;margin-bottom:4px}
+  .appt-sub{color:rgba(246,238,224,.78);font-size:.95rem;margin-bottom:20px}
+  .appt-close{position:absolute;top:12px;right:12px;width:38px;height:38px;border-radius:50%;border:none;background:rgba(255,255,255,.14);color:#fff;font-size:1.4rem;line-height:1;cursor:pointer;transition:background .2s}
+  .appt-close:hover{background:rgba(255,255,255,.26)}
+  .appt-field{display:block;margin-bottom:14px}
+  .appt-field>span{display:block;font-size:.82rem;font-weight:700;letter-spacing:.02em;color:rgba(246,238,224,.9);margin-bottom:6px}
+  .appt-field input,.appt-field select{width:100%;font:inherit;font-size:1rem;padding:12px 14px;border-radius:12px;border:1.5px solid rgba(255,255,255,.18);background:#fbf5ea;color:#1e2a22;-webkit-appearance:none;appearance:none}
+  .appt-field input:focus,.appt-field select:focus{outline:none;border-color:var(--honey);box-shadow:0 0 0 3px rgba(226,162,61,.25)}
+  .appt-field select{background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='9' viewBox='0 0 14 9'%3E%3Cpath d='M1 1l6 6 6-6' fill='none' stroke='%231e2a22' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:38px}
+  .appt-hp{position:absolute!important;left:-9999px;width:1px;height:1px;opacity:0}
+  .appt-err{background:rgba(194,90,53,.22);border:1px solid rgba(194,90,53,.55);color:#ffd9cc;font-size:.86rem;font-weight:600;padding:9px 12px;border-radius:10px;margin-bottom:12px}
+  .appt-err a{color:#fff;text-decoration:underline}
+  .appt-submit{width:100%;font:inherit;font-weight:700;font-size:1rem;padding:13px 18px;border:none;border-radius:999px;background:var(--clay);color:#fff;cursor:pointer;transition:filter .15s,opacity .15s}
+  .appt-submit:hover{filter:brightness(1.07)}
+  .appt-submit:disabled{opacity:.65;cursor:default}
+  .appt-success{text-align:center;padding:14px 4px 4px}
+  .appt-success p{color:rgba(246,238,224,.92);font-size:1.02rem;margin:14px 0 20px}
+  .appt-check{width:58px;height:58px;margin:0 auto;border-radius:50%;background:var(--sage);color:var(--pine-deep);font-size:1.9rem;display:flex;align-items:center;justify-content:center}
+  @media(max-width:480px){
+    .appt-modal{padding:14px}
+    .appt-card{padding:26px 18px 22px}
+    .appt-card h3{font-size:1.4rem}
+  }
+
+  /* ===== Premium 3D Virtual Tour modal (Matterport iframe) ===== */
+  .vt-modal{position:fixed;inset:0;z-index:900;display:none;align-items:center;justify-content:center;padding:0;background:rgba(8,12,10,.93);opacity:0;transition:opacity .28s ease}
+  .vt-modal.show{display:flex}
+  .vt-modal.open{opacity:1}
+  .vt-frame-wrap{position:relative;width:min(92vw,1200px);height:min(88vh,820px);background:#000;border-radius:14px;overflow:hidden;box-shadow:0 30px 90px -20px rgba(0,0,0,.85)}
+  .vt-frame-wrap iframe{display:block;width:100%;height:100%;border:0}
+  .vt-pano{position:absolute;inset:0;width:100%;height:100%;background:#0d1410}
+  .vt-pano .pnlm-load-box{background:rgba(0,0,0,.5)}
+  .vt-scenes{position:absolute;left:0;right:0;bottom:0;z-index:3;display:flex;gap:8px;justify-content:center;flex-wrap:wrap;padding:12px 12px 14px;background:linear-gradient(transparent,rgba(0,0,0,.55))}
+  .vt-scenes button{font:inherit;font-weight:700;font-size:.8rem;padding:8px 14px;border-radius:999px;border:1.5px solid rgba(255,255,255,.55);background:rgba(0,0,0,.45);color:#fff;cursor:pointer;-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);transition:background .15s,border-color .15s}
+  .vt-scenes button.active,.vt-scenes button:hover{background:var(--clay);border-color:var(--clay)}
+  .vt-placeholder{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:8px;padding:30px;background:var(--pine-deep);color:var(--cream)}
+  .vt-placeholder h3{font-family:'Fraunces',serif;font-size:1.5rem;color:#fff}
+  .vt-placeholder p{color:rgba(246,238,224,.82);max-width:38ch;font-size:.98rem}
+  .vt-placeholder .vt-call{margin-top:14px;background:var(--clay);color:#fff;font-weight:700;padding:11px 20px;border-radius:999px;text-decoration:none}
+  .vt-placeholder .vt-call:hover{filter:brightness(1.07)}
+  .vt-close{position:fixed;top:16px;right:18px;z-index:2;width:46px;height:46px;border-radius:50%;border:none;background:rgba(255,255,255,.94);color:#1e2a22;font-size:1.7rem;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 20px -6px rgba(0,0,0,.6);transition:background .2s,transform .15s}
+  .vt-close:hover{background:#fff;transform:scale(1.06)}
+  .vt-close:focus{outline:2px solid #fff;outline-offset:2px}
+  @media(max-width:600px){
+    .vt-frame-wrap{width:92vw;height:88vh;border-radius:10px}   /* >=85% of the viewport for comfy touch nav */
+    .vt-close{top:10px;right:10px;width:42px;height:42px;font-size:1.5rem}
   }
   .detail-grid{display:grid;grid-template-columns:1fr;gap:0}
   .detail-grid div{display:flex;justify-content:space-between;gap:18px;padding:9px 0;border-bottom:1px solid var(--line);font-size:.92rem}
@@ -595,6 +660,63 @@
   </div>
 </div>
 
+<!-- SCHEDULE-A-CALL APPOINTMENT MODAL (opened from a listing's "Schedule a Call") -->
+<div class="appt-modal" id="apptModal" role="dialog" aria-modal="true" aria-label="Schedule a call">
+  <div class="appt-card">
+    <button class="appt-close" id="apptClose" aria-label="Close">&times;</button>
+    <h3>Schedule a Call</h3>
+    <p class="appt-sub">Pick a day and a time window, and we'll give you a ring.</p>
+    <form id="apptForm" novalidate>
+      <!-- ===== Web3Forms: PASTE YOUR REAL ACCESS KEY in the value below ===== -->
+      <input type="hidden" name="access_key" value="WEB3FORMS_ACCESS_KEY_PLACEHOLDER">
+      <input type="hidden" name="subject" value="New call request — Mount Morris Mobile Home Park">
+      <input type="hidden" name="from_name" value="Mount Morris Website">
+      <input type="hidden" name="lot" id="apptLot" value="">
+      <!-- honeypot: bots fill this, humans never see it -->
+      <input type="checkbox" name="botcheck" class="appt-hp" tabindex="-1" autocomplete="off" aria-hidden="true">
+      <label class="appt-field"><span>Full Name</span>
+        <input type="text" name="name" id="apptName" autocomplete="name" required></label>
+      <label class="appt-field"><span>Phone Number</span>
+        <input type="tel" name="phone" id="apptPhone" autocomplete="tel" inputmode="tel" placeholder="(810) 000-0000" required></label>
+      <label class="appt-field"><span>Preferred Date</span>
+        <input type="date" name="preferred_date" id="apptDate" required></label>
+      <label class="appt-field"><span>Preferred Time</span>
+        <select name="preferred_time" id="apptTime" required>
+          <option value="10:00 AM - 12:00 PM">10:00 AM - 12:00 PM</option>
+          <option value="12:00 PM - 02:00 PM">12:00 PM - 02:00 PM</option>
+          <option value="02:00 PM - 04:00 PM">02:00 PM - 04:00 PM</option>
+          <option value="04:00 PM - 06:00 PM">04:00 PM - 06:00 PM</option>
+        </select></label>
+      <div class="appt-err" id="apptErr" role="alert" hidden></div>
+      <button type="submit" class="appt-submit" id="apptSubmit">Request a Call</button>
+    </form>
+    <div class="appt-success" id="apptSuccess" hidden>
+      <div class="appt-check" aria-hidden="true">&#10003;</div>
+      <p>Thanks! We'll call you during your selected window.</p>
+      <button type="button" class="appt-submit" id="apptDone">Done</button>
+    </div>
+  </div>
+</div>
+
+<!-- PREMIUM 3D VIRTUAL TOUR MODAL (opened from a listing's "Virtual Tour") -->
+<div class="vt-modal" id="virtual-tour-modal" role="dialog" aria-modal="true" aria-label="3D virtual tour">
+  <button class="vt-close" id="vtClose" aria-label="Close virtual tour">&times;</button>
+  <div class="vt-frame-wrap">
+    <!-- A home's 360° tour = panorama photos named "360-*.jpg" in its folder. They render here. -->
+    <div id="vtPano" class="vt-pano" style="display:none"></div>
+    <div id="vtScenes" class="vt-scenes" style="display:none"></div>
+    <!-- Optional: an external embed instead (e.g. your own Matterport) by setting data-src. -->
+    <iframe id="vtFrame" title="3D Virtual Tour" data-src=""
+            width="100%" height="100%" frameborder="0" allowfullscreen=""
+            allow="autoplay; fullscreen; xr-spatial-tracking;" style="display:none"></iframe>
+    <div class="vt-placeholder" id="vtPlaceholder">
+      <h3>Virtual tour coming soon</h3>
+      <p>We're putting a walkthrough of this home together. In the meantime, give us a call to set up an in-person visit.</p>
+      <a class="vt-call" href="tel:+18103686008">Call (810) 368-6008</a>
+    </div>
+  </div>
+</div>
+
 <!-- FULLSCREEN COMMUNITY MAP (opened from "Explore the Map") -->
 <div class="map-modal" id="mapModal" role="dialog" aria-modal="true" aria-label="Community map">
   <button class="map-close" id="mapClose" aria-label="Close map">&times;</button>
@@ -664,8 +786,10 @@
 
   // Returns the array of slide-inner-HTML for a card's carousel.
   function buildSlides(item){
-    if (item.mainImage && item.gallery && item.gallery.length){
-      return item.gallery.map((u,i) =>
+    // 360° panoramas live in the Virtual Tour, not the flat carousel — keep them out here.
+    const flat = (item.gallery || []).filter(u => !isPanorama(u));
+    if (item.mainImage && flat.length){
+      return flat.map((u,i) =>
         `<img class="cslide-img" src="${esc(API_BASE+u)}" alt="${esc(item.title)} — photo ${i+1}" loading="lazy" draggable="false" data-fallback="${i}">`);
     }
     /* ===================== TEMPORARY placeholder slides =====================
@@ -800,16 +924,21 @@
   }
 
   // Shared modal filler — used by BOTH listings and amenities (one interaction language).
-  function fillModal({ title, priceHTML, details, slides, startIdx, lotId }){
+  function fillModal({ title, priceHTML, details, slides, startIdx, lotId, lotLabel }){
     document.getElementById('modalTitle').textContent = title || '';
     const priceEl = document.getElementById('modalPrice');
     priceEl.innerHTML = priceHTML || '';
     priceEl.style.display = priceHTML ? '' : 'none';
     // Action buttons sit on the same row as the price — listings only (amenities pass no lotId).
+    // "Call Us" reveals two siblings: Call Now (tel) + Schedule a Call (appointment modal).
     const actionsEl = document.getElementById('modalActions');
     actionsEl.innerHTML = lotId
       ? `<button type="button" class="btn-virtual-tour" data-lot="${esc(lotId)}">Virtual Tour</button>`
-        + `<a class="btn-call" href="tel:+18103686008">Call Us</a>`
+        + `<span class="call-group" data-lot="${esc(lotLabel || lotId)}">`
+        +   `<button type="button" class="btn-call-toggle">Call Us</button>`
+        +   `<a class="btn-callnow" href="tel:+18103686008">Call Now</a>`
+        +   `<button type="button" class="btn-schedule">Schedule a Call</button>`
+        + `</span>`
       : '';
     document.getElementById('modalPriceRow').style.display = (priceHTML || lotId) ? '' : 'none';
     document.getElementById('modalDetails').innerHTML =
@@ -828,6 +957,7 @@
   }
 
   function openModal(item, startIdx){
+    currentTour = (item.gallery || []).filter(isPanorama);   // 360-*.jpg photos power the Virtual Tour
     fillModal({
       title: item.title,
       priceHTML: esc(item.price) + (item.priceSmall ? `<small style="font-size:.8rem;color:#7a8678"> ${esc(item.priceSmall)}</small>` : ''),
@@ -835,10 +965,12 @@
       slides: buildSlides(item),
       startIdx,
       lotId: item.id,
+      lotLabel: item.title,
     });
   }
 
   function openAmenityModal(am){
+    currentTour = [];                                        // amenities have no virtual tour
     fillModal({
       title: am.displayName,
       priceHTML: '',
@@ -848,10 +980,14 @@
     });
   }
 
-  // Virtual Tour: placeholder action — logs the lot ID (delegated; container is stable).
+  // Delegated actions on the price row (container is stable across opens).
   document.getElementById('modalActions').addEventListener('click', (e) => {
-    const btn = e.target.closest('.btn-virtual-tour');
-    if (btn) console.log('Virtual Tour requested for lot:', btn.dataset.lot);
+    const vt = e.target.closest('.btn-virtual-tour');
+    if (vt){ openVirtualTour(vt.dataset.lot); return; }
+    const toggle = e.target.closest('.btn-call-toggle');     // "Call Us" -> reveal Call Now + Schedule
+    if (toggle){ toggle.closest('.call-group').classList.add('open'); return; }
+    const sched = e.target.closest('.btn-schedule');          // -> open the appointment modal
+    if (sched){ const g = sched.closest('.call-group'); openApptModal(g ? g.dataset.lot : ''); }
   });
 
   function closeModal(){
@@ -861,6 +997,139 @@
     galleryEl.innerHTML = '';   // destroy the modal carousel (stops its autoplay fill)
     grid.querySelectorAll('.carousel').forEach(c => c._resumeAP && c._resumeAP('modal'));
   }
+
+  /* ----- Schedule-a-Call appointment modal (Web3Forms, no backend) ----- */
+  const apptModal   = document.getElementById('apptModal');
+  const apptForm    = document.getElementById('apptForm');
+  const apptErr     = document.getElementById('apptErr');
+  const apptSuccess = document.getElementById('apptSuccess');
+  const apptSubmit  = document.getElementById('apptSubmit');
+
+  function openApptModal(lotLabel){
+    apptForm.reset();
+    document.getElementById('apptLot').value = lotLabel || '';
+    apptErr.hidden = true; apptErr.textContent = '';
+    apptForm.style.display = ''; apptSuccess.hidden = true;
+    apptSubmit.disabled = false; apptSubmit.textContent = 'Request a Call';
+    const now = new Date();                                   // block past dates natively too
+    document.getElementById('apptDate').min = new Date(now.getTime() - now.getTimezoneOffset() * 60000).toISOString().slice(0, 10);
+    apptModal.classList.add('open');
+    document.body.style.overflow = 'hidden';
+    setTimeout(() => document.getElementById('apptName').focus(), 60);
+  }
+  function closeApptModal(){
+    apptModal.classList.remove('open');
+    if (!modal.classList.contains('open')) document.body.style.overflow = '';   // listing modal may still be open
+  }
+  const showApptErr = (html) => { apptErr.innerHTML = html; apptErr.hidden = false; };
+
+  document.getElementById('apptClose').addEventListener('click', closeApptModal);
+  document.getElementById('apptDone').addEventListener('click', closeApptModal);
+  apptModal.addEventListener('click', (e) => { if (e.target === apptModal) closeApptModal(); });
+
+  apptForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    apptErr.hidden = true;
+    const name  = document.getElementById('apptName').value.trim();
+    const phone = document.getElementById('apptPhone').value.trim();
+    const date  = document.getElementById('apptDate').value;
+    const digits = phone.replace(/\D/g, '');
+    if (name.length < 2){ showApptErr('Please enter your full name.'); return; }
+    if (digits.length < 10){ showApptErr('Please enter a valid phone number (at least 10 digits).'); return; }
+    if (!date){ showApptErr('Please choose a preferred date.'); return; }
+    const today = new Date(); today.setHours(0, 0, 0, 0);
+    if (new Date(date + 'T00:00:00') < today){ showApptErr("Please choose a date that isn't in the past."); return; }
+
+    apptSubmit.disabled = true; apptSubmit.textContent = 'Sending…';
+    try {
+      const res = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST', headers: { 'Accept': 'application/json' }, body: new FormData(apptForm),
+      });
+      let ok = res.ok;
+      try { const j = await res.json(); ok = !!(j && j.success); } catch (_) {}
+      if (!ok) throw new Error('Web3Forms rejected the submission');
+      apptForm.style.display = 'none'; apptSuccess.hidden = false;   // polite confirmation, then "Done" closes it
+    } catch (_) {
+      apptSubmit.disabled = false; apptSubmit.textContent = 'Request a Call';
+      showApptErr('Sorry, we couldn’t send that just now. Please call us directly at <a href="tel:+18103686008">+1 (810) 368-6008</a>.');
+    }
+  });
+
+  /* ----- 3D Virtual Tour modal: 360° panorama viewer (Pannellum, lazy-loaded) -----
+     A home's tour = its panorama photos (named "360-*.jpg" in the home's folder).
+     They're filtered out of the flat card carousel and shown here as a look-around
+     tour. An external embed (e.g. your own Matterport) still works via #vtFrame's
+     data-src. Pannellum's JS/CSS load only the first time a tour is opened. */
+  const vtModal  = document.getElementById('virtual-tour-modal');
+  const vtFrame  = document.getElementById('vtFrame');
+  const vtPano   = document.getElementById('vtPano');
+  const vtScenes = document.getElementById('vtScenes');
+  const vtPlace  = document.getElementById('vtPlaceholder');
+  let vtHideTimer = null, vtViewer = null, currentTour = [], pannellumPromise = null;
+
+  const baseName   = (u) => decodeURIComponent((u || '').split('/').pop() || '');
+  const isPanorama = (u) => /^360/i.test(baseName(u));        // panorama photos are named 360*.jpg
+  const panoLabel  = (u, i) => {
+    const n = baseName(u).replace(/\.[a-z0-9]+$/i, '').replace(/^360[-_ ]?/i, '').replace(/[-_]+/g, ' ').trim();
+    return n ? n.replace(/\b\w/g, c => c.toUpperCase()) : 'View ' + (i + 1);
+  };
+
+  function loadPannellum(){
+    if (window.pannellum) return Promise.resolve();
+    if (pannellumPromise) return pannellumPromise;
+    pannellumPromise = new Promise((resolve, reject) => {
+      const css = document.createElement('link');
+      css.rel = 'stylesheet'; css.href = 'https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.css';
+      document.head.appendChild(css);
+      const js = document.createElement('script');
+      js.src = 'https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.js';
+      js.onload = resolve; js.onerror = () => reject(new Error('pannellum failed to load'));
+      document.head.appendChild(js);
+    });
+    return pannellumPromise;
+  }
+  function destroyViewer(){ if (vtViewer){ try { vtViewer.destroy(); } catch (_) {} vtViewer = null; } }
+  function initPano(urls){
+    destroyViewer();
+    const scenes = {};
+    urls.forEach((u, i) => { scenes['s' + i] = { type: 'equirectangular', panorama: API_BASE + u, autoLoad: true, showZoomCtrl: true, hfov: 110 }; });
+    vtViewer = window.pannellum.viewer('vtPano', { default: { firstScene: 's0', sceneFadeDuration: 600, autoLoad: true }, scenes });
+    if (urls.length > 1){                                     // multiple rooms -> scene switch buttons
+      vtScenes.style.display = '';
+      vtScenes.innerHTML = urls.map((u, i) => `<button type="button" data-scene="s${i}"${i === 0 ? ' class="active"' : ''}>${esc(panoLabel(u, i))}</button>`).join('');
+    } else { vtScenes.style.display = 'none'; vtScenes.innerHTML = ''; }
+  }
+
+  function openVirtualTour(/* lotLabel */){
+    clearTimeout(vtHideTimer);
+    vtModal.classList.add('show');
+    requestAnimationFrame(() => vtModal.classList.add('open'));   // smooth fade-in
+    document.body.style.overflow = 'hidden';                      // halt background scrolling
+    const hideAll = () => { vtPano.style.display = 'none'; vtScenes.style.display = 'none'; vtFrame.style.display = 'none'; vtPlace.style.display = 'none'; };
+    if (currentTour.length){                                      // this home has 360° photos
+      hideAll(); vtPano.style.display = '';
+      loadPannellum().then(() => initPano(currentTour)).catch(() => { hideAll(); vtPlace.style.display = ''; });
+    } else if (vtFrame.dataset.src){                              // optional external embed
+      hideAll(); vtFrame.style.display = ''; if (!vtFrame.src) vtFrame.src = vtFrame.dataset.src;
+    } else {                                                      // nothing yet -> friendly placeholder
+      hideAll(); vtPlace.style.display = '';
+    }
+  }
+  function closeVirtualTour(){
+    vtFrame.src = '';                                          // DISCONNECT external embed immediately
+    destroyViewer();                                          // stop the 360 viewer rendering
+    vtModal.classList.remove('open');
+    vtHideTimer = setTimeout(() => vtModal.classList.remove('show'), 300);
+    if (!modal.classList.contains('open')) document.body.style.overflow = '';   // listing modal may still be open
+  }
+  document.getElementById('vtClose').addEventListener('click', closeVirtualTour);
+  vtModal.addEventListener('click', (e) => { if (e.target === vtModal) closeVirtualTour(); });
+  vtScenes.addEventListener('click', (e) => {
+    const b = e.target.closest('button[data-scene]'); if (!b || !vtViewer) return;
+    vtViewer.loadScene(b.dataset.scene);
+    vtScenes.querySelectorAll('button').forEach(x => x.classList.toggle('active', x === b));
+  });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && vtModal.classList.contains('show')) closeVirtualTour(); });
 
   /* ===================================================================
    * CAROUSEL ENGINE — swipe (touch + mouse) with momentum, hover arrows,
@@ -1033,6 +1302,8 @@
   document.getElementById('modalClose').addEventListener('click', closeModal);
   modal.addEventListener('click', (e)=>{ if(e.target === modal) closeModal(); });
   document.addEventListener('keydown', (e)=>{
+    if(vtModal.classList.contains('show')) return;   // virtual tour is topmost; it handles its own Escape
+    if(e.key === 'Escape' && apptModal.classList.contains('open')){ closeApptModal(); return; }   // appt sits above the listing
     if(!modal.classList.contains('open')) return;
     if(e.key === 'Escape'){ closeModal(); return; }
     const car = galleryEl.querySelector('.carousel.is-multi');
