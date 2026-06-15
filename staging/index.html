@@ -325,6 +325,11 @@
   .vt-modal.open{opacity:1}
   .vt-frame-wrap{position:relative;width:min(92vw,1200px);height:min(88vh,820px);background:#000;border-radius:14px;overflow:hidden;box-shadow:0 30px 90px -20px rgba(0,0,0,.85)}
   .vt-frame-wrap iframe{display:block;width:100%;height:100%;border:0}
+  .vt-placeholder{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:8px;padding:30px;background:var(--pine-deep);color:var(--cream)}
+  .vt-placeholder h3{font-family:'Fraunces',serif;font-size:1.5rem;color:#fff}
+  .vt-placeholder p{color:rgba(246,238,224,.82);max-width:38ch;font-size:.98rem}
+  .vt-placeholder .vt-call{margin-top:14px;background:var(--clay);color:#fff;font-weight:700;padding:11px 20px;border-radius:999px;text-decoration:none}
+  .vt-placeholder .vt-call:hover{filter:brightness(1.07)}
   .vt-close{position:fixed;top:16px;right:18px;z-index:2;width:46px;height:46px;border-radius:50%;border:none;background:rgba(255,255,255,.94);color:#1e2a22;font-size:1.7rem;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 20px -6px rgba(0,0,0,.6);transition:background .2s,transform .15s}
   .vt-close:hover{background:#fff;transform:scale(1.06)}
   .vt-close:focus{outline:2px solid #fff;outline-offset:2px}
@@ -692,11 +697,16 @@
 <div class="vt-modal" id="virtual-tour-modal" role="dialog" aria-modal="true" aria-label="3D virtual tour">
   <button class="vt-close" id="vtClose" aria-label="Close virtual tour">&times;</button>
   <div class="vt-frame-wrap">
-    <!-- src is set on open and cleared on close (kills the stream). Baseline Matterport model below. -->
-    <iframe id="vtFrame" title="3D Virtual Tour"
-            data-src="https://my.matterport.com/show/?m=GVTcRGJXgd2&play=1&brand=0"
+    <!-- Put YOUR OWN tour URL in data-src (e.g. your own Matterport model). Empty = show the
+         placeholder below. src is set on open and cleared on close (kills the stream). -->
+    <iframe id="vtFrame" title="3D Virtual Tour" data-src=""
             width="100%" height="100%" frameborder="0" allowfullscreen=""
-            allow="autoplay; fullscreen; xr-spatial-tracking;"></iframe>
+            allow="autoplay; fullscreen; xr-spatial-tracking;" style="display:none"></iframe>
+    <div class="vt-placeholder" id="vtPlaceholder">
+      <h3>Virtual tour coming soon</h3>
+      <p>We're putting a walkthrough of this home together. In the meantime, give us a call to set up an in-person visit.</p>
+      <a class="vt-call" href="tel:+18103686008">Call (810) 368-6008</a>
+    </div>
   </div>
 </div>
 
@@ -1041,7 +1051,10 @@
 
   function openVirtualTour(/* lotLabel */){
     clearTimeout(vtHideTimer);
-    if (!vtFrame.src) vtFrame.src = vtFrame.dataset.src;   // start the stream only when opened
+    const url = vtFrame.dataset.src;                        // your own tour URL (empty until you add one)
+    const ph = document.getElementById('vtPlaceholder');
+    if (url){ vtFrame.style.display = ''; ph.style.display = 'none'; if (!vtFrame.src) vtFrame.src = url; }
+    else { vtFrame.style.display = 'none'; ph.style.display = ''; }   // no tour yet -> friendly placeholder
     vtModal.classList.add('show');                          // display:flex (opacity still 0)
     requestAnimationFrame(() => vtModal.classList.add('open'));  // -> fade in smoothly
     document.body.style.overflow = 'hidden';                // halt background scrolling
