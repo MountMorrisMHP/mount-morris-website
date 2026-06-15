@@ -1,14 +1,14 @@
 {
-  "version": "v2026.06.13-025718",
-  "generatedAt": "2026-06-13T02:57:18.382Z",
+  "version": "v2026.06.15-054304",
+  "generatedAt": "2026-06-15T05:43:04.911Z",
   "counts": {
-    "emptyLots": 0,
+    "preorderHomes": 0,
     "homesForRent": 9,
     "homesForSale": 1,
-    "amenities": 9,
+    "amenities": 11,
     "scenery": 4
   },
-  "emptyLots": [],
+  "preorderHomes": [],
   "homesForRent": [
     {
       "id": "rent-lot-1",
@@ -1064,25 +1064,10 @@
   "community": {
     "amenities": [
       {
-        "id": "basketball_court",
-        "displayName": "Basketball Court",
-        "order": null,
-        "details": [],
-        "mainImage": null,
-        "gallery": []
-      },
-      {
-        "id": "clubhouse",
-        "displayName": "Clubhouse",
-        "order": null,
-        "details": [],
-        "mainImage": null,
-        "gallery": []
-      },
-      {
-        "id": "community_events",
-        "displayName": "Community Events",
-        "order": null,
+        "id": "office",
+        "displayName": "Office",
+        "order": 1,
+        "comingSoon": false,
         "details": [],
         "mainImage": null,
         "gallery": []
@@ -1090,23 +1075,17 @@
       {
         "id": "green_spaces",
         "displayName": "Green Spaces",
-        "order": null,
+        "order": 2,
+        "comingSoon": false,
         "details": [],
         "mainImage": null,
         "gallery": []
       },
       {
-        "id": "laundry_facility",
-        "displayName": "Laundry Facility",
-        "order": null,
-        "details": [],
-        "mainImage": null,
-        "gallery": []
-      },
-      {
-        "id": "onsite_management",
-        "displayName": "Onsite Management",
-        "order": null,
+        "id": "playground",
+        "displayName": "Playground",
+        "order": 3,
+        "comingSoon": false,
         "details": [],
         "mainImage": null,
         "gallery": []
@@ -1114,7 +1093,8 @@
       {
         "id": "pet_friendly",
         "displayName": "Pet Friendly",
-        "order": null,
+        "order": 4,
+        "comingSoon": false,
         "details": [
           {
             "label": "Description",
@@ -1153,17 +1133,64 @@
         ]
       },
       {
-        "id": "playground",
-        "displayName": "Playground",
-        "order": null,
+        "id": "onsite_management",
+        "displayName": "On-Site Management",
+        "order": 5,
+        "comingSoon": false,
         "details": [],
         "mainImage": null,
         "gallery": []
       },
       {
-        "id": "storage_parking",
-        "displayName": "Storage Parking",
-        "order": null,
+        "id": "community_events",
+        "displayName": "Community Events",
+        "order": 6,
+        "comingSoon": false,
+        "details": [],
+        "mainImage": null,
+        "gallery": []
+      },
+      {
+        "id": "storm_shelter",
+        "displayName": "Storm Shelter",
+        "order": 7,
+        "comingSoon": false,
+        "details": [],
+        "mainImage": null,
+        "gallery": []
+      },
+      {
+        "id": "parking",
+        "displayName": "Parking",
+        "order": 8,
+        "comingSoon": false,
+        "details": [],
+        "mainImage": null,
+        "gallery": []
+      },
+      {
+        "id": "mailbox",
+        "displayName": "Mailbox",
+        "order": 9,
+        "comingSoon": false,
+        "details": [],
+        "mainImage": null,
+        "gallery": []
+      },
+      {
+        "id": "basketball_court",
+        "displayName": "Basketball Court",
+        "order": 10,
+        "comingSoon": true,
+        "details": [],
+        "mainImage": null,
+        "gallery": []
+      },
+      {
+        "id": "clubhouse",
+        "displayName": "Clubhouse",
+        "order": 11,
+        "comingSoon": true,
         "details": [],
         "mainImage": null,
         "gallery": []
@@ -1175,7 +1202,7 @@
       "community/scenery/sample-3.svg",
       "community/scenery/sample-4.svg"
     ],
-    "mapImage": null,
+    "mapImage": "community/map.jpg",
     "communityRules": ""
   }
 }

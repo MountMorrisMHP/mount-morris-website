@@ -21,7 +21,8 @@
     --shadow:0 18px 40px -22px rgba(28,58,42,.55);
   }
   *{margin:0;padding:0;box-sizing:border-box}
-  html{scroll-behavior:smooth}
+  html{scroll-behavior:smooth;overflow-x:hidden;max-width:100%}
+  /* Mobile horizontal-pan guard: clip the off-canvas menu's off-screen region at the root. */
   body{touch-action:manipulation}                                  /* no double-tap zoom on mobile */
   .btn,.tab,.amen,.card,button,a,.faq-q,.car-arrow,.car-dots .dot{touch-action:manipulation}
   body{
@@ -31,6 +32,7 @@
     line-height:1.6;
     -webkit-font-smoothing:antialiased;
     overflow-x:hidden;
+    max-width:100%;
   }
   body::before{
     content:"";position:fixed;inset:0;pointer-events:none;z-index:9999;opacity:.035;
@@ -62,8 +64,8 @@
   .menu-toggle.open span:nth-child(1){transform:translateY(7.5px) rotate(45deg)}
   .menu-toggle.open span:nth-child(2){opacity:0}
   .menu-toggle.open span:nth-child(3){transform:translateY(-7.5px) rotate(-45deg)}
-  .mobile-menu{position:fixed;inset:66px 0 0;background:var(--pine-deep);color:var(--cream);transform:translateX(100%);transition:transform .35s cubic-bezier(.4,0,.2,1);z-index:150;padding:34px 26px;display:flex;flex-direction:column;gap:6px;overflow-y:auto}
-  .mobile-menu.open{transform:translateX(0)}
+  .mobile-menu{position:fixed;inset:66px 0 0;background:var(--pine-deep);color:var(--cream);transform:translateX(100%);transition:transform .35s cubic-bezier(.4,0,.2,1),visibility .35s;visibility:hidden;z-index:150;padding:34px 26px;display:flex;flex-direction:column;gap:6px;overflow-y:auto;max-width:100%}
+  .mobile-menu.open{transform:translateX(0);visibility:visible}
   .mobile-menu a{font-family:'Fraunces',serif;font-size:1.8rem;padding:14px 0;border-bottom:1px solid rgba(255,255,255,.12)}
   .mobile-menu .btn{margin-top:24px;justify-content:center;font-size:1rem}
 
@@ -84,6 +86,23 @@
   .sec-head{max-width:54ch;margin-bottom:34px}
   .sec-head h2{font-size:clamp(1.9rem,6vw,2.8rem);color:var(--pine-deep);margin:12px 0}
   .sec-head p{color:#55624f;font-size:1.04rem}
+  /* MOBILE TUNING (primary device): tighter spacing, fits within the screen */
+  @media(max-width:480px){
+    section{padding:46px 0}
+    .wrap{padding:0 18px}
+    .eyebrow{letter-spacing:.1em;word-break:normal;overflow-wrap:anywhere}
+    .hero{padding:38px 0 44px}
+    .hero h1{font-size:clamp(2.1rem,10vw,3rem)}
+    .hero p.lead{font-size:1.02rem}
+    .stats{gap:16px 22px;margin-top:30px;padding-top:22px}
+    .stat .num{font-size:1.65rem}
+    .sec-head{margin-bottom:26px}
+    /* comfy ~44px touch targets on mobile */
+    .tab{padding:11px 18px}
+    .mprice-actions a,.mprice-actions button{padding:11px 18px;font-size:.9rem}
+    .modal-body{padding:24px 20px 26px}
+    .modal{padding:14px}
+  }
 
   /* WAYS HOME */
   .ways{background:var(--paper)}
@@ -117,7 +136,7 @@
   .b-rent{background:var(--pine)}
   .b-used{background:var(--clay)}
   .b-new{background:var(--honey);color:var(--pine-deep)}
-  .b-lot{background:var(--sage);color:var(--pine-deep)}
+  .b-preorder{background:var(--sage);color:var(--pine-deep)}
   .card{cursor:pointer}
   .card .photo img{width:100%;height:100%;object-fit:cover;display:block}
   .card .body{padding:20px}
@@ -149,12 +168,20 @@
   .map-illustration{width:min(92vw,640px);max-height:100%;background:var(--pine-deep);border:1px solid rgba(255,255,255,.14);border-radius:16px;padding:18px;box-shadow:0 24px 70px -24px rgba(0,0,0,.7)}
   /* TEMPORARY sample interactive map */
   .map-stage{position:relative}                       /* anchor for the lot tooltip */
-  .sample-map .lot,.sample-map .zone{cursor:pointer}
   .sample-map text{pointer-events:none}
-  .sample-map .lot rect,.sample-map .zone rect{transition:stroke .12s ease,stroke-width .12s ease}
-  .sample-map .lot:hover rect,.sample-map .lot.hot rect,.sample-map .lot:focus rect,
-  .sample-map .zone:hover rect,.sample-map .zone.hot rect,.sample-map .zone:focus rect{stroke:#fff;stroke-width:2.5}
-  .sample-map .lot:focus,.sample-map .zone:focus{outline:none}
+  /* ----- Interactive illustrated site map (Explore-the-Map modal) ----- */
+  .sample-map .gm-lot{stroke:#27371D;stroke-width:.4}                 /* homesite lots (fill set inline) */
+  .sample-map .gm-label{fill:#22321A;font-size:12px;font-weight:700;font-family:'Hanken Grotesk',sans-serif;paint-order:stroke;stroke:rgba(236,225,196,.65);stroke-width:2.6px;stroke-linejoin:round}
+  .sample-map .gm-amen{cursor:pointer}                                /* clickable amenity buttons */
+  .sample-map .gm-amen > rect{transition:.12s ease}
+  .sample-map .gm-amen text{fill:#fff;font-size:15px;font-weight:700;font-family:'Hanken Grotesk',sans-serif;pointer-events:none}
+  .sample-map .gm-amen:hover > rect,.sample-map .gm-amen:focus > rect{stroke:#fff;stroke-width:2;filter:brightness(1.1)}
+  .sample-map .gm-amen:focus{outline:none}
+  /* Transparent clickable hotspots over the real map image: invisible until hover/focus. */
+  .sample-map .gm-hot{cursor:pointer}
+  .sample-map .gm-hot rect{fill:#C25A35;fill-opacity:.001;stroke:#fff;stroke-opacity:0;stroke-width:2;transition:.12s ease}
+  .sample-map .gm-hot:hover rect,.sample-map .gm-hot:focus rect{fill-opacity:.34;stroke-opacity:1}
+  .sample-map .gm-hot:focus{outline:none}
   .map-tip{position:absolute;transform:translate(-50%,-100%);background:rgba(20,30,24,.96);color:var(--cream);font-size:.78rem;font-weight:700;padding:5px 10px;border-radius:8px;white-space:nowrap;pointer-events:none;opacity:0;transition:opacity .12s ease;z-index:4;box-shadow:0 8px 20px -8px rgba(0,0,0,.7)}
   .map-tip.show{opacity:1}
   .map-stage img{max-width:100%;max-height:100%;border-radius:10px;box-shadow:0 24px 70px -24px rgba(0,0,0,.7);transform-origin:center center;transition:transform .12s ease;cursor:zoom-in;animation:mapImgIn .4s cubic-bezier(.2,.7,.2,1);-webkit-user-select:none;user-select:none;-webkit-user-drag:none}
@@ -170,15 +197,22 @@
   .amen-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
   .amen{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:20px 16px;text-align:center;transition:.2s}
   @media (hover:hover){
-    .amen:hover{background:var(--pine);color:#fff}
-    .amen:hover .a-ic{color:var(--honey)}
+    .amen:not(.coming):hover{background:var(--pine);color:#fff}
+    .amen:not(.coming):hover .a-ic{color:var(--honey)}
   }
   /* deterministic tap feedback (not hover-dependent): brief green press state */
-  .amen:active,.amen.pressed{background:var(--pine);color:#fff}
-  .amen:active .a-ic,.amen.pressed .a-ic{color:var(--honey)}
+  .amen:not(.coming):active,.amen.pressed{background:var(--pine);color:#fff}
+  .amen:not(.coming):active .a-ic,.amen.pressed .a-ic{color:var(--honey)}
   .amen .a-ic{color:var(--pine);margin-bottom:10px;transition:.2s}
   .amen .a-t{font-weight:600;font-size:.92rem}
   .amen{font:inherit;color:inherit;cursor:pointer;width:100%}   /* clickable icon button */
+  /* Coming-soon amenities: own group below the active grid, dimmed + badged. */
+  .amen-soon-group{margin-top:26px}
+  .amen-soon-head{font-size:.78rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#7C8B74;text-align:center;margin:0 0 14px;display:flex;align-items:center;gap:12px}
+  .amen-soon-head::before,.amen-soon-head::after{content:"";flex:1;height:1px;background:var(--line)}
+  .amen.coming{position:relative;cursor:default;opacity:.6;border-style:dashed}
+  .amen.coming .a-t{color:var(--ink)}
+  .amen-badge{position:absolute;top:8px;right:8px;background:var(--honey);color:var(--pine-deep);font-size:.6rem;font-weight:800;letter-spacing:.04em;text-transform:uppercase;padding:3px 7px;border-radius:999px}
   .life-slider{position:relative;aspect-ratio:16/9;border-radius:22px;overflow:hidden;box-shadow:var(--shadow);background:var(--cream)}
   @media(max-width:600px){.life-slider{aspect-ratio:4/3}}
 
@@ -208,7 +242,7 @@
   .copyright{padding-top:24px;display:flex;flex-wrap:wrap;gap:8px;justify-content:space-between;font-size:.82rem;opacity:.6}
 
   /* LISTING MODAL */
-  .modal{position:fixed;inset:0;z-index:500;display:none;align-items:flex-start;justify-content:center;padding:24px;overflow-y:auto;background:rgba(28,58,42,.55);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
+  .modal{position:fixed;inset:0;z-index:700;display:none;align-items:flex-start;justify-content:center;padding:24px;overflow-y:auto;background:rgba(28,58,42,.55);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px)}
   .modal.open{display:flex}
   .modal-card{background:var(--paper);border-radius:22px;max-width:760px;width:100%;margin:auto;overflow:hidden;box-shadow:var(--shadow);position:relative}
   .modal-close{position:absolute;top:14px;right:14px;z-index:3;width:38px;height:38px;border-radius:50%;border:none;background:rgba(30,42,34,.6);color:#fff;font-size:1.3rem;cursor:pointer;line-height:1}
@@ -222,7 +256,20 @@
   .gallery-dots i.on{background:#fff}
   .modal-body{padding:26px 28px 30px}
   .modal-body h3{font-size:1.7rem;color:var(--pine-deep);margin-bottom:4px}
-  .modal-body .mprice{font-family:'Fraunces',serif;font-size:1.5rem;color:var(--clay);font-weight:600;margin-bottom:18px}
+  .modal-body .mprice{font-family:'Fraunces',serif;font-size:1.5rem;color:var(--clay);font-weight:600}
+  /* Price + action buttons on one horizontal row; wraps on very narrow screens. */
+  .modal-body .mprice-row{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:18px}
+  .mprice-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  .mprice-actions a,.mprice-actions button{font:inherit;font-weight:700;font-size:.84rem;line-height:1;padding:9px 16px;border-radius:999px;border:1.5px solid transparent;cursor:pointer;white-space:nowrap;text-decoration:none;transition:background .15s,color .15s,filter .15s}
+  .mprice-actions .btn-virtual-tour{background:var(--clay);color:#fff}
+  .mprice-actions .btn-virtual-tour:hover{filter:brightness(1.07)}
+  .mprice-actions .btn-call{background:transparent;color:var(--pine);border-color:var(--pine)}
+  .mprice-actions .btn-call:hover{background:var(--pine);color:#fff}
+  /* Very narrow screens: stack the actions under the price so buttons stay tappable. */
+  @media(max-width:480px){
+    .modal-body .mprice-row{flex-direction:column;align-items:flex-start;gap:12px}
+    .mprice-actions{width:100%}
+  }
   .detail-grid{display:grid;grid-template-columns:1fr;gap:0}
   .detail-grid div{display:flex;justify-content:space-between;gap:18px;padding:9px 0;border-bottom:1px solid var(--line);font-size:.92rem}
   .detail-grid dt{color:#7a8678;font-weight:600}
@@ -345,7 +392,7 @@
   <div class="wrap">
     <span class="eyebrow reveal d1">A Manufactured Home Community · Michigan</span>
     <h1 class="reveal d2">Room to grow.<br>A place to <em>belong.</em></h1>
-    <p class="lead reveal d3">Affordable, well-built homes set in a friendly neighborhood with everything close to home. Rent, buy, or bring your own — there's a homesite here with your name on it.</p>
+    <p class="lead reveal d3">Affordable, well-built homes set in a friendly neighborhood with everything close to home. Rent, buy, pre-order your new home, or bring your own — there's a homesite here with your name on it.</p>
     <div class="hero-actions reveal d4">
       <a href="#homes" class="btn btn-primary">Browse Homes</a>
       <a href="#lots" class="btn btn-ghost">Find a Homesite</a>
@@ -381,15 +428,15 @@
       </div>
       <div class="way">
         <div class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/><path d="M12 7v6m3-3H9"/></svg></div>
-        <h3>Order a new home</h3>
+        <h3>Pre-Order Your New Home</h3>
         <p>Pick a brand-new home and reserve it. Choose your layout and finishes before move-in.</p>
         <a href="#cta" class="more">Start an order →</a>
       </div>
       <div class="way">
         <div class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12h13l-3-3m3 3l-3 3"/><path d="M17 6l4 6-4 6"/></svg></div>
         <h3>Move your home in</h3>
-        <p>Already own a home? Bring it to an open homesite and join the neighborhood.</p>
-        <a href="#cta" class="more">Ask about lots →</a>
+        <p>Already own a home? Bring it to a homesite here and join the neighborhood.</p>
+        <a href="#cta" class="more">Ask about homesites →</a>
       </div>
     </div>
   </div>
@@ -400,14 +447,14 @@
   <div class="wrap">
     <div class="sec-head">
       <span class="eyebrow">Open now</span>
-      <h2>Available homes</h2>
+      <h2>Available Homes</h2>
       <p>A peek at what's open this week. New listings added all the time.</p>
     </div>
     <div class="tabs">
       <button class="tab active" data-filter="all">All</button>
-      <button class="tab" data-filter="rent">For Rent</button>
-      <button class="tab" data-filter="sale">For Sale</button>
-      <button class="tab" data-filter="lot">Open Lots</button>
+      <button class="tab" data-filter="rent">Homes for Rent</button>
+      <button class="tab" data-filter="sale">Homes for Sale</button>
+      <button class="tab" data-filter="preorder">Pre-Order</button>
     </div>
     <!-- Cards below are rendered dynamically from /api/listings (see script at page bottom). -->
     <div class="homes-grid" id="homesGrid" aria-live="polite">
@@ -422,7 +469,7 @@
     <div>
       <span class="eyebrow">See it for yourself</span>
       <h2>Life at Mount Morris Mobile Home Park</h2>
-      <p>Browse the community map to see which lots are open, where the amenities sit, and which spot feels like yours. Tap a lot to see what's available there.</p>
+      <p>Browse the community map to see where the amenities sit and which homesite feels like yours. Tap a spot to see what's available there.</p>
       <button class="btn btn-primary" id="exploreMapBtn">Explore the Map</button>
     </div>
     <!-- Right side: ambient scenery slider from general_scenery. The static map graphic now lives in the Explore-the-Map modal. -->
@@ -440,6 +487,11 @@
     </div>
     <!-- Icon cards are rendered from community/amenities/* (see script at bottom). -->
     <div class="amen-grid" id="amenGrid"></div>
+    <!-- Coming-soon amenities render in their own group below the active ones. -->
+    <div class="amen-soon-group" id="amenSoon" hidden>
+      <h3 class="amen-soon-head">Coming Soon</h3>
+      <div class="amen-grid" id="amenSoonGrid"></div>
+    </div>
   </div>
 </section>
 
@@ -478,7 +530,8 @@
     <h2>Let's find your home</h2>
     <p>Schedule a visit, ask a question, or just say hello. We'll help you figure out the path that fits.</p>
     <div class="row">
-      <a href="tel:0000000000" class="btn btn-white">Call Us</a>
+      <a href="tel:+18103686008" class="btn btn-white">Call Us</a>
+      <a href="sms:+18103686008" class="btn btn-white">Text Us</a>
       <a href="mailto:hello@example.com" class="btn btn-line">Email Us</a>
     </div>
   </div>
@@ -505,7 +558,7 @@
       </div>
       <div class="foot-col">
         <h4>Get in Touch</h4>
-        <a href="tel:0000000000">(000) 000-0000</a>
+        <a href="tel:+18103686008">+1 (810) 368-6008</a>
         <a href="mailto:hello@example.com">hello@example.com</a>
         <a href="#cta">Schedule a Visit</a>
         <a href="#faq">FAQ</a>
@@ -525,7 +578,11 @@
     <div class="gallery" id="modalGallery"></div>
     <div class="modal-body">
       <h3 id="modalTitle"></h3>
-      <div class="mprice" id="modalPrice"></div>
+      <!-- Price + action buttons share one horizontal flex row (see .mprice-row). -->
+      <div class="mprice-row" id="modalPriceRow">
+        <div class="mprice" id="modalPrice"></div>
+        <div class="mprice-actions" id="modalActions"></div>
+      </div>
       <dl class="detail-grid" id="modalDetails"></dl>
     </div>
   </div>
@@ -544,10 +601,9 @@
     <div class="map-tip" id="mapTip" aria-hidden="true"></div>
   </div>
   <div class="map-legend">
-    <span><i style="background:#8AA189"></i>Available</span>
-    <span><i style="background:#E2A23D"></i>Reserved</span>
-    <span><i style="background:#C0392B"></i>Occupied</span>
-    <span class="map-hint">Tap a lot for its status</span>
+    <span><i style="background:#2C5540"></i>Homesites</span>
+    <span><i style="background:#C25A35"></i>Amenities — tap for info</span>
+    <span class="map-hint">Drag / pinch to explore</span>
   </div>
 </div>
 
@@ -576,7 +632,7 @@
 
   // Illustrated-house placeholder in 4 palette variants (varying sky/ground/
   // house/roof/door tones and sun position). Used as the real image-load
-  // fallback, and (temporarily) to populate empty lots — see buildSlides().
+  // fallback, and (temporarily) to populate pre-order homesites — see buildSlides().
   function housePlaceholder(v){
     const P = [
       {sky:'#E8DCC4',ground:'#C9D6BE',house:'#FBF5EA',roof:'#2C5540',door:'#2C5540',win:'#9DB6E0',sunX:330,sunY:70},
@@ -694,11 +750,11 @@
       if(!res.ok) res = await fetch('/api/listings', { headers:{ 'Accept':'application/json' } });
       if(!res.ok) throw new Error('HTTP ' + res.status);
       const data = await res.json();
-      // Order shown to visitors: rentals, then sales, then open lots.
+      // Order shown to visitors: rentals, then sales, then pre-order homesites.
       LISTINGS = [
-        ...(data.homesForRent || []),
-        ...(data.homesForSale || []),
-        ...(data.emptyLots    || []),
+        ...(data.homesForRent  || []),
+        ...(data.homesForSale  || []),
+        ...(data.preorderHomes || []),
       ];
       render();
       renderCommunity(data.community || {});
@@ -737,11 +793,18 @@
   }
 
   // Shared modal filler — used by BOTH listings and amenities (one interaction language).
-  function fillModal({ title, priceHTML, details, slides, startIdx }){
+  function fillModal({ title, priceHTML, details, slides, startIdx, lotId }){
     document.getElementById('modalTitle').textContent = title || '';
     const priceEl = document.getElementById('modalPrice');
     priceEl.innerHTML = priceHTML || '';
     priceEl.style.display = priceHTML ? '' : 'none';
+    // Action buttons sit on the same row as the price — listings only (amenities pass no lotId).
+    const actionsEl = document.getElementById('modalActions');
+    actionsEl.innerHTML = lotId
+      ? `<button type="button" class="btn-virtual-tour" data-lot="${esc(lotId)}">Virtual Tour</button>`
+        + `<a class="btn-call" href="tel:+18103686008">Call Us</a>`
+      : '';
+    document.getElementById('modalPriceRow').style.display = (priceHTML || lotId) ? '' : 'none';
     document.getElementById('modalDetails').innerHTML =
       (details || []).map(d => `<div><dt>${esc(d.label)}</dt><dd>${esc(fmtDetail(d.label, d.value))}</dd></div>`).join('');
     if (slides && slides.length){
@@ -764,6 +827,7 @@
       details: item.details,
       slides: buildSlides(item),
       startIdx,
+      lotId: item.id,
     });
   }
 
@@ -776,6 +840,12 @@
       startIdx: 0,
     });
   }
+
+  // Virtual Tour: placeholder action — logs the lot ID (delegated; container is stable).
+  document.getElementById('modalActions').addEventListener('click', (e) => {
+    const btn = e.target.closest('.btn-virtual-tour');
+    if (btn) console.log('Virtual Tour requested for lot:', btn.dataset.lot);
+  });
 
   function closeModal(){
     modal.classList.remove('open');
@@ -979,9 +1049,11 @@
     community_events: '<rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 9h18M8 2v4M16 2v4"/>',
     green_spaces:     '<path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.5 19 2c1 2 2 4.2 2 8 0 5.5-4.8 10-10 10z"/><path d="M2 22c0-3 1.9-5.4 5.1-6"/>',
     basketball_court: '<circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3v18M5.6 5.6c3.5 3.5 3.5 9.3 0 12.8M18.4 5.6c-3.5 3.5-3.5 9.3 0 12.8"/>',
-    laundry_facility: '<rect x="5" y="2" width="14" height="20" rx="2"/><circle cx="12" cy="13" r="5"/><circle cx="12" cy="13" r="1.6"/><path d="M8.5 5h.01M11.5 5h.01"/>',
-    storage_parking:  '<path d="M3 21V9l9-5 9 5v12"/><path d="M3 21h18M7 21v-7h10v7"/><path d="M9 14h6"/>',
     onsite_management:'<path d="M3 21h18M6 21V5a1 1 0 0 1 1-1h7a1 1 0 0 1 1 1v16M15 21V9h4v12"/><path d="M9 8h.01M12 8h.01M9 12h.01M12 12h.01"/>',
+    office:           '<circle cx="12" cy="12" r="9"/><path d="M12 11v5"/><path d="M12 8h.01"/>',
+    storm_shelter:    '<path d="M12 3l8 3v5c0 5-3.4 8.5-8 10-4.6-1.5-8-5-8-10V6z"/><path d="M9 12l2 2 4-4"/>',
+    parking:          '<rect x="3" y="3" width="18" height="18" rx="3"/><path d="M9 17V7h4a3 3 0 0 1 0 6H9"/>',
+    mailbox:          '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/>',
     _generic:         '<rect x="3" y="3" width="18" height="18" rx="4"/><path d="M8 12h8M12 8v8"/>',
   };
   function amenityIcon(id){
@@ -991,11 +1063,24 @@
 
   function renderAmenities(amenities){
     AMENITIES = amenities || [];
-    document.getElementById('amenGrid').innerHTML = AMENITIES.map(a =>
+    const active = AMENITIES.filter(a => !a.comingSoon);
+    const soon   = AMENITIES.filter(a =>  a.comingSoon);
+
+    document.getElementById('amenGrid').innerHTML = active.map(a =>
       `<button class="amen" data-id="${esc(a.id)}" aria-label="${esc(a.displayName)}">
         <div class="a-ic">${amenityIcon(a.id)}</div>
         <div class="a-t">${esc(a.displayName)}</div>
       </button>`).join('');
+
+    // Coming-soon items live in their own badged group; not clickable, no modal.
+    const soonWrap = document.getElementById('amenSoon');
+    document.getElementById('amenSoonGrid').innerHTML = soon.map(a =>
+      `<div class="amen coming" aria-label="${esc(a.displayName)} — coming soon">
+        <span class="amen-badge">Coming Soon</span>
+        <div class="a-ic">${amenityIcon(a.id)}</div>
+        <div class="a-t">${esc(a.displayName)}</div>
+      </div>`).join('');
+    soonWrap.hidden = soon.length === 0;
   }
 
   // Scenery slider lives in the homesite section's right side. With photos it
@@ -1036,76 +1121,162 @@
   // null URL => the modal shows the TEMPORARY sample interactive map below; button stays "Explore the Map".
   function setupMap(url){ MAP_IMAGE = url; }
 
-  /* ===== TEMPORARY sample interactive map (NOT the real park layout) =====
-     A stylized top-down site map: horizontal roads with rows of lots in blocks
-     on both sides, plus Clubhouse / Playground amenity zones. Replace this whole
-     function and the #mapSvg markup with the real map (community/map.jpg). ===== */
+  /* ===== Interactive site map for Mount Morris Village MHC ====================
+     A clean illustrated (vector) site map in the green aerial style of the
+     client blueprint: gradient ground, textured forest borders, cream roads
+     tracing the real park layout, green lot rows along the streets, and the
+     bottom grid cluster. On top sit the interactive ORANGE amenity buttons
+     (office, storm_shelter, mailbox, playground, green_spaces x3); clicking one
+     opens the SAME amenity modal/slideshow as the "Life Here" cards. Layout is
+     driven by the editable arrays below (roads* / streets / bottomGrid / woods /
+     labels / amenities) so positions are easy to nudge. 760x1020 (portrait). === */
   function buildSampleMap(){
     if (mapSvg.dataset.built) return;
     mapSvg.dataset.built = '1';
-    const W = 620, H = 410;
-    const COLOR = { available:'#8AA189', reserved:'#E2A23D', occupied:'#C0392B' };
-    const LABEL = { available:'Available', reserved:'Reserved', occupied:'Occupied' };
-    const ROAD = '#9C9277', LINE = 'rgba(246,238,224,.5)';
-    const lotW = 30, lotH = 18, gap = 8, blockGap = 46, x0 = 124, blocks = [3, 3, 2], roadsY = [140, 250, 360];
-    const zone = (x,y,w,h,fill,name,round) =>
-      `<g class="zone" data-tip="${name}" tabindex="0" role="button" aria-label="${name}">`
-      + `<rect x="${x}" y="${y}" width="${w}" height="${h}" rx="${round}" fill="${fill}" opacity=".92"/>`
-      + `<text x="${x+w/2}" y="${y+h/2+4}" text-anchor="middle" font-size="13" font-weight="700" fill="#fff" font-family="'Hanken Grotesk',sans-serif">${name}</text></g>`;
-    let s = `<rect x="0" y="0" width="${W}" height="${H}" rx="14" fill="#24382B"/>`;   // ground
-    s += zone(44, 30, 150, 54, '#C25A35', 'Clubhouse', 8);            // amenity zones (distinct from lots)
-    s += zone(426, 30, 150, 54, '#6E9C6A', 'Playground', 26);
-    roadsY.forEach(ry => {                                            // horizontal roads + dashed centre lines
-      s += `<rect x="20" y="${ry}" width="${W-40}" height="16" fill="${ROAD}"/>`;
-      s += `<line x1="28" y1="${ry+8}" x2="${W-28}" y2="${ry+8}" stroke="${LINE}" stroke-width="2" stroke-dasharray="10 8"/>`;
-    });
-    [246, 398].forEach(vx =>                                          // vertical connector roads (in the block gaps)
-      s += `<rect x="${vx}" y="${roadsY[0]}" width="14" height="${roadsY[2]-roadsY[0]+16}" fill="${ROAD}"/>`);
-    let num = 1;                                                      // lots: a row above and below each road, in blocks
-    roadsY.forEach(ry => {
-      [ry - 6 - lotH, ry + 16 + 6].forEach(ly => {
-        let x = x0;
-        blocks.forEach(b => {
-          for (let i = 0; i < b; i++){
-            const m = (num * 37 + 13) % 10;
-            const st = m < 5 ? 'available' : m < 8 ? 'reserved' : 'occupied';   // ~50/30/20 varied mix
-            s += `<g class="lot" data-tip="Lot ${num} · ${LABEL[st]}" tabindex="0" role="button" aria-label="Lot ${num}, ${LABEL[st]}">`
-               + `<rect x="${x}" y="${ly}" width="${lotW}" height="${lotH}" rx="3" fill="${COLOR[st]}"/></g>`;
-            x += lotW + gap; num++;
-          }
-          x += blockGap;
-        });
-      });
-    });
+    const W = 760, H = 1020;
+
+    // ----- ROADS -------------------------------------------------------------
+    const roadsMain = [        // perimeter loop, north stub, spine, neck->grid, entrance spur
+      ['M555,40 C628,64 664,150 666,238 C669,330 632,402 575,452 L520,506 L470,556 L406,492 C356,444 332,348 342,256 C351,170 432,92 504,58 C524,49 542,40 555,40 Z', 12],
+      ['M560,8 L556,40', 8],
+      ['M505,86 C490,250 480,420 472,552', 8],
+      ['M470,556 C440,618 402,668 372,742', 9],
+      ['M452,572 C360,640 250,652 150,676 L60,676', 9],
+    ];
+    // Internal residential streets [x1,y1,x2,y2] — also get a lot row on each side.
+    const streets = [
+      [410,150,590,140],[392,190,606,182],[378,230,612,226],[372,270,606,270],
+      [374,310,592,314],[384,350,576,358],[398,390,556,402],
+      [560,300,520,506],[628,152,616,366],
+    ];
+    const bottomGrid = { x:206, y:748, w:262, h:252, cols:5, rows:6 };
+    // Wooded borders (filled green + canopy texture): top, left, right, SE corner.
+    const woods = [
+      'M0,0 L760,0 L760,60 C520,34 250,50 0,66 Z',
+      'M0,48 L72,62 C58,300 78,560 60,840 L0,860 Z',
+      'M760,44 L686,60 C700,300 684,590 706,872 L760,892 Z',
+      'M512,1020 C548,876 648,824 760,800 L760,1020 Z',
+    ];
+    const labels = [           // named streets, sitting on their roads
+      { t:'Spruce', x:452, y:146, r:-3 }, { t:'Hickory', x:448, y:228, r:-2 },
+      { t:'Hemlock', x:446, y:269, r:-1 }, { t:'Fernwood', x:452, y:312, r:1 },
+      { t:'Hawthorn', x:460, y:354, r:3 },
+    ];
+    // Interactive amenities -> community/amenities/<id>. {id,x,y,w,h,label}; easy to nudge.
+    const amenities = [
+      { id:'office',        x:96,  y:704, w:104, h:30, label:'Office' },
+      { id:'storm_shelter', x:84,  y:742, w:128, h:30, label:'Storm Shelter' },
+      { id:'mailbox',       x:44,  y:628, w:92,  h:28, label:'Mailbox' },
+      { id:'playground',    x:388, y:598, w:112, h:30, label:'Playground' },
+      { id:'green_spaces',  x:150, y:430, w:116, h:30, label:'Greenspace' },
+      { id:'green_spaces',  x:560, y:404, w:116, h:30, label:'Greenspace' },
+      { id:'green_spaces',  x:500, y:808, w:116, h:30, label:'Greenspace' },
+    ];
+    // -------------------------------------------------------------------------
+
+    const stroke = (d, col, w) => `<path d="${d}" fill="none" stroke="${col}" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round"/>`;
+    const drawRoads = () => {
+      const all = [...roadsMain, ...streets.map(s => ['M' + s[0] + ',' + s[1] + ' L' + s[2] + ',' + s[3], 6])];
+      const cas = all.map(([d, w]) => stroke(d, '#B9A876', w + 3.5)).join('');
+      const top = all.map(([d, w]) => stroke(d, '#ECE1C4', w)).join('');
+      return `<g filter="url(#sh)">${cas}</g>${top}`;
+    };
+    const LW = 13, LH = 9;
+    const lotsAlong = (x1, y1, x2, y2) => {
+      const dx = x2 - x1, dy = y2 - y1, len = Math.hypot(dx, dy) || 1;
+      const n = Math.max(2, Math.round(len / 24));
+      const ang = (Math.atan2(dy, dx) * 180 / Math.PI).toFixed(1);
+      const nx = -dy / len, ny = dx / len;
+      let o = '';
+      for (const side of [1, -1]) for (let i = 0; i < n; i++){
+        const t = (i + 0.5) / n, cx = x1 + dx * t + nx * 10 * side, cy = y1 + dy * t + ny * 10 * side;
+        const sh = ((i + (side > 0 ? 0 : 1)) % 2) ? '#3E5A33' : '#476640';
+        o += `<rect class="gm-lot" x="${(cx - LW / 2).toFixed(1)}" y="${(cy - LH / 2).toFixed(1)}" width="${LW}" height="${LH}" rx="1.4" fill="${sh}" transform="rotate(${ang} ${cx.toFixed(1)} ${cy.toFixed(1)})"/>`;
+      }
+      return o;
+    };
+    const gridLots = (g) => {
+      let o = ''; const cw = g.w / g.cols, ch = g.h / g.rows;
+      for (let r = 0; r < g.rows; r++) for (let c = 0; c < g.cols; c++) for (const k of [0, 1]){
+        const x = g.x + c * cw + 4, y = g.y + r * ch + 3 + k * (ch / 2 - 1);
+        const sh = ((r + c + k) % 2) ? '#3E5A33' : '#476640';
+        o += `<rect class="gm-lot" x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${(cw - 8).toFixed(1)}" height="${(ch / 2 - 5).toFixed(1)}" rx="1.4" fill="${sh}"/>`;
+      }
+      return o;
+    };
+    const forest = () => {
+      let o = woods.map(d => `<path d="${d}" fill="url(#fg)"/>`).join('');
+      let seed = 7; const rnd = () => { seed = (seed * 9301 + 49297) % 233280; return seed / 233280; };
+      const bands = [[0,72,0,1020],[686,760,0,1020],[0,760,0,66],[512,760,800,1020]];
+      const cols = ['#2C4226','#34502C','#3A5630','#26381F'];
+      bands.forEach(([x0,x1,y0,y1]) => { for (let i = 0; i < 80; i++){
+        const x = x0 + rnd() * (x1 - x0), y = y0 + rnd() * (y1 - y0), r = 4 + rnd() * 5;
+        o += `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${r.toFixed(1)}" fill="${cols[Math.floor(rnd() * 4)]}" opacity="0.92"/>`;
+      }});
+      return o;
+    };
+
+    const defs = `<defs>`
+      + `<radialGradient id="gg" cx="46%" cy="38%" r="78%"><stop offset="0" stop-color="#A6BC85"/><stop offset="1" stop-color="#7B9258"/></radialGradient>`
+      + `<linearGradient id="fg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#334B2B"/><stop offset="1" stop-color="#27391F"/></linearGradient>`
+      + `<filter id="sh" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="1.2" stdDeviation="1.1" flood-color="#1d2a16" flood-opacity="0.32"/></filter>`
+      + `</defs>`;
+    let s = defs + `<rect width="${W}" height="${H}" rx="14" fill="url(#gg)"/>`;
+    s += `<g id="forest">` + forest() + `</g>`;
+    s += `<g id="roads">`  + drawRoads() + `</g>`;
+    s += `<g id="lots" filter="url(#sh)">` + streets.map(c => lotsAlong(c[0], c[1], c[2], c[3])).join('') + gridLots(bottomGrid) + `</g>`;
+    s += `<g id="labels">` + labels.map(l => `<text class="gm-label" x="${l.x}" y="${l.y}" transform="rotate(${l.r} ${l.x} ${l.y})">${l.t}</text>`).join('') + `</g>`;
+    s += `<g id="amenities">` + amenities.map(a => {
+      const cx = a.x + a.w / 2, cy = a.y + a.h / 2;
+      return `<g class="gm-amen" data-amenity="${a.id}" tabindex="0" role="button" aria-label="${a.label}: open details">`
+        + `<rect x="${a.x}" y="${a.y}" width="${a.w}" height="${a.h}" rx="8" fill="#C25A35" stroke="#8E3F22" stroke-width="1"/>`
+        + `<text x="${cx}" y="${(cy + 0.5).toFixed(1)}" text-anchor="middle" dominant-baseline="central">${a.label}</text>`
+        + `</g>`;
+    }).join('') + `</g>`;
     mapSvg.setAttribute('viewBox', `0 0 ${W} ${H}`);
     mapSvg.innerHTML = s;
   }
-  function showTip(g){
-    mapSvg.querySelectorAll('.hot').forEach(x => x.classList.remove('hot'));
-    g.classList.add('hot');
-    const r = g.getBoundingClientRect(), st = mapStage.getBoundingClientRect();
-    mapTip.textContent = g.dataset.tip;
-    mapTip.style.left = (r.left - st.left + r.width / 2) + 'px';
-    mapTip.style.top  = (r.top - st.top - 6) + 'px';
-    mapTip.classList.add('show');
-  }
-  function hideTip(){ mapTip.classList.remove('show'); mapSvg.querySelectorAll('.hot').forEach(x => x.classList.remove('hot')); }
-  mapSvg.addEventListener('pointermove', e => { if (e.buttons) return; const g = e.target.closest('.lot,.zone'); g ? showTip(g) : hideTip(); });
-  mapSvg.addEventListener('pointerleave', hideTip);
-  mapSvg.addEventListener('click',     e => { const g = e.target.closest('.lot,.zone'); if (g) showTip(g); });
-  mapSvg.addEventListener('focusin',   e => { const g = e.target.closest('.lot,.zone'); if (g) showTip(g); });
+  function hideTip(){ if (mapTip) mapTip.classList.remove('show'); }   // kept for closeMap()
+  // Amenity hotspots/buttons open the SAME modal/slideshow as the "Life Here" cards.
+  const openAmenFromMap = (g) => { const am = AMENITIES.find(a => a.id === g.dataset.amenity); if (am) openAmenityModal(am); };
+  mapSvg.addEventListener('click',   e => { const g = e.target.closest('[data-amenity]'); if (g) openAmenFromMap(g); });
+  mapSvg.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' '){ const g = e.target.closest('[data-amenity]'); if (g){ e.preventDefault(); openAmenFromMap(g); } } });
 
   // Pan/zoom applies to whichever element is showing (real image OR sample map).
   let mz = 1, mpx = 0, mpy = 0, mdrag = false, mlx = 0, mly = 0, mapZoomEl = mapImg;
   const applyMap = () => { mapZoomEl.style.transform = `translate(${mpx}px,${mpy}px) scale(${mz})`; mapZoomEl.classList.toggle('zoomed', mz > 1); };
   const resetMap = () => { mz = 1; mpx = 0; mpy = 0; [mapImg, mapSvg].forEach(el => { el.style.transform = ''; el.classList.remove('zoomed'); }); };
 
+  /* The client's render (community/map.jpg) IS the map. We draw it inside the
+     SVG with transparent clickable hotspots over the labelled zones, so the
+     picture is untouched and the hotspots stay aligned through pan/zoom.
+     Coordinates are in the image's own space (896x1195, portrait 3:4). Each
+     hotspot maps a labelled zone -> an amenity folder; easy to nudge. */
+  function buildImageMap(){
+    if (mapSvg.dataset.imgBuilt) return;
+    mapSvg.dataset.imgBuilt = '1';
+    const VW = 896, VH = 1195;
+    const hot = [
+      { id:'office',       x:24,  y:872, w:234, h:266, label:'Community Hub' },  // COMMUNITY HUB box
+      { id:'green_spaces', x:52,  y:396, w:130, h:42,  label:'Greenspace' },     // left meadow
+      { id:'green_spaces', x:335, y:58,  w:95,  h:32,  label:'Greenspace' },     // top
+      { id:'green_spaces', x:528, y:352, w:96,  h:32,  label:'Greenspace' },     // mid-right
+      { id:'green_spaces', x:300, y:926, w:122, h:60,  label:'Greenspace' },     // bottom
+    ];
+    let s = `<image href="${API_BASE + MAP_IMAGE}" x="0" y="0" width="${VW}" height="${VH}" preserveAspectRatio="xMidYMid slice"/>`;
+    s += hot.map(a =>
+      `<g class="gm-hot" data-amenity="${a.id}" tabindex="0" role="button" aria-label="${a.label}: open details">`
+      + `<rect x="${a.x}" y="${a.y}" width="${a.w}" height="${a.h}" rx="10"/><title>${a.label}</title></g>`).join('');
+    mapSvg.setAttribute('viewBox', `0 0 ${VW} ${VH}`);
+    mapSvg.innerHTML = s;
+  }
+
   function openMap(){
-    if (MAP_IMAGE){                          // real uploaded map -> zoomable image
-      mapImg.src = API_BASE + MAP_IMAGE;
-      mapImg.style.display = ''; mapSvg.style.display = 'none';
-      mapZoomEl = mapImg;
-    } else {                                 // no map yet -> TEMPORARY sample interactive map
+    if (MAP_IMAGE){                          // the real map image IS the map (+ clickable hotspots)
+      mapImg.style.display = 'none'; mapSvg.style.display = '';
+      buildImageMap();
+      mapZoomEl = mapSvg;
+    } else {                                 // no map uploaded yet -> illustrated fallback
       mapImg.style.display = 'none'; mapSvg.style.display = '';
       buildSampleMap();
       mapZoomEl = mapSvg;
@@ -1119,7 +1290,7 @@
   document.getElementById('exploreMapBtn').addEventListener('click', openMap);
   document.getElementById('mapClose').addEventListener('click', closeMap);
   mapStage.addEventListener('click', (e)=>{ if (e.target === mapStage) closeMap(); });   // click outside the image
-  document.addEventListener('keydown', (e)=>{ if (mapModal.classList.contains('open') && e.key === 'Escape') closeMap(); });
+  document.addEventListener('keydown', (e)=>{ if (mapModal.classList.contains('open') && !modal.classList.contains('open') && e.key === 'Escape') closeMap(); });
 
   // wheel/double-click zoom (desktop); touch devices use the browser's native pinch-zoom
   mapStage.addEventListener('wheel', (e)=>{
@@ -1140,14 +1311,14 @@
   // independent of hover. The click below always opens the modal (never swallowed).
   document.getElementById('amenGrid').addEventListener('pointerdown', (e)=>{
     const card = e.target.closest('.amen');
-    if(!card) return;
+    if(!card || card.classList.contains('coming')) return;   // coming-soon cards aren't interactive
     card.classList.add('pressed');
     setTimeout(() => card.classList.remove('pressed'), 160);
   });
   // Click an amenity icon -> open its modal (same component as listings).
   document.getElementById('amenGrid').addEventListener('click', (e)=>{
     const card = e.target.closest('.amen');
-    if(!card) return;
+    if(!card || card.classList.contains('coming')) return;   // coming-soon: no modal
     const am = AMENITIES.find(a => a.id === card.dataset.id);
     if(am) openAmenityModal(am);
   });
