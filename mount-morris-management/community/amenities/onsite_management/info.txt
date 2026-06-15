@@ -1,5 +1,5 @@
-Display Name:
-Order:
+Display Name: On-Site Management
+Order: 5
 Hours:
 Rules:
 Description:

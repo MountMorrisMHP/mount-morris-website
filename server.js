@@ -4,7 +4,7 @@
  * The client manages everything by moving lot folders between four directories
  * and editing plain .txt files. This server scans those folders on every
  * request, parses the text files into clean JSON, maps the images, and serves
- * three arrays: emptyLots, homesForRent, homesForSale.
+ * three arrays: preorderHomes, homesForRent, homesForSale.
  *
  * Design goals:
  *   - NEVER crash on bad human input. A malformed/missing file or image is
@@ -25,7 +25,7 @@ const DATA_DIR = path.join(ROOT, 'mount-morris-management');
 /* Public categories. The `slug` is what appears in image URLs — folder 4 has
  * no slug, so its images are simply not addressable from the web. */
 const CATEGORIES = [
-  { key: 'emptyLots',    dir: '1_EMPTY_LOTS',     slug: 'empty', dataCat: 'lot',  needsHome: false },
+  { key: 'preorderHomes', dir: '1_PREORDER_HOMES', slug: 'preorder', dataCat: 'preorder', needsHome: false },
   { key: 'homesForRent', dir: '2_HOMES_FOR_RENT', slug: 'rent',  dataCat: 'rent', needsHome: true  },
   { key: 'homesForSale', dir: '3_HOMES_FOR_SALE', slug: 'sale',  dataCat: 'sale', needsHome: true  },
 ];
@@ -195,11 +195,11 @@ async function buildListing(category, folder) {
   let badgeText, badgeClass, title, price, priceSmall, specs;
 
   if (!category.needsHome) {
-    badgeText = 'Open Lot';
-    badgeClass = 'b-lot';
-    title = `Open Homesite · Lot ${lotNumber}`;
+    badgeText = 'Pre-Order';
+    badgeClass = 'b-preorder';
+    title = `Pre-Order Your New Home · Lot ${lotNumber}`;
     const rent = pick(site.map, 'baselotrent', 'lotrent');
-    price = rent ? formatPrice(rent) : 'Bring your home';
+    price = rent ? formatPrice(rent) : 'Pre-order your new home';
     priceSmall = rent ? ' / mo lot rent' : '';
     specs = lotSpecs(site.map);
   } else {
@@ -298,13 +298,15 @@ async function buildAmenity(folder) {
   if (!infoExists && gallery.length === 0) return null;          // neither file nor photos -> skip
   const orderRaw = pick(info.map, 'order');
   const order = /^-?\d+(\.\d+)?$/.test(orderRaw) ? parseFloat(orderRaw) : Number.POSITIVE_INFINITY;
+  const comingSoon = /^(yes|true|1)$/i.test(pick(info.map, 'comingsoon').trim());
   const details = info.ordered.filter(
-    d => d.value !== '' && !['displayname', 'name', 'order'].includes(normalizeKey(d.label))
+    d => d.value !== '' && !['displayname', 'name', 'order', 'comingsoon'].includes(normalizeKey(d.label))
   );
   return {
     id: folder,
     displayName: pick(info.map, 'displayname', 'name') || titleCase(folder),
     order,
+    comingSoon,
     details,
     mainImage: gallery[0] || null,
     gallery,
@@ -337,7 +339,7 @@ async function scanCommunity() {
 // Consolidated data endpoint — one fetch gives the frontend everything.
 app.get('/api/listings', async (req, res) => {
   try {
-    const [emptyLots, homesForRent, homesForSale] = await Promise.all(
+    const [preorderHomes, homesForRent, homesForSale] = await Promise.all(
       CATEGORIES.map(scanCategory)
     );
     const community = await scanCommunity();
@@ -345,13 +347,13 @@ app.get('/api/listings', async (req, res) => {
     res.json({
       generatedAt: new Date().toISOString(),
       counts: {
-        emptyLots: emptyLots.length,
+        preorderHomes: preorderHomes.length,
         homesForRent: homesForRent.length,
         homesForSale: homesForSale.length,
         amenities: community.amenities.length,
         scenery: community.scenery.length,
       },
-      emptyLots,
+      preorderHomes,
       homesForRent,
       homesForSale,
       community,
@@ -362,7 +364,7 @@ app.get('/api/listings', async (req, res) => {
     res.status(200).json({
       generatedAt: new Date().toISOString(),
       error: 'Could not read listings right now.',
-      emptyLots: [], homesForRent: [], homesForSale: [],
+      preorderHomes: [], homesForRent: [], homesForSale: [],
       community: { amenities: [], scenery: [], communityRules: '' },
     });
   }

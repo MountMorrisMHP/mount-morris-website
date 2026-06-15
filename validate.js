@@ -21,7 +21,7 @@ const DATA_DIR = path.join(ROOT, 'mount-morris-management');
 // Same three public categories as build.js. 0_TEMPLATES and 4_OCCUPIED_HOMES
 // are intentionally not scanned.
 const CATEGORIES = [
-  { dir: '1_EMPTY_LOTS',     needsHome: false, isSale: false },
+  { dir: '1_PREORDER_HOMES', needsHome: false, isSale: false },
   { dir: '2_HOMES_FOR_RENT', needsHome: true,  isSale: false },
   { dir: '3_HOMES_FOR_SALE', needsHome: true,  isSale: true  },
 ];
