@@ -104,10 +104,13 @@ function pick(map, ...aliases) {
 
 /** Collect image files from a lot folder and pick the main thumbnail.
  *  main.* wins; otherwise the first image alphabetically; otherwise null. */
+/* VIRTUAL TOUR: tour-*.jpg images belong to the 360° tour, not the flat gallery. */
+const TOUR_RE = /^tour[-_. ]/i;
+
 async function mapImages(lotPath, slug, folder) {
   const entries = await safeReadDir(lotPath);
   const images = entries
-    .filter(e => e.isFile() && IMAGE_EXTS.has(path.extname(e.name).toLowerCase()))
+    .filter(e => e.isFile() && IMAGE_EXTS.has(path.extname(e.name).toLowerCase()) && !TOUR_RE.test(e.name))
     .map(e => e.name)
     .sort((a, b) => a.localeCompare(b));
 
@@ -125,6 +128,33 @@ async function mapImages(lotPath, slug, folder) {
 
   return { mainImage: toUrl(mainName), gallery: ordered.map(toUrl) };
 }
+
+/* ===== VIRTUAL TOUR MODULE (server) — remove this block to remove the feature =====
+ * Detect tour-*.jpg images (and an optional tour/ subfolder) in a lot and return
+ * an ordered [{url,label}] scene list. Images are served by the routes below. */
+function tourLabel(name, i) {
+  const n = name.replace(/\.[a-z0-9]+$/i, '').replace(/^tour/i, '')
+    .replace(/^[-_. ]+/, '').replace(/^\d+[-_. ]*/, '').replace(/[-_]+/g, ' ').trim();
+  return n ? n.replace(/\b\w/g, c => c.toUpperCase()) : `Room ${i + 1}`;
+}
+async function scanTour(lotPath, slug, folder) {
+  const entries = await safeReadDir(lotPath);
+  const top = entries
+    .filter(e => e.isFile() && IMAGE_EXTS.has(path.extname(e.name).toLowerCase()) && TOUR_RE.test(e.name))
+    .map(e => e.name).sort((a, b) => a.localeCompare(b, undefined, { numeric: true }));
+  let sub = [];
+  if (entries.some(e => e.isDirectory() && e.name.toLowerCase() === 'tour')) {
+    sub = (await safeReadDir(path.join(lotPath, 'tour')))
+      .filter(e => e.isFile() && IMAGE_EXTS.has(path.extname(e.name).toLowerCase()))
+      .map(e => e.name).sort((a, b) => a.localeCompare(b, undefined, { numeric: true }));
+  }
+  const scenes = []; let i = 0;
+  const enc = encodeURIComponent;
+  top.forEach(name => scenes.push({ url: `/listings/${slug}/${enc(folder)}/${enc(name)}`, label: tourLabel(name, i++) }));
+  sub.forEach(name => scenes.push({ url: `/listings/${slug}/${enc(folder)}/tour/${enc(name)}`, label: tourLabel(name, i++) }));
+  return scenes;
+}
+/* ===== END VIRTUAL TOUR MODULE (server) ===== */
 
 /* --------------------------------------------------------- listing shaping */
 
@@ -186,6 +216,7 @@ async function buildListing(category, folder) {
     : { ordered: [], map: {} };
 
   const { mainImage, gallery } = await mapImages(lotPath, category.slug, folder);
+  const tour = await scanTour(lotPath, category.slug, folder);   // VIRTUAL TOUR
 
   // Lot number falls back to the folder name so a card is never anonymous.
   const lotNumber =
@@ -240,6 +271,7 @@ async function buildListing(category, folder) {
     mainImage,
     gallery,
     details,
+    tour,   // VIRTUAL TOUR: [{url,label}] scene list (empty if no tour images)
   };
 }
 
@@ -372,6 +404,16 @@ app.get('/api/listings', async (req, res) => {
 
 // Image server — only the three public categories are reachable, and folder
 // names are sanitized so "../" can't escape the data directory.
+/* ===== VIRTUAL TOUR MODULE (server routes) — remove this block to remove the feature ===== */
+app.get('/virtual-tour.js', (req, res) => res.sendFile(path.join(ROOT, 'virtual-tour.js')));
+app.get('/listings/:slug/:folder/tour/:file', (req, res) => {   // panoramas in a tour/ subfolder
+  const { slug, folder, file } = req.params;
+  const dir = SLUG_TO_DIR[slug];
+  if (!dir) return res.status(404).end();
+  serveUnder(res, path.join(DATA_DIR, dir), folder, 'tour', file);
+});
+/* ===== END VIRTUAL TOUR MODULE (server routes) ===== */
+
 app.get('/listings/:slug/:folder/:file', async (req, res) => {
   const { slug, folder, file } = req.params;
   const dir = SLUG_TO_DIR[slug];

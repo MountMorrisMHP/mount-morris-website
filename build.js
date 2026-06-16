@@ -89,10 +89,13 @@ function pick(map, ...aliases) {
 }
 
 /** Collect a lot's images, COPY them into dist, and return relative URLs. */
+/* VIRTUAL TOUR: tour-*.jpg images belong to the 360° tour, not the flat gallery. */
+const TOUR_RE = /^tour[-_. ]/i;
+
 async function mapImages(lotPath, slug, folder) {
   const entries = await safeReadDir(lotPath);
   const images = entries
-    .filter(e => e.isFile() && IMAGE_EXTS.has(path.extname(e.name).toLowerCase()))
+    .filter(e => e.isFile() && IMAGE_EXTS.has(path.extname(e.name).toLowerCase()) && !TOUR_RE.test(e.name))
     .map(e => e.name)
     .sort((a, b) => a.localeCompare(b));
 
@@ -114,6 +117,46 @@ async function mapImages(lotPath, slug, folder) {
 
   return { mainImage: toUrl(mainName), gallery: ordered.map(toUrl) };
 }
+
+/* ===== VIRTUAL TOUR MODULE (build) — remove this block to remove the feature =====
+ * A lot's 360° tour = panorama images named tour-*.jpg in the lot folder, and/or
+ * images inside an optional tour/ subfolder. We copy them to dist and emit an
+ * ordered [{url,label}] scene list; the label is derived from the file name. */
+function tourLabel(name, i) {
+  const n = name.replace(/\.[a-z0-9]+$/i, '').replace(/^tour/i, '')
+    .replace(/^[-_. ]+/, '').replace(/^\d+[-_. ]*/, '').replace(/[-_]+/g, ' ').trim();
+  return n ? n.replace(/\b\w/g, c => c.toUpperCase()) : `Room ${i + 1}`;
+}
+async function scanTour(lotPath, slug, folder) {
+  const entries = await safeReadDir(lotPath);
+  const top = entries
+    .filter(e => e.isFile() && IMAGE_EXTS.has(path.extname(e.name).toLowerCase()) && TOUR_RE.test(e.name))
+    .map(e => e.name).sort((a, b) => a.localeCompare(b, undefined, { numeric: true }));
+  let sub = [];
+  if (entries.some(e => e.isDirectory() && e.name.toLowerCase() === 'tour')) {
+    sub = (await safeReadDir(path.join(lotPath, 'tour')))
+      .filter(e => e.isFile() && IMAGE_EXTS.has(path.extname(e.name).toLowerCase()))
+      .map(e => e.name).sort((a, b) => a.localeCompare(b, undefined, { numeric: true }));
+  }
+  if (!top.length && !sub.length) return [];
+
+  const destDir = path.join(OUT_DIR, 'listings', slug, folder);
+  await fs.mkdir(destDir, { recursive: true });
+  const scenes = []; let i = 0;
+  for (const name of top) {
+    await fs.copyFile(path.join(lotPath, name), path.join(destDir, name));
+    scenes.push({ url: `listings/${slug}/${encodeURIComponent(folder)}/${encodeURIComponent(name)}`, label: tourLabel(name, i++) });
+  }
+  if (sub.length) {
+    await fs.mkdir(path.join(destDir, 'tour'), { recursive: true });
+    for (const name of sub) {
+      await fs.copyFile(path.join(lotPath, 'tour', name), path.join(destDir, 'tour', name));
+      scenes.push({ url: `listings/${slug}/${encodeURIComponent(folder)}/tour/${encodeURIComponent(name)}`, label: tourLabel(name, i++) });
+    }
+  }
+  return scenes;
+}
+/* ===== END VIRTUAL TOUR MODULE (build) ===== */
 
 /* --------------------------------------------------------- listing shaping */
 
@@ -167,6 +210,7 @@ async function buildListing(category, folder) {
     : { ordered: [], map: {} };
 
   const { mainImage, gallery } = await mapImages(lotPath, category.slug, folder);
+  const tour = await scanTour(lotPath, category.slug, folder);   // VIRTUAL TOUR
 
   const lotNumber =
     pick(site.map, 'lotnumber', 'lot') || folder.replace(/[_-]+/g, ' ').trim();
@@ -218,6 +262,7 @@ async function buildListing(category, folder) {
     mainImage,
     gallery,
     details,
+    tour,   // VIRTUAL TOUR: [{url,label}] scene list (empty if no tour images)
   };
 }
 
@@ -375,6 +420,7 @@ async function main() {
   // Standalone version stamp — handy for confirming what's actually live.
   await fs.writeFile(path.join(OUT_DIR, 'version.json'), JSON.stringify({ version, builtAt }, null, 2));
   await fs.copyFile(path.join(ROOT, 'index.html'), path.join(OUT_DIR, 'index.html'));
+  await fs.copyFile(path.join(ROOT, 'virtual-tour.js'), path.join(OUT_DIR, 'virtual-tour.js')); // VIRTUAL TOUR module
   await fs.writeFile(path.join(OUT_DIR, '.nojekyll'), ''); // don't let Pages run Jekyll
 
   console.log(
