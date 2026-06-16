@@ -319,7 +319,29 @@
     .appt-card h3{font-size:1.4rem}
   }
 
-  /* VIRTUAL TOUR: all of its styles live in virtual-tour.js (self-injected). */
+  /* ===== Premium 3D Virtual Tour modal (Matterport iframe) ===== */
+  .vt-modal{position:fixed;inset:0;z-index:900;display:none;align-items:center;justify-content:center;padding:0;background:rgba(8,12,10,.93);opacity:0;transition:opacity .28s ease}
+  .vt-modal.show{display:flex}
+  .vt-modal.open{opacity:1}
+  .vt-frame-wrap{position:relative;width:min(92vw,1200px);height:min(88vh,820px);background:#000;border-radius:14px;overflow:hidden;box-shadow:0 30px 90px -20px rgba(0,0,0,.85)}
+  .vt-frame-wrap iframe{display:block;width:100%;height:100%;border:0}
+  .vt-pano{position:absolute;inset:0;width:100%;height:100%;background:#0d1410}
+  .vt-pano .pnlm-load-box{background:rgba(0,0,0,.5)}
+  .vt-scenes{position:absolute;left:0;right:0;bottom:0;z-index:3;display:flex;gap:8px;justify-content:center;flex-wrap:wrap;padding:12px 12px 14px;background:linear-gradient(transparent,rgba(0,0,0,.55))}
+  .vt-scenes button{font:inherit;font-weight:700;font-size:.8rem;padding:8px 14px;border-radius:999px;border:1.5px solid rgba(255,255,255,.55);background:rgba(0,0,0,.45);color:#fff;cursor:pointer;-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);transition:background .15s,border-color .15s}
+  .vt-scenes button.active,.vt-scenes button:hover{background:var(--clay);border-color:var(--clay)}
+  .vt-placeholder{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;gap:8px;padding:30px;background:var(--pine-deep);color:var(--cream)}
+  .vt-placeholder h3{font-family:'Fraunces',serif;font-size:1.5rem;color:#fff}
+  .vt-placeholder p{color:rgba(246,238,224,.82);max-width:38ch;font-size:.98rem}
+  .vt-placeholder .vt-call{margin-top:14px;background:var(--clay);color:#fff;font-weight:700;padding:11px 20px;border-radius:999px;text-decoration:none}
+  .vt-placeholder .vt-call:hover{filter:brightness(1.07)}
+  .vt-close{position:fixed;top:16px;right:18px;z-index:2;width:46px;height:46px;border-radius:50%;border:none;background:rgba(255,255,255,.94);color:#1e2a22;font-size:1.7rem;line-height:1;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 20px -6px rgba(0,0,0,.6);transition:background .2s,transform .15s}
+  .vt-close:hover{background:#fff;transform:scale(1.06)}
+  .vt-close:focus{outline:2px solid #fff;outline-offset:2px}
+  @media(max-width:600px){
+    .vt-frame-wrap{width:92vw;height:88vh;border-radius:10px}   /* >=85% of the viewport for comfy touch nav */
+    .vt-close{top:10px;right:10px;width:42px;height:42px;font-size:1.5rem}
+  }
   .detail-grid{display:grid;grid-template-columns:1fr;gap:0}
   .detail-grid div{display:flex;justify-content:space-between;gap:18px;padding:9px 0;border-bottom:1px solid var(--line);font-size:.92rem}
   .detail-grid dt{color:#7a8678;font-weight:600}
@@ -676,7 +698,24 @@
   </div>
 </div>
 
-<!-- VIRTUAL TOUR: the modal is created entirely by virtual-tour.js (no markup here). -->
+<!-- PREMIUM 3D VIRTUAL TOUR MODAL (opened from a listing's "Virtual Tour") -->
+<div class="vt-modal" id="virtual-tour-modal" role="dialog" aria-modal="true" aria-label="3D virtual tour">
+  <button class="vt-close" id="vtClose" aria-label="Close virtual tour">&times;</button>
+  <div class="vt-frame-wrap">
+    <!-- A home's 360° tour = panorama photos named "360-*.jpg" in its folder. They render here. -->
+    <div id="vtPano" class="vt-pano" style="display:none"></div>
+    <div id="vtScenes" class="vt-scenes" style="display:none"></div>
+    <!-- Optional: an external embed instead (e.g. your own Matterport) by setting data-src. -->
+    <iframe id="vtFrame" title="3D Virtual Tour" data-src=""
+            width="100%" height="100%" frameborder="0" allowfullscreen=""
+            allow="autoplay; fullscreen; xr-spatial-tracking;" style="display:none"></iframe>
+    <div class="vt-placeholder" id="vtPlaceholder">
+      <h3>Virtual tour coming soon</h3>
+      <p>We're putting a walkthrough of this home together. In the meantime, give us a call to set up an in-person visit.</p>
+      <a class="vt-call" href="tel:+18103686008">Call (810) 368-6008</a>
+    </div>
+  </div>
+</div>
 
 <!-- FULLSCREEN COMMUNITY MAP (opened from "Explore the Map") -->
 <div class="map-modal" id="mapModal" role="dialog" aria-modal="true" aria-label="Community map">
@@ -747,8 +786,10 @@
 
   // Returns the array of slide-inner-HTML for a card's carousel.
   function buildSlides(item){
-    if (item.mainImage && item.gallery && item.gallery.length){   // tour-*.jpg are already excluded by the build
-      return item.gallery.map((u,i) =>
+    // 360° panoramas live in the Virtual Tour, not the flat carousel — keep them out here.
+    const flat = (item.gallery || []).filter(u => !isPanorama(u));
+    if (item.mainImage && flat.length){
+      return flat.map((u,i) =>
         `<img class="cslide-img" src="${esc(API_BASE+u)}" alt="${esc(item.title)} — photo ${i+1}" loading="lazy" draggable="false" data-fallback="${i}">`);
     }
     /* ===================== TEMPORARY placeholder slides =====================
@@ -866,7 +907,6 @@
   /* ----- Detail modal: reuses the SAME carousel as the cards ----- */
   const modal = document.getElementById('listingModal');
   const galleryEl = document.getElementById('modalGallery');
-  let currentTourScenes = [];   // VIRTUAL TOUR: this listing's tour scenes (for window.MMVirtualTour)
 
   // Money fields render formatted ($ + commas) in the details list.
   const MONEY_KEYS = new Set(['price', 'baselotrent', 'lotrent']);
@@ -893,8 +933,7 @@
     // "Call Us" reveals two siblings: Call Now (tel) + Schedule a Call (appointment modal).
     const actionsEl = document.getElementById('modalActions');
     actionsEl.innerHTML = lotId
-      // VIRTUAL TOUR: show the button only when this home has tour scenes.
-      ? (currentTourScenes.length ? `<button type="button" class="btn-virtual-tour">Virtual Tour</button>` : '')
+      ? `<button type="button" class="btn-virtual-tour" data-lot="${esc(lotId)}">Virtual Tour</button>`
         + `<span class="call-group" data-lot="${esc(lotLabel || lotId)}">`
         +   `<button type="button" class="btn-call-toggle">Call Us</button>`
         +   `<a class="btn-callnow" href="tel:+18103686008">Call Now</a>`
@@ -918,8 +957,7 @@
   }
 
   function openModal(item, startIdx){
-    // VIRTUAL TOUR: scenes come from the listing's `tour` data (built from tour-*.jpg / a tour/ folder).
-    currentTourScenes = (item.tour || []).map(s => ({ url: API_BASE + s.url, label: s.label }));
+    currentTour = (item.gallery || []).filter(isPanorama);   // 360-*.jpg photos power the Virtual Tour
     fillModal({
       title: item.title,
       priceHTML: esc(item.price) + (item.priceSmall ? `<small style="font-size:.8rem;color:#7a8678"> ${esc(item.priceSmall)}</small>` : ''),
@@ -932,7 +970,7 @@
   }
 
   function openAmenityModal(am){
-    currentTourScenes = [];                                  // amenities have no virtual tour
+    currentTour = [];                                        // amenities have no virtual tour
     fillModal({
       title: am.displayName,
       priceHTML: '',
@@ -945,7 +983,7 @@
   // Delegated actions on the price row (container is stable across opens).
   document.getElementById('modalActions').addEventListener('click', (e) => {
     const vt = e.target.closest('.btn-virtual-tour');
-    if (vt){ if (window.MMVirtualTour) window.MMVirtualTour.open(currentTourScenes); return; }   // VIRTUAL TOUR
+    if (vt){ openVirtualTour(vt.dataset.lot); return; }
     const toggle = e.target.closest('.btn-call-toggle');     // "Call Us" -> reveal Call Now + Schedule
     if (toggle){ toggle.closest('.call-group').classList.add('open'); return; }
     const sched = e.target.closest('.btn-schedule');          // -> open the appointment modal
@@ -1017,9 +1055,81 @@
     }
   });
 
-  /* VIRTUAL TOUR: the whole feature lives in the removable module virtual-tour.js
-     (window.MMVirtualTour). The page only stashes the current listing's tour
-     scenes (set in openModal) and calls .open() from the button handler below. */
+  /* ----- 3D Virtual Tour modal: 360° panorama viewer (Pannellum, lazy-loaded) -----
+     A home's tour = its panorama photos (named "360-*.jpg" in the home's folder).
+     They're filtered out of the flat card carousel and shown here as a look-around
+     tour. An external embed (e.g. your own Matterport) still works via #vtFrame's
+     data-src. Pannellum's JS/CSS load only the first time a tour is opened. */
+  const vtModal  = document.getElementById('virtual-tour-modal');
+  const vtFrame  = document.getElementById('vtFrame');
+  const vtPano   = document.getElementById('vtPano');
+  const vtScenes = document.getElementById('vtScenes');
+  const vtPlace  = document.getElementById('vtPlaceholder');
+  let vtHideTimer = null, vtViewer = null, currentTour = [], pannellumPromise = null;
+
+  const baseName   = (u) => decodeURIComponent((u || '').split('/').pop() || '');
+  const isPanorama = (u) => /^360/i.test(baseName(u));        // panorama photos are named 360*.jpg
+  const panoLabel  = (u, i) => {
+    const n = baseName(u).replace(/\.[a-z0-9]+$/i, '').replace(/^360[-_ ]?/i, '').replace(/[-_]+/g, ' ').trim();
+    return n ? n.replace(/\b\w/g, c => c.toUpperCase()) : 'View ' + (i + 1);
+  };
+
+  function loadPannellum(){
+    if (window.pannellum) return Promise.resolve();
+    if (pannellumPromise) return pannellumPromise;
+    pannellumPromise = new Promise((resolve, reject) => {
+      const css = document.createElement('link');
+      css.rel = 'stylesheet'; css.href = 'https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.css';
+      document.head.appendChild(css);
+      const js = document.createElement('script');
+      js.src = 'https://cdn.jsdelivr.net/npm/pannellum@2.5.6/build/pannellum.js';
+      js.onload = resolve; js.onerror = () => reject(new Error('pannellum failed to load'));
+      document.head.appendChild(js);
+    });
+    return pannellumPromise;
+  }
+  function destroyViewer(){ if (vtViewer){ try { vtViewer.destroy(); } catch (_) {} vtViewer = null; } }
+  function initPano(urls){
+    destroyViewer();
+    const scenes = {};
+    urls.forEach((u, i) => { scenes['s' + i] = { type: 'equirectangular', panorama: API_BASE + u, autoLoad: true, showZoomCtrl: true, hfov: 110 }; });
+    vtViewer = window.pannellum.viewer('vtPano', { default: { firstScene: 's0', sceneFadeDuration: 600, autoLoad: true }, scenes });
+    if (urls.length > 1){                                     // multiple rooms -> scene switch buttons
+      vtScenes.style.display = '';
+      vtScenes.innerHTML = urls.map((u, i) => `<button type="button" data-scene="s${i}"${i === 0 ? ' class="active"' : ''}>${esc(panoLabel(u, i))}</button>`).join('');
+    } else { vtScenes.style.display = 'none'; vtScenes.innerHTML = ''; }
+  }
+
+  function openVirtualTour(/* lotLabel */){
+    clearTimeout(vtHideTimer);
+    vtModal.classList.add('show');
+    requestAnimationFrame(() => vtModal.classList.add('open'));   // smooth fade-in
+    document.body.style.overflow = 'hidden';                      // halt background scrolling
+    const hideAll = () => { vtPano.style.display = 'none'; vtScenes.style.display = 'none'; vtFrame.style.display = 'none'; vtPlace.style.display = 'none'; };
+    if (currentTour.length){                                      // this home has 360° photos
+      hideAll(); vtPano.style.display = '';
+      loadPannellum().then(() => initPano(currentTour)).catch(() => { hideAll(); vtPlace.style.display = ''; });
+    } else if (vtFrame.dataset.src){                              // optional external embed
+      hideAll(); vtFrame.style.display = ''; if (!vtFrame.src) vtFrame.src = vtFrame.dataset.src;
+    } else {                                                      // nothing yet -> friendly placeholder
+      hideAll(); vtPlace.style.display = '';
+    }
+  }
+  function closeVirtualTour(){
+    vtFrame.src = '';                                          // DISCONNECT external embed immediately
+    destroyViewer();                                          // stop the 360 viewer rendering
+    vtModal.classList.remove('open');
+    vtHideTimer = setTimeout(() => vtModal.classList.remove('show'), 300);
+    if (!modal.classList.contains('open')) document.body.style.overflow = '';   // listing modal may still be open
+  }
+  document.getElementById('vtClose').addEventListener('click', closeVirtualTour);
+  vtModal.addEventListener('click', (e) => { if (e.target === vtModal) closeVirtualTour(); });
+  vtScenes.addEventListener('click', (e) => {
+    const b = e.target.closest('button[data-scene]'); if (!b || !vtViewer) return;
+    vtViewer.loadScene(b.dataset.scene);
+    vtScenes.querySelectorAll('button').forEach(x => x.classList.toggle('active', x === b));
+  });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape' && vtModal.classList.contains('show')) closeVirtualTour(); });
 
   /* ===================================================================
    * CAROUSEL ENGINE — swipe (touch + mouse) with momentum, hover arrows,
@@ -1192,6 +1302,7 @@
   document.getElementById('modalClose').addEventListener('click', closeModal);
   modal.addEventListener('click', (e)=>{ if(e.target === modal) closeModal(); });
   document.addEventListener('keydown', (e)=>{
+    if(vtModal.classList.contains('show')) return;   // virtual tour is topmost; it handles its own Escape
     if(e.key === 'Escape' && apptModal.classList.contains('open')){ closeApptModal(); return; }   // appt sits above the listing
     if(!modal.classList.contains('open')) return;
     if(e.key === 'Escape'){ closeModal(); return; }
@@ -1500,7 +1611,5 @@
     if(!open){item.classList.add('open');a.style.maxHeight=a.scrollHeight+'px';}
   });
 </script>
-<!-- VIRTUAL TOUR (removable module): delete this one tag + virtual-tour.js to remove the feature. -->
-<script src="virtual-tour.js" defer></script>
 </body>
 </html> 

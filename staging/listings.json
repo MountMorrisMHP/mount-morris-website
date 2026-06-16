@@ -1,6 +1,6 @@
 {
   "version": "dev",
-  "generatedAt": "2026-06-16T05:03:04.878Z",
+  "generatedAt": "2026-06-16T06:49:17.274Z",
   "counts": {
     "preorderHomes": 0,
     "homesForRent": 9,
@@ -25,9 +25,10 @@
         "2 Bath",
         "1,280 sq ft"
       ],
-      "mainImage": "listings/rent/lot-1/main.jpg",
+      "mainImage": "listings/rent/lot-1/360-kitchen.jpg",
       "gallery": [
-        "listings/rent/lot-1/main.jpg"
+        "listings/rent/lot-1/360-kitchen.jpg",
+        "listings/rent/lot-1/360-living-room.jpg"
       ],
       "details": [
         {
@@ -117,12 +118,6 @@
         {
           "label": "Amenities",
           "value": "Central air, dishwasher, washer/dryer hookups, vinyl plank flooring"
-        }
-      ],
-      "tour": [
-        {
-          "url": "listings/rent/lot-1/tour-1.jpg",
-          "label": "Room 1"
         }
       ]
     },
@@ -232,8 +227,7 @@
           "label": "Amenities",
           "value": "Central air, dishwasher, washer/dryer hookups, vinyl plank flooring"
         }
-      ],
-      "tour": []
+      ]
     },
     {
       "id": "rent-lot-3",
@@ -341,8 +335,7 @@
           "label": "Amenities",
           "value": "Central air, dishwasher, washer/dryer hookups, vinyl plank flooring"
         }
-      ],
-      "tour": []
+      ]
     },
     {
       "id": "rent-lot-4",
@@ -450,8 +443,7 @@
           "label": "Amenities",
           "value": "Central air, dishwasher, washer/dryer hookups, vinyl plank flooring"
         }
-      ],
-      "tour": []
+      ]
     },
     {
       "id": "rent-lot-5",
@@ -559,8 +551,7 @@
           "label": "Amenities",
           "value": "Central air, dishwasher, washer/dryer hookups, vinyl plank flooring"
         }
-      ],
-      "tour": []
+      ]
     },
     {
       "id": "rent-lot-6",
@@ -668,8 +659,7 @@
           "label": "Amenities",
           "value": "Central air, dishwasher, washer/dryer hookups, vinyl plank flooring"
         }
-      ],
-      "tour": []
+      ]
     },
     {
       "id": "rent-lot-7",
@@ -777,8 +767,7 @@
           "label": "Amenities",
           "value": "Central air, dishwasher, washer/dryer hookups, vinyl plank flooring"
         }
-      ],
-      "tour": []
+      ]
     },
     {
       "id": "rent-lot-8",
@@ -886,8 +875,7 @@
           "label": "Amenities",
           "value": "Central air, dishwasher, washer/dryer hookups, vinyl plank flooring"
         }
-      ],
-      "tour": []
+      ]
     },
     {
       "id": "rent-lot-9",
@@ -995,8 +983,7 @@
           "label": "Amenities",
           "value": "Central air, dishwasher, washer/dryer hookups, vinyl plank flooring"
         }
-      ],
-      "tour": []
+      ]
     }
   ],
   "homesForSale": [
@@ -1074,8 +1061,7 @@
           "label": "Furnished",
           "value": "Unfurnished"
         }
-      ],
-      "tour": []
+      ]
     }
   ],
   "community": {
