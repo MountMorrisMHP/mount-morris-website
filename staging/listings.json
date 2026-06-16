@@ -1,6 +1,6 @@
 {
   "version": "dev",
-  "generatedAt": "2026-06-16T04:12:28.873Z",
+  "generatedAt": "2026-06-16T05:03:04.878Z",
   "counts": {
     "preorderHomes": 0,
     "homesForRent": 9,
@@ -25,8 +25,10 @@
         "2 Bath",
         "1,280 sq ft"
       ],
-      "mainImage": null,
-      "gallery": [],
+      "mainImage": "listings/rent/lot-1/main.jpg",
+      "gallery": [
+        "listings/rent/lot-1/main.jpg"
+      ],
       "details": [
         {
           "label": "Lot Number",
@@ -119,12 +121,8 @@
       ],
       "tour": [
         {
-          "url": "listings/rent/lot-1/tour-1-living-room.jpg",
-          "label": "Living Room"
-        },
-        {
-          "url": "listings/rent/lot-1/tour-2-kitchen.jpg",
-          "label": "Kitchen"
+          "url": "listings/rent/lot-1/tour-1.jpg",
+          "label": "Room 1"
         }
       ]
     },
