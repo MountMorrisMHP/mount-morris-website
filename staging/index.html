@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Mount Morris Mobile Home Park — Manufactured Home Community</title>
+<title>Mount Morris Mobile Home Park, Manufactured Home Community</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Hanken+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -214,7 +214,7 @@
   .amen-soon-group{margin-top:26px}
   .amen-soon-head{font-size:.78rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#7C8B74;text-align:center;margin:0 0 14px;display:flex;align-items:center;gap:12px}
   .amen-soon-head::before,.amen-soon-head::after{content:"";flex:1;height:1px;background:var(--line)}
-  .amen.coming{position:relative;cursor:default;opacity:.6;border-style:dashed}
+  .amen.coming{position:relative;cursor:pointer;opacity:.7;border-style:dashed}
   .amen.coming .a-t{color:var(--ink)}
   .amen-badge{position:absolute;top:8px;right:8px;background:var(--honey);color:var(--pine-deep);font-size:.6rem;font-weight:800;letter-spacing:.04em;text-transform:uppercase;padding:3px 7px;border-radius:999px}
   .life-slider{position:relative;aspect-ratio:16/9;border-radius:22px;overflow:hidden;box-shadow:var(--shadow);background:var(--cream)}
@@ -560,7 +560,7 @@
     </div>
     <div class="faq-item">
       <button class="faq-q">What fees should I expect?<span class="pm">+</span></button>
-      <div class="faq-a"><p>Alongside your home payment or rent, there's a monthly lot rent that covers your homesite and shared amenities. We'll walk you through every cost up front — no surprises.</p></div>
+      <div class="faq-a"><p>Alongside your home payment or rent, there's a monthly lot rent that covers your homesite and shared amenities. We'll walk you through every cost up front, with no surprises.</p></div>
     </div>
     <div class="faq-item">
       <button class="faq-q">How does the water meter work?<span class="pm">+</span></button>
@@ -647,7 +647,7 @@
     <form id="apptForm" novalidate>
       <!-- ===== Web3Forms: PASTE YOUR REAL ACCESS KEY in the value below ===== -->
       <input type="hidden" name="access_key" value="WEB3FORMS_ACCESS_KEY_PLACEHOLDER">
-      <input type="hidden" name="subject" value="New call request — Mount Morris Mobile Home Park">
+      <input type="hidden" name="subject" value="New call request from Mount Morris Mobile Home Park">
       <input type="hidden" name="from_name" value="Mount Morris Website">
       <input type="hidden" name="lot" id="apptLot" value="">
       <!-- honeypot: bots fill this, humans never see it -->
@@ -692,7 +692,7 @@
   </div>
   <div class="map-legend">
     <span><i style="background:#2C5540"></i>Homesites</span>
-    <span><i style="background:#C25A35"></i>Amenities — tap for info</span>
+    <span><i style="background:#C25A35"></i>Amenities, tap for info</span>
     <span class="map-hint">Drag / pinch to explore</span>
   </div>
 </div>
@@ -745,21 +745,21 @@
   const chevron = (dir) =>
     `<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="${dir==='left'?'M15 5l-7 7 7 7':'M9 5l7 7-7 7'}"/></svg>`;
 
+  /* ===================== TEMPORARY mock placeholder slides =====================
+     6 visually-distinct illustrated-house slides so the carousel (swipe, arrows,
+     dots, pill) can be felt during review. Shared by the home cards AND the
+     amenity modals as the fallback when a folder has no real photos.
+     >>> DELETE this block (and the two callers) once everything has real images. <<< */
+  const mockSlides = () => [0,1,2,3,4,5].map(v => housePlaceholder(v));
+  /* =================== END TEMPORARY mock placeholder slides =================== */
+
   // Returns the array of slide-inner-HTML for a card's carousel.
   function buildSlides(item){
     if (item.mainImage && item.gallery && item.gallery.length){   // tour-*.jpg are already excluded by the build
       return item.gallery.map((u,i) =>
-        `<img class="cslide-img" src="${esc(API_BASE+u)}" alt="${esc(item.title)} — photo ${i+1}" loading="lazy" draggable="false" data-fallback="${i}">`);
+        `<img class="cslide-img" src="${esc(API_BASE+u)}" alt="${esc(item.title)}, photo ${i+1}" loading="lazy" draggable="false" data-fallback="${i}">`);
     }
-    /* ===================== TEMPORARY placeholder slides =====================
-       Lots have no real photos yet, so we fabricate 4 visually-distinct
-       illustrated-house slides PER LOT, purely so the carousel (swipe, arrows,
-       dots, pill) can be felt during review.
-       >>> DELETE this block once lots have real images. <<<
-       After deletion, a lot with 0 or 1 images falls back to a single static
-       placeholder/photo with no carousel controls (the original behavior). */
-    return [0,1,2,3,4,5].map(v => housePlaceholder(v));   // 6 slides so swipe is testable with 6+ images
-    /* =================== END TEMPORARY placeholder slides =================== */
+    return mockSlides();   // no real photos yet -> mock slides (TEMPORARY)
   }
 
   // Build the carousel markup from slide-inner-HTML strings. Shared by the
@@ -797,7 +797,7 @@
     if (!shown.length){
       grid.classList.remove('scrolls'); grid.style.maxHeight = '';
       grid.innerHTML = `<p style="grid-column:1/-1;text-align:center;color:#55624f;padding:30px 0">
-        Nothing available in this category right now — check back soon.</p>`;
+        Nothing available in this category right now. Check back soon.</p>`;
       return;
     }
     grid.innerHTML = shown.map(cardHTML).join('');
@@ -880,7 +880,7 @@
 
   function imgSlides(urls, alt){
     return (urls || []).map((u, i) =>
-      `<img class="cslide-img" src="${esc(API_BASE + u)}" alt="${esc(alt)} — photo ${i + 1}" loading="lazy" draggable="false" data-fallback="${i}">`);
+      `<img class="cslide-img" src="${esc(API_BASE + u)}" alt="${esc(alt)}, photo ${i + 1}" loading="lazy" draggable="false" data-fallback="${i}">`);
   }
 
   // Shared modal filler — used by BOTH listings and amenities (one interaction language).
@@ -937,7 +937,9 @@
       title: am.displayName,
       priceHTML: '',
       details: am.details,
-      slides: (am.gallery && am.gallery.length) ? imgSlides(am.gallery, am.displayName) : null,
+      // Real folder photos win; otherwise fall back to the shared mock slides (TEMPORARY)
+      // so every amenity's modal opens slideshow-on-top, fields below.
+      slides: (am.gallery && am.gallery.length) ? imgSlides(am.gallery, am.displayName) : mockSlides(),
       startIdx: 0,
     });
   }
@@ -1239,14 +1241,15 @@
         <div class="a-t">${esc(a.displayName)}</div>
       </button>`).join('');
 
-    // Coming-soon items live in their own badged group; not clickable, no modal.
+    // Coming-soon items keep their own badged group, but are now clickable too so
+    // their modal still shows the (mock) slideshow; their info fields stay minimal.
     const soonWrap = document.getElementById('amenSoon');
     document.getElementById('amenSoonGrid').innerHTML = soon.map(a =>
-      `<div class="amen coming" aria-label="${esc(a.displayName)} — coming soon">
+      `<button class="amen coming" data-id="${esc(a.id)}" aria-label="${esc(a.displayName)}, coming soon">
         <span class="amen-badge">Coming Soon</span>
         <div class="a-ic">${amenityIcon(a.id)}</div>
         <div class="a-t">${esc(a.displayName)}</div>
-      </div>`).join('');
+      </button>`).join('');
     soonWrap.hidden = soon.length === 0;
   }
 
@@ -1476,18 +1479,20 @@
 
   // Deterministic press feedback on touch: green flash on pointerdown (~150ms),
   // independent of hover. The click below always opens the modal (never swallowed).
-  document.getElementById('amenGrid').addEventListener('pointerdown', (e)=>{
-    const card = e.target.closest('.amen');
-    if(!card || card.classList.contains('coming')) return;   // coming-soon cards aren't interactive
-    card.classList.add('pressed');
-    setTimeout(() => card.classList.remove('pressed'), 160);
-  });
-  // Click an amenity icon -> open its modal (same component as listings).
-  document.getElementById('amenGrid').addEventListener('click', (e)=>{
-    const card = e.target.closest('.amen');
-    if(!card || card.classList.contains('coming')) return;   // coming-soon: no modal
-    const am = AMENITIES.find(a => a.id === card.dataset.id);
-    if(am) openAmenityModal(am);
+  // Both grids (active + coming-soon) are interactive: every amenity opens its
+  // modal (slideshow on top, info fields below). Coming-soon ones just have minimal/no fields.
+  ['amenGrid','amenSoonGrid'].forEach((gid)=>{
+    const g = document.getElementById(gid);
+    g.addEventListener('pointerdown', (e)=>{
+      const card = e.target.closest('.amen'); if(!card) return;
+      card.classList.add('pressed');
+      setTimeout(() => card.classList.remove('pressed'), 160);
+    });
+    g.addEventListener('click', (e)=>{
+      const card = e.target.closest('.amen'); if(!card) return;
+      const am = AMENITIES.find(a => a.id === card.dataset.id);
+      if(am) openAmenityModal(am);
+    });
   });
 
   loadListings();
