@@ -1,6 +1,4 @@
 Display Name: Clubhouse
 Order: 11
 Coming Soon: yes
-Hours:
-Rules:
-Description:
+Description: A community clubhouse for residents and their guests. Coming soon.

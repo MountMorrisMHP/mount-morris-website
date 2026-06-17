@@ -1,5 +1,3 @@
 Display Name: On-Site Management
 Order: 5
-Hours:
-Rules:
-Description:
+Description: On-site management handles maintenance, approvals, and inspections. Residents provide an emergency contact to keep on file.

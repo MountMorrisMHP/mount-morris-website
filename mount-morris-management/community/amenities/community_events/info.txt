@@ -1,5 +1,3 @@
 Display Name: Community Events
 Order: 6
-Hours:
-Rules:
 Description:
