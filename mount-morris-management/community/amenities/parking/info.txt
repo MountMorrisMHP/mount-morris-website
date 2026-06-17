@@ -1,6 +1,6 @@
 Display Name: Parking
 Order: 8
 Description: Designated parking is provided throughout the community.
-Spaces: Park only in designated spaces — not on lawns, streets, vacant sites, or patios. Double parking is not permitted.
+Spaces: Park only in designated spaces, not on lawns, streets, vacant sites, or patios. Double parking is not permitted.
 Vehicle Size: Vehicles with a load capacity over three-quarter ton are not kept or stored in the park.
 Speed & Signs: Posted speed limits and traffic signs must be obeyed. No parking within 10 feet of fire hydrants.
