@@ -1,11 +1,11 @@
 {
   "version": "dev",
-  "generatedAt": "2026-06-16T08:14:51.836Z",
+  "generatedAt": "2026-06-17T10:07:48.605Z",
   "counts": {
     "preorderHomes": 0,
     "homesForRent": 9,
     "homesForSale": 1,
-    "amenities": 11,
+    "amenities": 12,
     "scenery": 4
   },
   "preorderHomes": [],
@@ -1092,7 +1092,12 @@
         "displayName": "Green Spaces",
         "order": 2,
         "comingSoon": false,
-        "details": [],
+        "details": [
+          {
+            "label": "Description",
+            "value": "Open common areas within the community. Residents may plant trees and shrubs on their site with prior written approval from the office."
+          }
+        ],
         "mainImage": null,
         "gallery": []
       },
@@ -1101,7 +1106,28 @@
         "displayName": "Playground",
         "order": 3,
         "comingSoon": false,
-        "details": [],
+        "details": [
+          {
+            "label": "Description",
+            "value": "Playground equipment is provided for the children of park residents."
+          },
+          {
+            "label": "Supervision",
+            "value": "Parents and guardians are asked to supervise their children and stress safety."
+          },
+          {
+            "label": "Wading Pools",
+            "value": "Small wading pools (max 6' x 12\" deep) are allowed on a patio/cement pad."
+          },
+          {
+            "label": "Sandboxes",
+            "value": "Allowed up to 4' x 4' on a patio/cement pad."
+          },
+          {
+            "label": "Note",
+            "value": "Swing sets are not allowed on individual home sites."
+          }
+        ],
         "mainImage": null,
         "gallery": []
       },
@@ -1113,31 +1139,31 @@
         "details": [
           {
             "label": "Description",
-            "value": "Mount Morris is a proudly pet-friendly community. Leashed dogs and cats are welcome, with plenty of green space and a dedicated dog-walk area for your four-legged family members."
+            "value": "One domesticated pet per household is welcome with written approval from the office."
           },
           {
-            "label": "Max Pets Per Home",
-            "value": "2"
+            "label": "Pet Rent",
+            "value": "$25 per month."
           },
           {
-            "label": "Leash Rule",
-            "value": "Pets must be leashed (6 ft max) any time they are outside your homesite."
+            "label": "Probation",
+            "value": "Approved pets have a 90-day probation period."
+          },
+          {
+            "label": "Registration",
+            "value": "Pets must be registered with the office, with proof of rabies vaccination and any shots required by law; a current rabies tag must be worn if required."
+          },
+          {
+            "label": "Leash",
+            "value": "Pets must be on a leash any time they are outside your home or off your site."
           },
           {
             "label": "Cleanup",
-            "value": "Always pick up after your pet - waste stations with bags are placed throughout the park."
+            "value": "Owners must clean up after their pets daily, on the site and throughout the park."
           },
           {
-            "label": "Size & Breed",
-            "value": "Dogs up to 60 lbs welcome; a short breed-restriction list applies - ask the office for details."
-          },
-          {
-            "label": "Vaccinations",
-            "value": "Current rabies vaccination and county license required on file."
-          },
-          {
-            "label": "Quiet Hours",
-            "value": "Please keep pets from excessive barking between 9pm and 8am."
+            "label": "Note",
+            "value": "Service animals under Michigan law are not considered pets. Fenced enclosures, dog houses, and \"Beware of Dog\" signs are not permitted."
           }
         ],
         "mainImage": "community/amenities/pet_friendly/pet-1.jpg",
@@ -1152,7 +1178,12 @@
         "displayName": "On-Site Management",
         "order": 5,
         "comingSoon": false,
-        "details": [],
+        "details": [
+          {
+            "label": "Description",
+            "value": "On-site management handles maintenance, approvals, and inspections. Residents provide an emergency contact to keep on file."
+          }
+        ],
         "mainImage": null,
         "gallery": []
       },
@@ -1179,7 +1210,46 @@
         "displayName": "Parking",
         "order": 8,
         "comingSoon": false,
-        "details": [],
+        "details": [
+          {
+            "label": "Description",
+            "value": "Designated parking is provided throughout the community."
+          },
+          {
+            "label": "Spaces",
+            "value": "Park only in designated spaces — not on lawns, streets, vacant sites, or patios. Double parking is not permitted."
+          },
+          {
+            "label": "Vehicle Size",
+            "value": "Vehicles with a load capacity over three-quarter ton are not kept or stored in the park."
+          },
+          {
+            "label": "Speed & Signs",
+            "value": "Posted speed limits and traffic signs must be obeyed. No parking within 10 feet of fire hydrants."
+          }
+        ],
+        "mainImage": null,
+        "gallery": []
+      },
+      {
+        "id": "storage",
+        "displayName": "Storage",
+        "order": 8.5,
+        "comingSoon": false,
+        "details": [
+          {
+            "label": "Description",
+            "value": "Approved storage options to keep your homesite neat."
+          },
+          {
+            "label": "Sheds",
+            "value": "One shed per site, maximum 10' wide x 10' deep x 8' high, on a cement pad, with written approval from the office."
+          },
+          {
+            "label": "RV / Recreational Storage",
+            "value": "Storage for items like trail bikes, ATVs, and snowmobiles may be allocated to residents for a monthly fee based on the space needed."
+          }
+        ],
         "mainImage": null,
         "gallery": []
       },
@@ -1188,7 +1258,16 @@
         "displayName": "Mailbox",
         "order": 9,
         "comingSoon": false,
-        "details": [],
+        "details": [
+          {
+            "label": "Description",
+            "value": "Mail service close to home."
+          },
+          {
+            "label": "Keys",
+            "value": "Mailbox keys are provided with a $25 deposit. There is a $25 charge for lost keys."
+          }
+        ],
         "mainImage": null,
         "gallery": []
       },
@@ -1206,7 +1285,12 @@
         "displayName": "Clubhouse",
         "order": 11,
         "comingSoon": true,
-        "details": [],
+        "details": [
+          {
+            "label": "Description",
+            "value": "A community clubhouse for residents and their guests. Coming soon."
+          }
+        ],
         "mainImage": null,
         "gallery": []
       }
