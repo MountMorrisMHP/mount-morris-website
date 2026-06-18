@@ -214,7 +214,7 @@
   .amen-soon-group{margin-top:26px}
   .amen-soon-head{font-size:.78rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#7C8B74;text-align:center;margin:0 0 14px;display:flex;align-items:center;gap:12px}
   .amen-soon-head::before,.amen-soon-head::after{content:"";flex:1;height:1px;background:var(--line)}
-  .amen.coming{position:relative;cursor:pointer;opacity:.7;border-style:dashed}
+  .amen.coming{position:relative;cursor:default;opacity:.6;border-style:dashed}
   .amen.coming .a-t{color:var(--ink)}
   .amen-badge{position:absolute;top:8px;right:8px;background:var(--honey);color:var(--pine-deep);font-size:.6rem;font-weight:800;letter-spacing:.04em;text-transform:uppercase;padding:3px 7px;border-radius:999px}
   .life-slider{position:relative;aspect-ratio:16/9;border-radius:22px;overflow:hidden;box-shadow:var(--shadow);background:var(--cream)}
@@ -1241,15 +1241,14 @@
         <div class="a-t">${esc(a.displayName)}</div>
       </button>`).join('');
 
-    // Coming-soon items keep their own badged group, but are now clickable too so
-    // their modal still shows the (mock) slideshow; their info fields stay minimal.
+    // Coming-soon items live in their own badged group; not clickable, no modal.
     const soonWrap = document.getElementById('amenSoon');
     document.getElementById('amenSoonGrid').innerHTML = soon.map(a =>
-      `<button class="amen coming" data-id="${esc(a.id)}" aria-label="${esc(a.displayName)}, coming soon">
+      `<div class="amen coming" aria-label="${esc(a.displayName)}, coming soon">
         <span class="amen-badge">Coming Soon</span>
         <div class="a-ic">${amenityIcon(a.id)}</div>
         <div class="a-t">${esc(a.displayName)}</div>
-      </button>`).join('');
+      </div>`).join('');
     soonWrap.hidden = soon.length === 0;
   }
 
@@ -1479,20 +1478,16 @@
 
   // Deterministic press feedback on touch: green flash on pointerdown (~150ms),
   // independent of hover. The click below always opens the modal (never swallowed).
-  // Both grids (active + coming-soon) are interactive: every amenity opens its
-  // modal (slideshow on top, info fields below). Coming-soon ones just have minimal/no fields.
-  ['amenGrid','amenSoonGrid'].forEach((gid)=>{
-    const g = document.getElementById(gid);
-    g.addEventListener('pointerdown', (e)=>{
-      const card = e.target.closest('.amen'); if(!card) return;
-      card.classList.add('pressed');
-      setTimeout(() => card.classList.remove('pressed'), 160);
-    });
-    g.addEventListener('click', (e)=>{
-      const card = e.target.closest('.amen'); if(!card) return;
-      const am = AMENITIES.find(a => a.id === card.dataset.id);
-      if(am) openAmenityModal(am);
-    });
+  // Only the active grid is interactive; coming-soon cards open nothing.
+  document.getElementById('amenGrid').addEventListener('pointerdown', (e)=>{
+    const card = e.target.closest('.amen'); if(!card || card.classList.contains('coming')) return;
+    card.classList.add('pressed');
+    setTimeout(() => card.classList.remove('pressed'), 160);
+  });
+  document.getElementById('amenGrid').addEventListener('click', (e)=>{
+    const card = e.target.closest('.amen'); if(!card || card.classList.contains('coming')) return;
+    const am = AMENITIES.find(a => a.id === card.dataset.id);
+    if(am) openAmenityModal(am);
   });
 
   loadListings();
