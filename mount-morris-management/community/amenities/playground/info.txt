@@ -1,5 +1,7 @@
 Display Name: Playground
 Order: 3
-Hours:
-Rules:
-Description:
+Description: Playground equipment is provided for the children of park residents.
+Supervision: Parents and guardians are asked to supervise their children and stress safety.
+Wading Pools: Small wading pools (max 6' x 12" deep) are allowed on a patio/cement pad.
+Sandboxes: Allowed up to 4' x 4' on a patio/cement pad.
+Note: Swing sets are not allowed on individual home sites.

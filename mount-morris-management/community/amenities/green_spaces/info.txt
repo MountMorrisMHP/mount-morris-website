@@ -1,5 +1,3 @@
 Display Name: Green Spaces
 Order: 2
-Hours:
-Rules:
-Description:
+Description: Open common areas within the community. Residents may plant trees and shrubs on their site with prior written approval from the office.

@@ -1,0 +1,5 @@
+Display Name: Storage
+Order: 8.5
+Description: Approved storage options to keep your homesite neat.
+Sheds: One shed per site, maximum 10' wide x 10' deep x 8' high, on a cement pad, with written approval from the office.
+RV / Recreational Storage: Storage for items like trail bikes, ATVs, and snowmobiles may be allocated to residents for a monthly fee based on the space needed.

@@ -1,9 +1,9 @@
 Display Name: Pet Friendly
 Order: 4
-Description: Mount Morris is a proudly pet-friendly community. Leashed dogs and cats are welcome, with plenty of green space and a dedicated dog-walk area for your four-legged family members.
-Max Pets Per Home: 2
-Leash Rule: Pets must be leashed (6 ft max) any time they are outside your homesite.
-Cleanup: Always pick up after your pet - waste stations with bags are placed throughout the park.
-Size & Breed: Dogs up to 60 lbs welcome; a short breed-restriction list applies - ask the office for details.
-Vaccinations: Current rabies vaccination and county license required on file.
-Quiet Hours: Please keep pets from excessive barking between 9pm and 8am.
+Description: One domesticated pet per household is welcome with written approval from the office.
+Pet Rent: $25 per month.
+Probation: Approved pets have a 90-day probation period.
+Registration: Pets must be registered with the office, with proof of rabies vaccination and any shots required by law; a current rabies tag must be worn if required.
+Leash: Pets must be on a leash any time they are outside your home or off your site.
+Cleanup: Owners must clean up after their pets daily, on the site and throughout the park.
+Note: Service animals under Michigan law are not considered pets. Fenced enclosures, dog houses, and "Beware of Dog" signs are not permitted.

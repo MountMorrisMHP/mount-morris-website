@@ -1,5 +1,4 @@
 Display Name: Mailbox
 Order: 9
-Hours:
-Rules:
-Description:
+Description: Mail service close to home.
+Keys: Mailbox keys are provided with a $25 deposit. There is a $25 charge for lost keys.

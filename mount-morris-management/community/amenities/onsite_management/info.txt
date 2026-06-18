@@ -1,5 +1,6 @@
 Display Name: On-Site Management
 Order: 5
-Hours:
-Rules:
-Description:
+Description: A friendly on-site team is here to help with day-to-day needs.
+Services: Maintenance, approvals, and site inspections.
+Emergencies: Each resident keeps an emergency contact on file with the office.
+Notices: Rule-violation notices are issued in writing with time to correct.
