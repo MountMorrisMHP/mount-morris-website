@@ -325,6 +325,11 @@
   .detail-grid dt{color:#7a8678;font-weight:600}
   .detail-grid dd{color:var(--ink);text-align:right}
   @media(min-width:620px){.detail-grid{grid-template-columns:1fr 1fr;column-gap:34px}}
+  /* Single-field cards (only a Description): full-width block, not label-left/value-right. */
+  .detail-grid.single{grid-template-columns:1fr}
+  .detail-grid.single div{display:block;border-bottom:none;padding:2px 0}
+  .detail-grid.single dt{margin-bottom:5px}
+  .detail-grid.single dd{text-align:left;line-height:1.55}
 
   /* CARD IMAGE CAROUSEL */
   .carousel{position:absolute;inset:0;overflow:hidden}
@@ -902,7 +907,9 @@
         + `</span>`
       : '';
     document.getElementById('modalPriceRow').style.display = (priceHTML || lotId) ? '' : 'none';
-    document.getElementById('modalDetails').innerHTML =
+    const detailsEl = document.getElementById('modalDetails');
+    detailsEl.classList.toggle('single', (details || []).length === 1);   // one field -> full-width block
+    detailsEl.innerHTML =
       (details || []).map(d => `<div><dt>${esc(d.label)}</dt><dd>${esc(fmtDetail(d.label, d.value))}</dd></div>`).join('');
     if (slides && slides.length){
       galleryEl.style.display = '';

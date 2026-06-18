@@ -1,6 +1,6 @@
 {
   "version": "dev",
-  "generatedAt": "2026-06-18T03:55:52.278Z",
+  "generatedAt": "2026-06-18T04:40:37.355Z",
   "counts": {
     "preorderHomes": 0,
     "homesForRent": 9,
@@ -1181,7 +1181,19 @@
         "details": [
           {
             "label": "Description",
-            "value": "On-site management handles maintenance, approvals, and inspections. Residents provide an emergency contact to keep on file."
+            "value": "A friendly on-site team is here to help with day-to-day needs."
+          },
+          {
+            "label": "Services",
+            "value": "Maintenance, approvals, and site inspections."
+          },
+          {
+            "label": "Emergencies",
+            "value": "Each resident keeps an emergency contact on file with the office."
+          },
+          {
+            "label": "Notices",
+            "value": "Rule-violation notices are issued in writing with time to correct."
           }
         ],
         "mainImage": null,
