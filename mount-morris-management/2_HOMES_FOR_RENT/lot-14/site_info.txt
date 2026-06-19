@@ -1,2 +1,2 @@
 Lot Number: 14
-Base Lot Rent: $530
+Base Lot Rent: 750
