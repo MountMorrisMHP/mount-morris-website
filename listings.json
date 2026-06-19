@@ -1,9 +1,9 @@
 {
-  "version": "v2026.06.18-045533",
-  "generatedAt": "2026-06-18T04:55:33.248Z",
+  "version": "v2026.06.19-144838",
+  "generatedAt": "2026-06-19T14:48:38.980Z",
   "counts": {
     "preorderHomes": 0,
-    "homesForRent": 9,
+    "homesForRent": 10,
     "homesForSale": 1,
     "amenities": 12,
     "scenery": 4
@@ -992,6 +992,31 @@
         {
           "label": "Amenities",
           "value": "Central air, dishwasher, washer/dryer hookups, vinyl plank flooring"
+        }
+      ],
+      "tour": []
+    },
+    {
+      "id": "rent-lot-14",
+      "category": "homesForRent",
+      "dataCat": "rent",
+      "lotNumber": "14",
+      "title": "Home · Lot 14",
+      "badgeText": "For Rent",
+      "badgeClass": "b-rent",
+      "price": "Contact us",
+      "priceSmall": " / month",
+      "specs": [],
+      "mainImage": null,
+      "gallery": [],
+      "details": [
+        {
+          "label": "Lot Number",
+          "value": "14"
+        },
+        {
+          "label": "Base Lot Rent",
+          "value": "$650"
         }
       ],
       "tour": []
