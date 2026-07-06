@@ -1,18 +1,27 @@
 name: Deploy to Production
 
-# Production NEVER deploys automatically — not for code, not for client data.
-# It publishes ONLY when someone presses the button:
-#   Actions tab -> "Deploy to Production" -> Run workflow -> Run
-# That button press is the confirmation step. It builds whatever is currently on
-# the chosen branch (default: main) and publishes it to the public site root,
-# versioned with a git tag + GitHub Release so any deploy can be rolled back.
+# Production deploys automatically when listing DATA on `main` changes, and
+# manually (the button) for everything else.
+#   - Listing data (mount-morris-management/**) pushed to main -> auto-rebuild &
+#     publish. This covers agent-approved publishes (owner clicked Approve in the
+#     portal, which commits the data to main) AND client direct edits on main.
+#   - CODE changes (build.js, index.html, workflows, ...) do NOT auto-deploy —
+#     they still publish only via the button:
+#       Actions tab -> "Deploy to Production" -> Run workflow -> Run
+# Every publish is versioned with a git tag + GitHub Release so it can be rolled back.
 on:
+  # Manual button — used for code deploys and re-publishes (unchanged).
   workflow_dispatch:
     inputs:
       version:
         description: "Version tag (leave blank to auto-generate, e.g. v2026.06.11-1430)"
         required: false
         default: ""
+  # Auto-deploy: listing-data changes on main only (not staging/pending; not code).
+  push:
+    branches: [main]
+    paths:
+      - "mount-morris-management/**"
 
 permissions:
   contents: write        # push the built site to gh-pages AND create tags/releases
