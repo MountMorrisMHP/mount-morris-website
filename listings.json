@@ -1,10 +1,10 @@
 {
-  "version": "v2026.06.19-144838",
-  "generatedAt": "2026-06-19T14:48:38.980Z",
+  "version": "v2026.07.08-073440",
+  "generatedAt": "2026-07-08T07:34:40.309Z",
   "counts": {
     "preorderHomes": 0,
-    "homesForRent": 10,
-    "homesForSale": 1,
+    "homesForRent": 9,
+    "homesForSale": 2,
     "amenities": 12,
     "scenery": 4
   },
@@ -995,34 +995,65 @@
         }
       ],
       "tour": []
-    },
+    }
+  ],
+  "homesForSale": [
     {
-      "id": "rent-lot-14",
-      "category": "homesForRent",
-      "dataCat": "rent",
-      "lotNumber": "14",
-      "title": "Home · Lot 14",
-      "badgeText": "For Rent",
-      "badgeClass": "b-rent",
-      "price": "Contact us",
-      "priceSmall": " / month",
-      "specs": [],
+      "id": "sale-lot-99",
+      "category": "homesForSale",
+      "dataCat": "sale",
+      "lotNumber": "99",
+      "title": "Home · Lot 99",
+      "badgeText": "Pre-Owned",
+      "badgeClass": "b-used",
+      "price": "$25,000",
+      "priceSmall": "",
+      "specs": [
+        "2 Bed",
+        "1 Bath"
+      ],
       "mainImage": null,
       "gallery": [],
       "details": [
         {
           "label": "Lot Number",
-          "value": "14"
+          "value": "99"
         },
         {
           "label": "Base Lot Rent",
-          "value": "$650"
+          "value": "$500"
+        },
+        {
+          "label": "Deal Type",
+          "value": "Pre-Owned"
+        },
+        {
+          "label": "Price",
+          "value": "25000"
+        },
+        {
+          "label": "Bedrooms",
+          "value": "2"
+        },
+        {
+          "label": "Bathrooms",
+          "value": "1"
+        },
+        {
+          "label": "Exterior Color",
+          "value": "white"
+        },
+        {
+          "label": "Heating",
+          "value": "provided"
+        },
+        {
+          "label": "Furnished",
+          "value": "Semi Furnished"
         }
       ],
       "tour": []
-    }
-  ],
-  "homesForSale": [
+    },
     {
       "id": "sale-5045-nadlie",
       "category": "homesForSale",
