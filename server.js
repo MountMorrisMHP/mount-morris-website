@@ -275,6 +275,7 @@ async function scanCategory(category) {
 const COMMUNITY_DIR = path.join(DATA_DIR, 'community');
 const AMENITIES_DIR = path.join(COMMUNITY_DIR, 'amenities');
 const SCENERY_DIR   = path.join(COMMUNITY_DIR, 'general_scenery');
+const FAQS_DIR      = path.join(COMMUNITY_DIR, 'faqs');
 
 function titleCase(name) {
   return name.replace(/[_-]+/g, ' ').trim().replace(/\b\w/g, c => c.toUpperCase());
@@ -316,6 +317,23 @@ async function buildAmenity(folder) {
   };
 }
 
+// FAQs: one .txt per Q&A in community/faqs/ (Question / Answer / optional Order).
+async function scanFaqs() {
+  const entries = await safeReadDir(FAQS_DIR);
+  const files = entries.filter(e => e.isFile() && e.name.toLowerCase().endsWith('.txt') && !e.name.startsWith('.'));
+  const faqs = (await Promise.all(files.map(async f => {
+    const info = await parseKeyValueFile(path.join(FAQS_DIR, f.name));
+    const question = pick(info.map, 'question', 'q');
+    const answer = pick(info.map, 'answer', 'a');
+    if (!question || !answer) return null;                         // needs both to render
+    const orderRaw = pick(info.map, 'order');
+    const order = /^-?\d+(\.\d+)?$/.test(orderRaw) ? parseFloat(orderRaw) : Number.POSITIVE_INFINITY;
+    return { id: path.parse(f.name).name, question, answer, order, _file: f.name };
+  }))).filter(Boolean);
+  faqs.sort((a, b) => (a.order - b.order) || a._file.localeCompare(b._file));
+  return faqs.map(({ _file, ...rest }) => rest);
+}
+
 async function scanCommunity() {
   const entries = await safeReadDir(AMENITIES_DIR);
   const folders = entries.filter(e => e.isDirectory() && !e.name.startsWith('.'));
@@ -329,12 +347,13 @@ async function scanCommunity() {
   for (const ext of ['jpg', 'jpeg', 'png', 'webp']) {
     try { await fs.access(path.join(COMMUNITY_DIR, `map.${ext}`)); mapImage = `/community/map.${ext}`; break; } catch (_) {}
   }
+  const faqs = await scanFaqs();
   let communityRules = '';
   try {
     const t = await fs.readFile(path.join(COMMUNITY_DIR, 'community_rules.txt'), 'utf8');
     if (t.trim()) communityRules = t.trim();
   } catch (_) {}
-  return { amenities, scenery, mapImage, communityRules };
+  return { amenities, scenery, mapImage, communityRules, faqs };
 }
 
 /* ------------------------------------------------------------------ routes */
@@ -355,6 +374,7 @@ app.get('/api/listings', async (req, res) => {
         homesForSale: homesForSale.length,
         amenities: community.amenities.length,
         scenery: community.scenery.length,
+        faqs: community.faqs.length,
       },
       preorderHomes,
       homesForRent,
@@ -368,7 +388,7 @@ app.get('/api/listings', async (req, res) => {
       generatedAt: new Date().toISOString(),
       error: 'Could not read listings right now.',
       preorderHomes: [], homesForRent: [], homesForSale: [],
-      community: { amenities: [], scenery: [], communityRules: '' },
+      community: { amenities: [], scenery: [], communityRules: '', faqs: [] },
     });
   }
 });

@@ -249,6 +249,7 @@ async function scanCategory(category) {
 const COMMUNITY_DIR = path.join(DATA_DIR, 'community');
 const AMENITIES_DIR = path.join(COMMUNITY_DIR, 'amenities');
 const SCENERY_DIR   = path.join(COMMUNITY_DIR, 'general_scenery');
+const FAQS_DIR      = path.join(COMMUNITY_DIR, 'faqs');
 
 /** "pet_friendly" -> "Pet Friendly" (fallback display name from a folder). */
 function titleCase(name) {
@@ -323,6 +324,27 @@ async function copyCommunityMap() {
   return null;
 }
 
+/** FAQs: one .txt file per Q&A in community/faqs/, each with Question / Answer /
+ *  optional Order. Ordered by Order (numeric), then by file name. */
+async function scanFaqs() {
+  const entries = await safeReadDir(FAQS_DIR);
+  const files = entries.filter(e => e.isFile() && e.name.toLowerCase().endsWith('.txt') && !e.name.startsWith('.'));
+
+  const faqs = (await Promise.all(files.map(async f => {
+    const info = await parseKeyValueFile(path.join(FAQS_DIR, f.name));
+    const question = pick(info.map, 'question', 'q');
+    const answer = pick(info.map, 'answer', 'a');
+    // A FAQ needs both a question and an answer to render; skip anything incomplete.
+    if (!question || !answer) return null;
+    const orderRaw = pick(info.map, 'order');
+    const order = /^-?\d+(\.\d+)?$/.test(orderRaw) ? parseFloat(orderRaw) : Number.POSITIVE_INFINITY;
+    return { id: path.parse(f.name).name, question, answer, order, _file: f.name };
+  }))).filter(Boolean);
+
+  faqs.sort((a, b) => (a.order - b.order) || a._file.localeCompare(b._file));
+  return faqs.map(({ _file, ...rest }) => rest);
+}
+
 async function scanCommunity() {
   const entries = await safeReadDir(AMENITIES_DIR);
   const folders = entries.filter(e => e.isDirectory() && !e.name.startsWith('.'));
@@ -335,6 +357,7 @@ async function scanCommunity() {
 
   const scenery = await copyCommunityImages(SCENERY_DIR, path.join('community', 'scenery'), 'community/scenery');
   const mapImage = await copyCommunityMap();
+  const faqs = await scanFaqs();
 
   let communityRules = '';
   try {
@@ -342,7 +365,7 @@ async function scanCommunity() {
     if (t.trim()) communityRules = t.trim();
   } catch (_) {}
 
-  return { amenities, scenery, mapImage, communityRules };
+  return { amenities, scenery, mapImage, communityRules, faqs };
 }
 
 /* ------------------------------------------------------------------- build */
@@ -367,6 +390,7 @@ async function main() {
       homesForSale: homesForSale.length,
       amenities: community.amenities.length,
       scenery: community.scenery.length,
+      faqs: community.faqs.length,
     },
     preorderHomes,
     homesForRent,

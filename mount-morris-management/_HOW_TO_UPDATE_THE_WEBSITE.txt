@@ -133,6 +133,16 @@ PARK RULES (community/community_rules.txt):
   Type the full community rules into this file. When it has text, it appears
   as a "Community Rules" entry in the FAQ. Leave it empty to hide it.
 
+FAQ (community/faqs/...):
+  The "Questions we hear a lot" section is one .txt file per question. Each file
+  has two lines: "Question:" and "Answer:". You can add "Order:" (a number) to
+  set where it appears; otherwise they sort by file name.
+  - To edit a FAQ: open its .txt file and change the text after the colons.
+  - To add a FAQ: "Add file" -> "Create new file", name it something clear like
+    "05-trash-pickup.txt", and fill in Question:, Answer:, and Order:.
+  - To remove a FAQ: delete its .txt file.
+  A file is only shown if it has BOTH a Question and an Answer.
+
 THE COMMUNITY MAP (community/map.jpg):
   To update the community map, replace community/map.jpg (or map.png).
 

@@ -167,6 +167,33 @@ async function main() {
     }
   }
 
+  // --- FAQs: one .txt per Q&A in community/faqs/. Needs a Question and an Answer;
+  //     "Order:" must be numeric if filled.
+  const FAQ_DIR = path.join(DATA_DIR, 'community', 'faqs');
+  const faqEntries = await safeReadDir(FAQ_DIR);
+  let faqCount = 0;
+  for (const file of faqEntries.filter(e => e.isFile() && e.name.toLowerCase().endsWith('.txt') && !e.name.startsWith('.'))) {
+    const fields = await parseFields(path.join(FAQ_DIR, file.name));
+    if (fields === null) continue;
+    faqCount++;
+    const rel = `community/faqs/${file.name}`;
+    const question = fields.find(f => f.key === 'question' || f.key === 'q');
+    const answer = fields.find(f => f.key === 'answer' || f.key === 'a');
+    if (!question || !question.value) {
+      errors.push(`ERROR in ${rel}: missing Question — every FAQ needs a "Question:" line with text after it.`);
+    }
+    if (!answer || !answer.value) {
+      errors.push(`ERROR in ${rel}: missing Answer — every FAQ needs an "Answer:" line with text after it.`);
+    }
+    const order = fields.find(f => f.key === 'order');
+    if (order && order.value && !/^-?\d+(\.\d+)?$/.test(order.value)) {
+      errors.push(
+        `ERROR in ${rel} (line ${order.lineNo}): "Order: ${order.value}" — ` +
+        `Order must be a number, like 1, 2 or 3 (it sets where this question appears).`
+      );
+    }
+  }
+
   if (warnings.length) {
     console.log('\nWarnings (these do NOT block publishing):');
     warnings.forEach(w => console.log('  ' + w));
@@ -179,7 +206,7 @@ async function main() {
     process.exit(1);
   }
 
-  console.log(`\nAll data looks good — checked ${lotCount} lot(s) and ${amenityCount} amenity file(s), no problems found.`);
+  console.log(`\nAll data looks good — checked ${lotCount} lot(s), ${amenityCount} amenity file(s), and ${faqCount} FAQ file(s), no problems found.`);
 }
 
 main().catch((err) => {
