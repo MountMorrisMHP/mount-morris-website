@@ -524,22 +524,8 @@
     </div>
     <!-- Community Rules from community_rules.txt is injected here when present. -->
     <div id="faqExtra"></div>
-    <div class="faq-item">
-      <button class="faq-q">What are the community rules?<span class="pm">+</span></button>
-      <div class="faq-a"><p>Our community guidelines keep the neighborhood safe, quiet, and well-kept for everyone. You'll get a full copy of the rules during your tour, covering upkeep, parking, guests, and quiet hours.</p></div>
-    </div>
-    <div class="faq-item">
-      <button class="faq-q">What fees should I expect?<span class="pm">+</span></button>
-      <div class="faq-a"><p>Alongside your home payment or rent, there's a monthly lot rent that covers your homesite and shared amenities. We'll walk you through every cost up front, with no surprises.</p></div>
-    </div>
-    <div class="faq-item">
-      <button class="faq-q">How does the water meter work?<span class="pm">+</span></button>
-      <div class="faq-a"><p>Each home has its own meter, so you only pay for the water you use. Readings are simple and billing is clearly itemized each month.</p></div>
-    </div>
-    <div class="faq-item">
-      <button class="faq-q">What's the pet policy?<span class="pm">+</span></button>
-      <div class="faq-a"><p>We're a pet-friendly community and love four-legged neighbors. A few breed and size guidelines apply, and there's plenty of green space for walks.</p></div>
-    </div>
+    <!-- FAQs from community/faqs/*.txt are rendered here. -->
+    <div id="faqGrid"></div>
   </div>
 </section>
 
@@ -1211,10 +1197,22 @@
       : '';
   }
 
+  // FAQ items from community/faqs/*.txt. Missing question or answer -> the build
+  // already dropped it, so we only ever get complete Q&As here.
+  function renderFaqs(faqs){
+    const host = document.getElementById('faqGrid');
+    if (!host) return;
+    host.innerHTML = (faqs || []).map(f =>
+      `<div class="faq-item"><button class="faq-q">${esc(f.question)}<span class="pm">+</span></button>`
+      + `<div class="faq-a"><p style="white-space:pre-line">${esc(f.answer)}</p></div></div>`
+    ).join('');
+  }
+
   function renderCommunity(c){
     renderAmenities(c.amenities || []);
     renderScenery(c.scenery || []);
     renderCommunityRules(c.communityRules || '');
+    renderFaqs(c.faqs || []);
   }
 
 
