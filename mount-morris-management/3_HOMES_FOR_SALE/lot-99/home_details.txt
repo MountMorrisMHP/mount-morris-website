@@ -1,7 +1,0 @@
-Deal Type: Pre-Owned
-Price: 25000
-Bedrooms: 2
-Bathrooms: 1
-Exterior Color: white
-Heating: provided
-Furnished: Semi Furnished
