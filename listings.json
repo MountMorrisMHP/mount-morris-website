@@ -1,10 +1,10 @@
 {
-  "version": "v2026.07.08-075045",
-  "generatedAt": "2026-07-08T07:50:45.407Z",
+  "version": "v2026.07.08-075105",
+  "generatedAt": "2026-07-08T07:51:05.392Z",
   "counts": {
     "preorderHomes": 0,
     "homesForRent": 9,
-    "homesForSale": 1,
+    "homesForSale": 0,
     "amenities": 12,
     "scenery": 4
   },
@@ -983,84 +983,7 @@
       ]
     }
   ],
-  "homesForSale": [
-    {
-      "id": "sale-5045-nadlie",
-      "category": "homesForSale",
-      "dataCat": "sale",
-      "lotNumber": "TBD",
-      "title": "Home · Lot TBD",
-      "badgeText": "Pre-Owned",
-      "badgeClass": "b-used",
-      "price": "$24,000",
-      "priceSmall": "",
-      "specs": [
-        "3 Bed",
-        "2 Bath",
-        "1,120 sq ft"
-      ],
-      "mainImage": null,
-      "gallery": [],
-      "details": [
-        {
-          "label": "Lot Number",
-          "value": "TBD"
-        },
-        {
-          "label": "Lot Address",
-          "value": "5045 Nadlie"
-        },
-        {
-          "label": "Base Lot Rent",
-          "value": "$550"
-        },
-        {
-          "label": "Price",
-          "value": "24000"
-        },
-        {
-          "label": "Bedrooms",
-          "value": "3"
-        },
-        {
-          "label": "Bathrooms",
-          "value": "2"
-        },
-        {
-          "label": "Square Feet",
-          "value": "1120"
-        },
-        {
-          "label": "Amenities",
-          "value": "Walk-in closet, deck, laundry room"
-        },
-        {
-          "label": "Dimensions",
-          "value": "16 x 70"
-        },
-        {
-          "label": "Roof",
-          "value": "Shingled"
-        },
-        {
-          "label": "Skirting",
-          "value": "Vinyl"
-        },
-        {
-          "label": "Exterior Color",
-          "value": "Yellow"
-        },
-        {
-          "label": "Heating",
-          "value": "Gas"
-        },
-        {
-          "label": "Furnished",
-          "value": "Unfurnished"
-        }
-      ]
-    }
-  ],
+  "homesForSale": [],
   "community": {
     "amenities": [
       {
