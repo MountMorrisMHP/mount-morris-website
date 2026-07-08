@@ -1,13 +1,13 @@
 {
-  "version": "v2026.07.08-123548",
-  "generatedAt": "2026-07-08T12:35:48.158Z",
+  "version": "v2026.07.08-131833",
+  "generatedAt": "2026-07-08T13:18:33.148Z",
   "counts": {
     "preorderHomes": 0,
     "homesForRent": 9,
     "homesForSale": 0,
     "amenities": 12,
     "scenery": 4,
-    "faqs": 5
+    "faqs": 6
   },
   "preorderHomes": [],
   "homesForRent": [
@@ -1251,6 +1251,12 @@
       },
       {
         "id": "05-where-do-i-park",
+        "question": "Where do I park?",
+        "answer": "Each lot includes two parking spaces.",
+        "order": null
+      },
+      {
+        "id": "06-where-do-i-park",
         "question": "Where do I park?",
         "answer": "Each lot includes two parking spaces.",
         "order": null
