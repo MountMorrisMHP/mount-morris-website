@@ -164,38 +164,6 @@
   .map-box.has-slider{padding:0;overflow:hidden;aspect-ratio:3/2}   /* landscape lifestyle slider (tall via a wider frame) */
   .btn.soon{background:var(--sage);color:var(--pine-deep);cursor:default}
 
-  /* FULLSCREEN COMMUNITY MAP */
-  .map-modal{position:fixed;inset:0;z-index:600;display:none;flex-direction:column;background:rgba(20,30,24,.93);-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
-  .map-modal.open{display:flex;animation:mapIn .28s ease}
-  @keyframes mapIn{from{opacity:0}to{opacity:1}}
-  .map-stage{flex:1;min-height:0;overflow:hidden;display:flex;align-items:center;justify-content:center;padding:28px;touch-action:pinch-zoom}
-  .map-illustration{width:min(92vw,640px);max-height:100%;background:var(--pine-deep);border:1px solid rgba(255,255,255,.14);border-radius:16px;padding:18px;box-shadow:0 24px 70px -24px rgba(0,0,0,.7)}
-  /* TEMPORARY sample interactive map */
-  .map-stage{position:relative}                       /* anchor for the lot tooltip */
-  .sample-map text{pointer-events:none}
-  /* ----- Interactive illustrated site map (Explore-the-Map modal) ----- */
-  .sample-map .gm-lot{stroke:#27371D;stroke-width:.4}                 /* homesite lots (fill set inline) */
-  .sample-map .gm-label{fill:#22321A;font-size:12px;font-weight:700;font-family:'Hanken Grotesk',sans-serif;paint-order:stroke;stroke:rgba(236,225,196,.65);stroke-width:2.6px;stroke-linejoin:round}
-  .sample-map .gm-amen{cursor:pointer}                                /* clickable amenity buttons */
-  .sample-map .gm-amen > rect{transition:.12s ease}
-  .sample-map .gm-amen text{fill:#fff;font-size:15px;font-weight:700;font-family:'Hanken Grotesk',sans-serif;pointer-events:none}
-  .sample-map .gm-amen:hover > rect,.sample-map .gm-amen:focus > rect{stroke:#fff;stroke-width:2;filter:brightness(1.1)}
-  .sample-map .gm-amen:focus{outline:none}
-  /* Transparent clickable hotspots over the real map image: invisible until hover/focus. */
-  .sample-map .gm-hot{cursor:pointer}
-  .sample-map .gm-hot rect{fill:#C25A35;fill-opacity:.001;stroke:#fff;stroke-opacity:0;stroke-width:2;transition:.12s ease}
-  .sample-map .gm-hot:hover rect,.sample-map .gm-hot:focus rect{fill-opacity:.34;stroke-opacity:1}
-  .sample-map .gm-hot:focus{outline:none}
-  .map-tip{position:absolute;transform:translate(-50%,-100%);background:rgba(20,30,24,.96);color:var(--cream);font-size:.78rem;font-weight:700;padding:5px 10px;border-radius:8px;white-space:nowrap;pointer-events:none;opacity:0;transition:opacity .12s ease;z-index:4;box-shadow:0 8px 20px -8px rgba(0,0,0,.7)}
-  .map-tip.show{opacity:1}
-  .map-stage img{max-width:100%;max-height:100%;border-radius:10px;box-shadow:0 24px 70px -24px rgba(0,0,0,.7);transform-origin:center center;transition:transform .12s ease;cursor:zoom-in;animation:mapImgIn .4s cubic-bezier(.2,.7,.2,1);-webkit-user-select:none;user-select:none;-webkit-user-drag:none}
-  .map-stage img.zoomed{cursor:grab}
-  @keyframes mapImgIn{from{opacity:0;transform:scale(.95)}to{opacity:1;transform:none}}
-  .map-close{position:absolute;top:16px;right:18px;z-index:3;width:42px;height:42px;border-radius:50%;border:none;background:rgba(255,255,255,.16);color:#fff;font-size:1.6rem;line-height:1;cursor:pointer;transition:background .2s}
-  .map-close:hover{background:rgba(255,255,255,.3)}
-  .map-legend{display:flex;gap:18px;justify-content:center;align-items:center;flex-wrap:wrap;padding:12px 16px 18px;color:var(--cream);font-size:.85rem;font-weight:600}
-  .map-legend i{width:12px;height:12px;border-radius:50%;display:inline-block;margin-right:7px;vertical-align:middle}
-  .map-legend .map-hint{opacity:.6;font-weight:500}
 
   /* AMENITIES */
   .amen-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px}
@@ -268,8 +236,6 @@
   .modal-body .mprice-row{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;margin-bottom:18px}
   .mprice-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
   .mprice-actions a,.mprice-actions button{font:inherit;font-weight:700;font-size:.84rem;line-height:1;padding:9px 16px;border-radius:999px;border:1.5px solid transparent;cursor:pointer;white-space:nowrap;text-decoration:none;transition:background .15s,color .15s,filter .15s}
-  .mprice-actions .btn-virtual-tour{background:var(--clay);color:#fff}
-  .mprice-actions .btn-virtual-tour:hover{filter:brightness(1.07)}
   /* "Call Us" toggle reveals Call Now + Schedule a Call (siblings) with a soft slide-in. */
   .mprice-actions .call-group{display:inline-flex;align-items:center;gap:10px;flex-wrap:wrap}
   .mprice-actions .btn-call-toggle{background:transparent;color:var(--pine);border-color:var(--pine)}
@@ -319,7 +285,6 @@
     .appt-card h3{font-size:1.4rem}
   }
 
-  /* VIRTUAL TOUR: all of its styles live in virtual-tour.js (self-injected). */
   .detail-grid{display:grid;grid-template-columns:1fr;gap:0}
   .detail-grid div{display:flex;justify-content:space-between;gap:18px;padding:9px 0;border-bottom:1px solid var(--line);font-size:.92rem}
   .detail-grid dt{color:#7a8678;font-weight:600}
@@ -525,7 +490,7 @@
       <span class="eyebrow">See it for yourself</span>
       <h2>Life at Mount Morris Mobile Home Park</h2>
       <p>Come take a look around the community. These are real photos of the park and the homes, and you can open the map any time to see how it's all laid out.</p>
-      <button class="btn btn-primary" id="exploreMapBtn">Explore the Map</button>
+      <a class="btn btn-primary" id="exploreMapBtn" href="https://www.google.com/maps/place/Mount+Morris+Mobile+Home+Park/@43.1156426,-83.6716041,17z/data=!3m1!4b1!4m6!3m5!1s0x882387c90ddd1e55:0x1074d17e054b21d8!8m2!3d43.1156387!4d-83.6690292!16s%2Fg%2F11h_zf7x9k" target="_blank" rel="noopener">Explore the Map</a>
     </div>
     <!-- Right side: ambient scenery slider from general_scenery. The static map graphic now lives in the Explore-the-Map modal. -->
     <div class="map-box" id="mapBox"></div>
@@ -678,27 +643,6 @@
       <p>Thanks! We'll call you during your selected window.</p>
       <button type="button" class="appt-submit" id="apptDone">Done</button>
     </div>
-  </div>
-</div>
-
-<!-- VIRTUAL TOUR: the modal is created entirely by virtual-tour.js (no markup here). -->
-
-<!-- FULLSCREEN COMMUNITY MAP (opened from "Explore the Map") -->
-<div class="map-modal" id="mapModal" role="dialog" aria-modal="true" aria-label="Community map">
-  <button class="map-close" id="mapClose" aria-label="Close map">&times;</button>
-  <div class="map-stage" id="mapStage">
-    <img id="mapImg" alt="Mount Morris Mobile Home Park community map" draggable="false" style="display:none">
-    <!-- ===== TEMPORARY sample interactive map (NOT the real park layout) =====
-         A stylized grid of ~40 clickable lots, generated by buildSampleMap()
-         in the script below. Replace with a real community/map.jpg (or a real
-         SVG layout) when available. ============================================ -->
-    <svg id="mapSvg" class="map-illustration sample-map" role="img" aria-label="Sample community lot map"></svg>
-    <div class="map-tip" id="mapTip" aria-hidden="true"></div>
-  </div>
-  <div class="map-legend">
-    <span><i style="background:#2C5540"></i>Homesites</span>
-    <span><i style="background:#C25A35"></i>Amenities, tap for info</span>
-    <span class="map-hint">Drag / pinch to explore</span>
   </div>
 </div>
 
@@ -871,7 +815,6 @@
   /* ----- Detail modal: reuses the SAME carousel as the cards ----- */
   const modal = document.getElementById('listingModal');
   const galleryEl = document.getElementById('modalGallery');
-  let currentTourScenes = [];   // VIRTUAL TOUR: this listing's tour scenes (for window.MMVirtualTour)
 
   // Money fields render formatted ($ + commas) in the details list.
   const MONEY_KEYS = new Set(['price', 'baselotrent', 'lotrent']);
@@ -898,9 +841,7 @@
     // "Call Us" reveals two siblings: Call Now (tel) + Schedule a Call (appointment modal).
     const actionsEl = document.getElementById('modalActions');
     actionsEl.innerHTML = lotId
-      // VIRTUAL TOUR: show the button only when this home has tour scenes.
-      ? (currentTourScenes.length ? `<button type="button" class="btn-virtual-tour">Virtual Tour</button>` : '')
-        + `<span class="call-group" data-lot="${esc(lotLabel || lotId)}">`
+      ? `<span class="call-group" data-lot="${esc(lotLabel || lotId)}">`
         +   `<button type="button" class="btn-call-toggle">Call Us</button>`
         +   `<a class="btn-callnow" href="tel:+18103686008">Call Now</a>`
         +   `<button type="button" class="btn-schedule">Schedule a Call</button>`
@@ -925,8 +866,6 @@
   }
 
   function openModal(item, startIdx){
-    // VIRTUAL TOUR: scenes come from the listing's `tour` data (built from tour-*.jpg / a tour/ folder).
-    currentTourScenes = (item.tour || []).map(s => ({ url: API_BASE + s.url, label: s.label }));
     fillModal({
       title: item.title,
       priceHTML: esc(item.price) + (item.priceSmall ? `<small style="font-size:.8rem;color:#7a8678"> ${esc(item.priceSmall)}</small>` : ''),
@@ -939,7 +878,6 @@
   }
 
   function openAmenityModal(am){
-    currentTourScenes = [];                                  // amenities have no virtual tour
     fillModal({
       title: am.displayName,
       priceHTML: '',
@@ -953,8 +891,6 @@
 
   // Delegated actions on the price row (container is stable across opens).
   document.getElementById('modalActions').addEventListener('click', (e) => {
-    const vt = e.target.closest('.btn-virtual-tour');
-    if (vt){ if (window.MMVirtualTour) window.MMVirtualTour.open(currentTourScenes); return; }   // VIRTUAL TOUR
     const toggle = e.target.closest('.btn-call-toggle');     // "Call Us" -> reveal Call Now + Schedule
     if (toggle){ toggle.closest('.call-group').classList.add('open'); return; }
     const sched = e.target.closest('.btn-schedule');          // -> open the appointment modal
@@ -1025,10 +961,6 @@
       showApptErr('Sorry, we couldn’t send that just now. Please call us directly at <a href="tel:+18103686008">+1 (810) 368-6008</a>.');
     }
   });
-
-  /* VIRTUAL TOUR: the whole feature lives in the removable module virtual-tour.js
-     (window.MMVirtualTour). The page only stashes the current listing's tour
-     scenes (set in openModal) and calls .open() from the button handler below. */
 
   /* ===================================================================
    * CAROUSEL ENGINE — swipe (touch + mouse) with momentum, hover arrows,
@@ -1283,205 +1215,8 @@
     renderAmenities(c.amenities || []);
     renderScenery(c.scenery || []);
     renderCommunityRules(c.communityRules || '');
-    setupMap(c.mapImage || null);
   }
 
-  /* ----- Fullscreen community map (Explore the Map) ----- */
-  let MAP_IMAGE = null;
-  const mapModal = document.getElementById('mapModal');
-  const mapStage = document.getElementById('mapStage');
-  const mapImg   = document.getElementById('mapImg');
-  const mapSvg   = document.getElementById('mapSvg');
-  const mapTip   = document.getElementById('mapTip');
-
-  // null URL => the modal shows the TEMPORARY sample interactive map below; button stays "Explore the Map".
-  function setupMap(url){ MAP_IMAGE = url; }
-
-  /* ===== Interactive site map for Mount Morris Village MHC ====================
-     A clean illustrated (vector) site map in the green aerial style of the
-     client blueprint: gradient ground, textured forest borders, cream roads
-     tracing the real park layout, green lot rows along the streets, and the
-     bottom grid cluster. On top sit the interactive ORANGE amenity buttons
-     (office, storm_shelter, mailbox, playground, green_spaces x3); clicking one
-     opens the SAME amenity modal/slideshow as the "Life Here" cards. Layout is
-     driven by the editable arrays below (roads* / streets / bottomGrid / woods /
-     labels / amenities) so positions are easy to nudge. 760x1020 (portrait). === */
-  function buildSampleMap(){
-    if (mapSvg.dataset.built) return;
-    mapSvg.dataset.built = '1';
-    const W = 760, H = 1020;
-
-    // ----- ROADS -------------------------------------------------------------
-    const roadsMain = [        // perimeter loop, north stub, spine, neck->grid, entrance spur
-      ['M555,40 C628,64 664,150 666,238 C669,330 632,402 575,452 L520,506 L470,556 L406,492 C356,444 332,348 342,256 C351,170 432,92 504,58 C524,49 542,40 555,40 Z', 12],
-      ['M560,8 L556,40', 8],
-      ['M505,86 C490,250 480,420 472,552', 8],
-      ['M470,556 C440,618 402,668 372,742', 9],
-      ['M452,572 C360,640 250,652 150,676 L60,676', 9],
-    ];
-    // Internal residential streets [x1,y1,x2,y2] — also get a lot row on each side.
-    const streets = [
-      [410,150,590,140],[392,190,606,182],[378,230,612,226],[372,270,606,270],
-      [374,310,592,314],[384,350,576,358],[398,390,556,402],
-      [560,300,520,506],[628,152,616,366],
-    ];
-    const bottomGrid = { x:206, y:748, w:262, h:252, cols:5, rows:6 };
-    // Wooded borders (filled green + canopy texture): top, left, right, SE corner.
-    const woods = [
-      'M0,0 L760,0 L760,60 C520,34 250,50 0,66 Z',
-      'M0,48 L72,62 C58,300 78,560 60,840 L0,860 Z',
-      'M760,44 L686,60 C700,300 684,590 706,872 L760,892 Z',
-      'M512,1020 C548,876 648,824 760,800 L760,1020 Z',
-    ];
-    const labels = [           // named streets, sitting on their roads
-      { t:'Spruce', x:452, y:146, r:-3 }, { t:'Hickory', x:448, y:228, r:-2 },
-      { t:'Hemlock', x:446, y:269, r:-1 }, { t:'Fernwood', x:452, y:312, r:1 },
-      { t:'Hawthorn', x:460, y:354, r:3 },
-    ];
-    // Interactive amenities -> community/amenities/<id>. {id,x,y,w,h,label}; easy to nudge.
-    const amenities = [
-      { id:'office',        x:96,  y:704, w:104, h:30, label:'Office' },
-      { id:'storm_shelter', x:84,  y:742, w:128, h:30, label:'Storm Shelter' },
-      { id:'mailbox',       x:44,  y:628, w:92,  h:28, label:'Mailbox' },
-      { id:'playground',    x:388, y:598, w:112, h:30, label:'Playground' },
-      { id:'green_spaces',  x:150, y:430, w:116, h:30, label:'Greenspace' },
-      { id:'green_spaces',  x:560, y:404, w:116, h:30, label:'Greenspace' },
-      { id:'green_spaces',  x:500, y:808, w:116, h:30, label:'Greenspace' },
-    ];
-    // -------------------------------------------------------------------------
-
-    const stroke = (d, col, w) => `<path d="${d}" fill="none" stroke="${col}" stroke-width="${w}" stroke-linecap="round" stroke-linejoin="round"/>`;
-    const drawRoads = () => {
-      const all = [...roadsMain, ...streets.map(s => ['M' + s[0] + ',' + s[1] + ' L' + s[2] + ',' + s[3], 6])];
-      const cas = all.map(([d, w]) => stroke(d, '#B9A876', w + 3.5)).join('');
-      const top = all.map(([d, w]) => stroke(d, '#ECE1C4', w)).join('');
-      return `<g filter="url(#sh)">${cas}</g>${top}`;
-    };
-    const LW = 13, LH = 9;
-    const lotsAlong = (x1, y1, x2, y2) => {
-      const dx = x2 - x1, dy = y2 - y1, len = Math.hypot(dx, dy) || 1;
-      const n = Math.max(2, Math.round(len / 24));
-      const ang = (Math.atan2(dy, dx) * 180 / Math.PI).toFixed(1);
-      const nx = -dy / len, ny = dx / len;
-      let o = '';
-      for (const side of [1, -1]) for (let i = 0; i < n; i++){
-        const t = (i + 0.5) / n, cx = x1 + dx * t + nx * 10 * side, cy = y1 + dy * t + ny * 10 * side;
-        const sh = ((i + (side > 0 ? 0 : 1)) % 2) ? '#3E5A33' : '#476640';
-        o += `<rect class="gm-lot" x="${(cx - LW / 2).toFixed(1)}" y="${(cy - LH / 2).toFixed(1)}" width="${LW}" height="${LH}" rx="1.4" fill="${sh}" transform="rotate(${ang} ${cx.toFixed(1)} ${cy.toFixed(1)})"/>`;
-      }
-      return o;
-    };
-    const gridLots = (g) => {
-      let o = ''; const cw = g.w / g.cols, ch = g.h / g.rows;
-      for (let r = 0; r < g.rows; r++) for (let c = 0; c < g.cols; c++) for (const k of [0, 1]){
-        const x = g.x + c * cw + 4, y = g.y + r * ch + 3 + k * (ch / 2 - 1);
-        const sh = ((r + c + k) % 2) ? '#3E5A33' : '#476640';
-        o += `<rect class="gm-lot" x="${x.toFixed(1)}" y="${y.toFixed(1)}" width="${(cw - 8).toFixed(1)}" height="${(ch / 2 - 5).toFixed(1)}" rx="1.4" fill="${sh}"/>`;
-      }
-      return o;
-    };
-    const forest = () => {
-      let o = woods.map(d => `<path d="${d}" fill="url(#fg)"/>`).join('');
-      let seed = 7; const rnd = () => { seed = (seed * 9301 + 49297) % 233280; return seed / 233280; };
-      const bands = [[0,72,0,1020],[686,760,0,1020],[0,760,0,66],[512,760,800,1020]];
-      const cols = ['#2C4226','#34502C','#3A5630','#26381F'];
-      bands.forEach(([x0,x1,y0,y1]) => { for (let i = 0; i < 80; i++){
-        const x = x0 + rnd() * (x1 - x0), y = y0 + rnd() * (y1 - y0), r = 4 + rnd() * 5;
-        o += `<circle cx="${x.toFixed(1)}" cy="${y.toFixed(1)}" r="${r.toFixed(1)}" fill="${cols[Math.floor(rnd() * 4)]}" opacity="0.92"/>`;
-      }});
-      return o;
-    };
-
-    const defs = `<defs>`
-      + `<radialGradient id="gg" cx="46%" cy="38%" r="78%"><stop offset="0" stop-color="#A6BC85"/><stop offset="1" stop-color="#7B9258"/></radialGradient>`
-      + `<linearGradient id="fg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#334B2B"/><stop offset="1" stop-color="#27391F"/></linearGradient>`
-      + `<filter id="sh" x="-20%" y="-20%" width="140%" height="140%"><feDropShadow dx="0" dy="1.2" stdDeviation="1.1" flood-color="#1d2a16" flood-opacity="0.32"/></filter>`
-      + `</defs>`;
-    let s = defs + `<rect width="${W}" height="${H}" rx="14" fill="url(#gg)"/>`;
-    s += `<g id="forest">` + forest() + `</g>`;
-    s += `<g id="roads">`  + drawRoads() + `</g>`;
-    s += `<g id="lots" filter="url(#sh)">` + streets.map(c => lotsAlong(c[0], c[1], c[2], c[3])).join('') + gridLots(bottomGrid) + `</g>`;
-    s += `<g id="labels">` + labels.map(l => `<text class="gm-label" x="${l.x}" y="${l.y}" transform="rotate(${l.r} ${l.x} ${l.y})">${l.t}</text>`).join('') + `</g>`;
-    s += `<g id="amenities">` + amenities.map(a => {
-      const cx = a.x + a.w / 2, cy = a.y + a.h / 2;
-      return `<g class="gm-amen" data-amenity="${a.id}" tabindex="0" role="button" aria-label="${a.label}: open details">`
-        + `<rect x="${a.x}" y="${a.y}" width="${a.w}" height="${a.h}" rx="8" fill="#C25A35" stroke="#8E3F22" stroke-width="1"/>`
-        + `<text x="${cx}" y="${(cy + 0.5).toFixed(1)}" text-anchor="middle" dominant-baseline="central">${a.label}</text>`
-        + `</g>`;
-    }).join('') + `</g>`;
-    mapSvg.setAttribute('viewBox', `0 0 ${W} ${H}`);
-    mapSvg.innerHTML = s;
-  }
-  function hideTip(){ if (mapTip) mapTip.classList.remove('show'); }   // kept for closeMap()
-  // Amenity hotspots/buttons open the SAME modal/slideshow as the "Life Here" cards.
-  const openAmenFromMap = (g) => { const am = AMENITIES.find(a => a.id === g.dataset.amenity); if (am) openAmenityModal(am); };
-  mapSvg.addEventListener('click',   e => { const g = e.target.closest('[data-amenity]'); if (g) openAmenFromMap(g); });
-  mapSvg.addEventListener('keydown', e => { if (e.key === 'Enter' || e.key === ' '){ const g = e.target.closest('[data-amenity]'); if (g){ e.preventDefault(); openAmenFromMap(g); } } });
-
-  // Pan/zoom applies to whichever element is showing (real image OR sample map).
-  let mz = 1, mpx = 0, mpy = 0, mdrag = false, mlx = 0, mly = 0, mapZoomEl = mapImg;
-  const applyMap = () => { mapZoomEl.style.transform = `translate(${mpx}px,${mpy}px) scale(${mz})`; mapZoomEl.classList.toggle('zoomed', mz > 1); };
-  const resetMap = () => { mz = 1; mpx = 0; mpy = 0; [mapImg, mapSvg].forEach(el => { el.style.transform = ''; el.classList.remove('zoomed'); }); };
-
-  /* The client's render (community/map.jpg) IS the map. We draw it inside the
-     SVG with transparent clickable hotspots over the labelled zones, so the
-     picture is untouched and the hotspots stay aligned through pan/zoom.
-     Coordinates are in the image's own space (896x1195, portrait 3:4). Each
-     hotspot maps a labelled zone -> an amenity folder; easy to nudge. */
-  function buildImageMap(){
-    if (mapSvg.dataset.imgBuilt) return;
-    mapSvg.dataset.imgBuilt = '1';
-    const VW = 896, VH = 1195;
-    const hot = [
-      { id:'office',       x:24,  y:872, w:234, h:266, label:'Community Hub' },  // COMMUNITY HUB box
-      { id:'green_spaces', x:52,  y:396, w:130, h:42,  label:'Greenspace' },     // left meadow
-      { id:'green_spaces', x:335, y:58,  w:95,  h:32,  label:'Greenspace' },     // top
-      { id:'green_spaces', x:528, y:352, w:96,  h:32,  label:'Greenspace' },     // mid-right
-      { id:'green_spaces', x:300, y:926, w:122, h:60,  label:'Greenspace' },     // bottom
-    ];
-    let s = `<image href="${API_BASE + MAP_IMAGE}" x="0" y="0" width="${VW}" height="${VH}" preserveAspectRatio="xMidYMid slice"/>`;
-    s += hot.map(a =>
-      `<g class="gm-hot" data-amenity="${a.id}" tabindex="0" role="button" aria-label="${a.label}: open details">`
-      + `<rect x="${a.x}" y="${a.y}" width="${a.w}" height="${a.h}" rx="10"/><title>${a.label}</title></g>`).join('');
-    mapSvg.setAttribute('viewBox', `0 0 ${VW} ${VH}`);
-    mapSvg.innerHTML = s;
-  }
-
-  function openMap(){
-    if (MAP_IMAGE){                          // the real map image IS the map (+ clickable hotspots)
-      mapImg.style.display = 'none'; mapSvg.style.display = '';
-      buildImageMap();
-      mapZoomEl = mapSvg;
-    } else {                                 // no map uploaded yet -> illustrated fallback
-      mapImg.style.display = 'none'; mapSvg.style.display = '';
-      buildSampleMap();
-      mapZoomEl = mapSvg;
-    }
-    resetMap();
-    mapModal.classList.add('open');
-    document.body.style.overflow = 'hidden';
-  }
-  function closeMap(){ mapModal.classList.remove('open'); document.body.style.overflow = ''; hideTip(); }
-
-  document.getElementById('exploreMapBtn').addEventListener('click', openMap);
-  document.getElementById('mapClose').addEventListener('click', closeMap);
-  mapStage.addEventListener('click', (e)=>{ if (e.target === mapStage) closeMap(); });   // click outside the image
-  document.addEventListener('keydown', (e)=>{ if (mapModal.classList.contains('open') && !modal.classList.contains('open') && e.key === 'Escape') closeMap(); });
-
-  // wheel/double-click zoom (desktop); touch devices use the browser's native pinch-zoom
-  mapStage.addEventListener('wheel', (e)=>{
-    if (!mapModal.classList.contains('open')) return;
-    e.preventDefault();
-    mz = Math.min(5, Math.max(1, mz * (e.deltaY < 0 ? 1.2 : 1 / 1.2)));
-    if (mz === 1){ mpx = 0; mpy = 0; }
-    applyMap();
-  }, { passive: false });
-  mapStage.addEventListener('dblclick', (e)=>{ e.preventDefault(); if (mz > 1) resetMap(); else { mz = 2.4; applyMap(); } });
-  // drag-to-pan with a mouse when zoomed (touch devices use native pinch-zoom)
-  mapStage.addEventListener('pointerdown', (e)=>{ if (e.pointerType === 'touch' || mz <= 1) return; mdrag = true; mlx = e.clientX; mly = e.clientY; });
-  mapStage.addEventListener('pointermove', (e)=>{ if (!mdrag) return; mpx += e.clientX - mlx; mpy += e.clientY - mly; mlx = e.clientX; mly = e.clientY; applyMap(); });
-  addEventListener('pointerup',     ()=>{ mdrag = false; });
-  addEventListener('pointercancel', ()=>{ mdrag = false; });
 
   // Deterministic press feedback on touch: green flash on pointerdown (~150ms),
   // independent of hover. The click below always opens the modal (never swallowed).
@@ -1507,7 +1242,5 @@
     if(!open){item.classList.add('open');a.style.maxHeight=a.scrollHeight+'px';}
   });
 </script>
-<!-- VIRTUAL TOUR (removable module): delete this one tag + virtual-tour.js to remove the feature. -->
-<script src="virtual-tour.js" defer></script>
 </body>
 </html> 
