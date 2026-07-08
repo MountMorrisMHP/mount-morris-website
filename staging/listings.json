@@ -1,12 +1,13 @@
 {
   "version": "dev",
-  "generatedAt": "2026-07-07T12:04:06.058Z",
+  "generatedAt": "2026-07-08T08:11:06.209Z",
   "counts": {
     "preorderHomes": 0,
     "homesForRent": 9,
     "homesForSale": 1,
     "amenities": 12,
-    "scenery": 4
+    "scenery": 4,
+    "faqs": 4
   },
   "preorderHomes": [],
   "homesForRent": [
@@ -1299,6 +1300,32 @@
       "community/scenery/sample-4.svg"
     ],
     "mapImage": "community/map.jpg",
-    "communityRules": ""
+    "communityRules": "",
+    "faqs": [
+      {
+        "id": "01-community-rules",
+        "question": "What are the community rules?",
+        "answer": "Our community guidelines keep the neighborhood safe, quiet, and well-kept for everyone. You'll get a full copy of the rules during your tour, covering upkeep, parking, guests, and quiet hours.",
+        "order": 1
+      },
+      {
+        "id": "02-fees",
+        "question": "What fees should I expect?",
+        "answer": "Alongside your home payment or rent, there's a monthly lot rent that covers your homesite and shared amenities. We'll walk you through every cost up front, with no surprises.",
+        "order": 2
+      },
+      {
+        "id": "03-water-meter",
+        "question": "How does the water meter work?",
+        "answer": "Each home has its own meter, so you only pay for the water you use. Readings are simple and billing is clearly itemized each month.",
+        "order": 3
+      },
+      {
+        "id": "04-pet-policy",
+        "question": "What's the pet policy?",
+        "answer": "We're a pet-friendly community and love four-legged neighbors. A few breed and size guidelines apply, and there's plenty of green space for walks.",
+        "order": 4
+      }
+    ]
   }
 }
