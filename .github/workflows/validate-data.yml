@@ -11,6 +11,14 @@ on:
 permissions:
   contents: read
 
+# When several commits land on the same ref in quick succession, only validate
+# the newest: cancel superseded runs instead of letting them pile into the
+# runner queue. Keyed per ref so different branches (e.g. each pending/<id>)
+# still validate independently.
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   validate:
     runs-on: ubuntu-latest
