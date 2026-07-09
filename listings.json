@@ -1,13 +1,13 @@
 {
-  "version": "v2026.07.09-060244",
-  "generatedAt": "2026-07-09T06:02:44.700Z",
+  "version": "v2026.07.09-061635",
+  "generatedAt": "2026-07-09T06:16:35.732Z",
   "counts": {
     "preorderHomes": 0,
     "homesForRent": 9,
     "homesForSale": 0,
     "amenities": 12,
     "scenery": 4,
-    "faqs": 6
+    "faqs": 5
   },
   "preorderHomes": [],
   "homesForRent": [
@@ -1248,12 +1248,6 @@
         "question": "What's the pet policy?",
         "answer": "We're a pet-friendly community and love four-legged neighbors. A few breed and size guidelines apply, and there's plenty of green space for walks.",
         "order": 4
-      },
-      {
-        "id": "05-where-do-i-park",
-        "question": "Where do I park?",
-        "answer": "Each lot includes two parking spaces.",
-        "order": null
       },
       {
         "id": "06-where-do-i-park",
