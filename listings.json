@@ -1,13 +1,13 @@
 {
-  "version": "v2026.07.08-143408",
-  "generatedAt": "2026-07-08T14:34:08.850Z",
+  "version": "v2026.07.09-060244",
+  "generatedAt": "2026-07-09T06:02:44.700Z",
   "counts": {
     "preorderHomes": 0,
     "homesForRent": 9,
     "homesForSale": 0,
     "amenities": 12,
     "scenery": 4,
-    "faqs": 7
+    "faqs": 6
   },
   "preorderHomes": [],
   "homesForRent": [
@@ -1241,12 +1241,6 @@
         "id": "03-water-meter",
         "question": "How does the water meter work?",
         "answer": "Each home has its own meter, so you only pay for the water you use. Readings are simple and billing is clearly itemized each month.",
-        "order": 3
-      },
-      {
-        "id": "07-where-do-i-park",
-        "question": "Where do I park?",
-        "answer": "Each lot includes two parking spaces.",
         "order": 3
       },
       {
