@@ -1,10 +1,10 @@
 {
-  "version": "v2026.07.12-092624",
-  "generatedAt": "2026-07-12T09:26:24.815Z",
+  "version": "v2026.07.12-094541",
+  "generatedAt": "2026-07-12T09:45:41.335Z",
   "counts": {
     "preorderHomes": 0,
     "homesForRent": 10,
-    "homesForSale": 0,
+    "homesForSale": 1,
     "amenities": 12,
     "scenery": 4,
     "faqs": 4
@@ -1020,7 +1020,44 @@
       ]
     }
   ],
-  "homesForSale": [],
+  "homesForSale": [
+    {
+      "id": "sale-lot-94",
+      "category": "homesForSale",
+      "dataCat": "sale",
+      "lotNumber": "94",
+      "title": "Home · Lot 94",
+      "badgeText": "Pre-Owned",
+      "badgeClass": "b-used",
+      "price": "$30,000",
+      "priceSmall": "",
+      "specs": [],
+      "mainImage": null,
+      "gallery": [],
+      "details": [
+        {
+          "label": "Lot Number",
+          "value": "94"
+        },
+        {
+          "label": "Base Lot Rent",
+          "value": "$500"
+        },
+        {
+          "label": "Total Lot Area (sqft)",
+          "value": "2000"
+        },
+        {
+          "label": "Deal Type",
+          "value": "Pre-Owned"
+        },
+        {
+          "label": "Price",
+          "value": "30000"
+        }
+      ]
+    }
+  ],
   "community": {
     "amenities": [
       {
