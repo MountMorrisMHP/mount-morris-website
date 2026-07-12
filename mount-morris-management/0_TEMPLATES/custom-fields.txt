@@ -1,0 +1,6 @@
+# Permanent custom fields — optional questions asked on every NEW listing.
+# One heading per line. Added via the agent ("make X permanent") or by hand.
+# These are ALWAYS optional & skippable — they never become required.
+# Optional target file after a pipe (default: site_info.txt): "Heading | home".
+
+Trash Pickup

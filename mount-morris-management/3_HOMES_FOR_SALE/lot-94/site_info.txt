@@ -1,3 +1,4 @@
 Lot Number: 94
 Base Lot Rent: $500
 Total Lot Area (sqft): 2000
+Trash Pickup: Tuesdays
