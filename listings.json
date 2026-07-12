@@ -1,6 +1,6 @@
 {
-  "version": "v2026.07.12-094541",
-  "generatedAt": "2026-07-12T09:45:41.335Z",
+  "version": "v2026.07.12-094701",
+  "generatedAt": "2026-07-12T09:47:01.973Z",
   "counts": {
     "preorderHomes": 0,
     "homesForRent": 10,
@@ -1046,6 +1046,10 @@
         {
           "label": "Total Lot Area (sqft)",
           "value": "2000"
+        },
+        {
+          "label": "Trash Pickup",
+          "value": "Tuesdays"
         },
         {
           "label": "Deal Type",
