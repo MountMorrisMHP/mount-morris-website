@@ -1,9 +1,9 @@
 {
-  "version": "v2026.07.12-100255",
-  "generatedAt": "2026-07-12T10:02:55.862Z",
+  "version": "v2026.07.12-100536",
+  "generatedAt": "2026-07-12T10:05:36.324Z",
   "counts": {
     "preorderHomes": 0,
-    "homesForRent": 11,
+    "homesForRent": 10,
     "homesForSale": 2,
     "amenities": 12,
     "scenery": 4,
@@ -1016,42 +1016,6 @@
         {
           "label": "Price",
           "value": "1000"
-        }
-      ]
-    },
-    {
-      "id": "rent-lot-96",
-      "category": "homesForRent",
-      "dataCat": "rent",
-      "lotNumber": "96",
-      "title": "Home · Lot 96",
-      "badgeText": "For Rent",
-      "badgeClass": "b-rent",
-      "price": "$800",
-      "priceSmall": " / month",
-      "specs": [],
-      "mainImage": null,
-      "gallery": [],
-      "details": [
-        {
-          "label": "Lot Number",
-          "value": "96"
-        },
-        {
-          "label": "Base Lot Rent",
-          "value": "$525"
-        },
-        {
-          "label": "Snow Removal",
-          "value": "included with lot rent"
-        },
-        {
-          "label": "Deal Type",
-          "value": "For Rent"
-        },
-        {
-          "label": "Price",
-          "value": "800"
         }
       ]
     }
