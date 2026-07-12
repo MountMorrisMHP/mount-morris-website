@@ -1,0 +1,2 @@
+Deal Type: For Rent
+Price: 800
