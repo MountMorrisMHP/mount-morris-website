@@ -1,10 +1,10 @@
 {
-  "version": "v2026.07.12-102502",
-  "generatedAt": "2026-07-12T10:25:02.238Z",
+  "version": "v2026.07.12-103058",
+  "generatedAt": "2026-07-12T10:30:58.928Z",
   "counts": {
     "preorderHomes": 0,
     "homesForRent": 10,
-    "homesForSale": 0,
+    "homesForSale": 1,
     "amenities": 12,
     "scenery": 4,
     "faqs": 4
@@ -1020,7 +1020,44 @@
       ]
     }
   ],
-  "homesForSale": [],
+  "homesForSale": [
+    {
+      "id": "sale-lot-96",
+      "category": "homesForSale",
+      "dataCat": "sale",
+      "lotNumber": "96",
+      "title": "Home · Lot 96",
+      "badgeText": "Pre-Owned",
+      "badgeClass": "b-used",
+      "price": "$800",
+      "priceSmall": "",
+      "specs": [],
+      "mainImage": null,
+      "gallery": [],
+      "details": [
+        {
+          "label": "Lot Number",
+          "value": "96"
+        },
+        {
+          "label": "Base Lot Rent",
+          "value": "$525"
+        },
+        {
+          "label": "Snow Removal",
+          "value": "included with lot rent"
+        },
+        {
+          "label": "Deal Type",
+          "value": "Pre-Owned"
+        },
+        {
+          "label": "Price",
+          "value": "800"
+        }
+      ]
+    }
+  ],
   "community": {
     "amenities": [
       {
