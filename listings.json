@@ -1,6 +1,6 @@
 {
-  "version": "v2026.07.12-091514",
-  "generatedAt": "2026-07-12T09:15:14.519Z",
+  "version": "v2026.07.12-092624",
+  "generatedAt": "2026-07-12T09:26:24.815Z",
   "counts": {
     "preorderHomes": 0,
     "homesForRent": 10,
@@ -1003,7 +1003,7 @@
         },
         {
           "label": "Base Lot Rent",
-          "value": "$500"
+          "value": "$525"
         },
         {
           "label": "Snow Removal",
