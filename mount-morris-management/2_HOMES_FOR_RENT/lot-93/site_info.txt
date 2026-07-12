@@ -1,0 +1,3 @@
+Lot Number: 93
+Base Lot Rent: $550
+Total Lot Area (sqft): 2000
