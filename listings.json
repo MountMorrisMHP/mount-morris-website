@@ -1,6 +1,6 @@
 {
-  "version": "v2026.07.12-103120",
-  "generatedAt": "2026-07-12T10:31:20.453Z",
+  "version": "v2026.07.12-105008",
+  "generatedAt": "2026-07-12T10:50:08.901Z",
   "counts": {
     "preorderHomes": 0,
     "homesForRent": 11,
@@ -1072,8 +1072,10 @@
       "price": "$20,000",
       "priceSmall": "",
       "specs": [],
-      "mainImage": null,
-      "gallery": [],
+      "mainImage": "listings/sale/lot-95/main.jpg",
+      "gallery": [
+        "listings/sale/lot-95/main.jpg"
+      ],
       "details": [
         {
           "label": "Lot Number",
