@@ -1,9 +1,9 @@
 {
-  "version": "v2026.07.12-094701",
-  "generatedAt": "2026-07-12T09:47:01.973Z",
+  "version": "v2026.07.12-095255",
+  "generatedAt": "2026-07-12T09:52:55.293Z",
   "counts": {
     "preorderHomes": 0,
-    "homesForRent": 10,
+    "homesForRent": 11,
     "homesForSale": 1,
     "amenities": 12,
     "scenery": 4,
@@ -980,6 +980,42 @@
         {
           "label": "Amenities",
           "value": "Central air, dishwasher, washer/dryer hookups, vinyl plank flooring"
+        }
+      ]
+    },
+    {
+      "id": "rent-lot-93",
+      "category": "homesForRent",
+      "dataCat": "rent",
+      "lotNumber": "93",
+      "title": "Home · Lot 93",
+      "badgeText": "For Rent",
+      "badgeClass": "b-rent",
+      "price": "$1,000",
+      "priceSmall": " / month",
+      "specs": [],
+      "mainImage": null,
+      "gallery": [],
+      "details": [
+        {
+          "label": "Lot Number",
+          "value": "93"
+        },
+        {
+          "label": "Base Lot Rent",
+          "value": "$550"
+        },
+        {
+          "label": "Total Lot Area (sqft)",
+          "value": "2000"
+        },
+        {
+          "label": "Deal Type",
+          "value": "For Rent"
+        },
+        {
+          "label": "Price",
+          "value": "1000"
         }
       ]
     },
