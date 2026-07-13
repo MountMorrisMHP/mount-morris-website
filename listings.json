@@ -1,6 +1,6 @@
 {
-  "version": "v2026.07.13-041852",
-  "generatedAt": "2026-07-13T04:18:53.063Z",
+  "version": "v2026.07.13-041912",
+  "generatedAt": "2026-07-13T04:19:12.408Z",
   "counts": {
     "preorderHomes": 0,
     "homesForRent": 11,
@@ -1072,10 +1072,8 @@
       "price": "$20,000",
       "priceSmall": "",
       "specs": [],
-      "mainImage": "listings/sale/lot-95/photo-01.jpg",
-      "gallery": [
-        "listings/sale/lot-95/photo-01.jpg"
-      ],
+      "mainImage": null,
+      "gallery": [],
       "details": [
         {
           "label": "Lot Number",
@@ -1274,8 +1272,10 @@
         "order": 7,
         "comingSoon": false,
         "details": [],
-        "mainImage": null,
-        "gallery": []
+        "mainImage": "community/amenities/storm_shelter/photo-01.jpg",
+        "gallery": [
+          "community/amenities/storm_shelter/photo-01.jpg"
+        ]
       },
       {
         "id": "parking",
