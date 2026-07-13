@@ -1,1 +1,2 @@
 Display Name: Test Pavilion
+Description: a covered gathering space
