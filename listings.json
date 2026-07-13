@@ -1,12 +1,12 @@
 {
-  "version": "v2026.07.13-040843",
-  "generatedAt": "2026-07-13T04:08:43.448Z",
+  "version": "v2026.07.13-041852",
+  "generatedAt": "2026-07-13T04:18:53.063Z",
   "counts": {
     "preorderHomes": 0,
     "homesForRent": 11,
     "homesForSale": 2,
     "amenities": 12,
-    "scenery": 4,
+    "scenery": 5,
     "faqs": 4
   },
   "preorderHomes": [],
@@ -1368,6 +1368,7 @@
       }
     ],
     "scenery": [
+      "community/scenery/photo-01.jpg",
       "community/scenery/sample-1.svg",
       "community/scenery/sample-2.svg",
       "community/scenery/sample-3.svg",
