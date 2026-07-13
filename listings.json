@@ -1,6 +1,6 @@
 {
-  "version": "v2026.07.13-124106",
-  "generatedAt": "2026-07-13T12:41:06.964Z",
+  "version": "v2026.07.13-124222",
+  "generatedAt": "2026-07-13T12:42:22.988Z",
   "counts": {
     "preorderHomes": 0,
     "homesForRent": 11,
@@ -1272,8 +1272,10 @@
         "order": 7,
         "comingSoon": false,
         "details": [],
-        "mainImage": null,
-        "gallery": []
+        "mainImage": "community/amenities/storm_shelter/photo-01.jpg",
+        "gallery": [
+          "community/amenities/storm_shelter/photo-01.jpg"
+        ]
       },
       {
         "id": "parking",
