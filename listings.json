@@ -1,11 +1,11 @@
 {
-  "version": "v2026.07.13-143957",
-  "generatedAt": "2026-07-13T14:39:57.917Z",
+  "version": "v2026.07.13-144019",
+  "generatedAt": "2026-07-13T14:40:20.042Z",
   "counts": {
     "preorderHomes": 0,
     "homesForRent": 11,
     "homesForSale": 2,
-    "amenities": 12,
+    "amenities": 13,
     "scenery": 0,
     "faqs": 4
   },
@@ -1361,6 +1361,15 @@
             "value": "A community clubhouse for residents and their guests. Coming soon."
           }
         ],
+        "mainImage": null,
+        "gallery": []
+      },
+      {
+        "id": "test_pavilion",
+        "displayName": "Test Pavilion",
+        "order": null,
+        "comingSoon": true,
+        "details": [],
         "mainImage": null,
         "gallery": []
       }
