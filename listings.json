@@ -1,12 +1,12 @@
 {
-  "version": "v2026.07.13-124222",
-  "generatedAt": "2026-07-13T12:42:22.988Z",
+  "version": "v2026.07.13-143957",
+  "generatedAt": "2026-07-13T14:39:57.917Z",
   "counts": {
     "preorderHomes": 0,
     "homesForRent": 11,
     "homesForSale": 2,
     "amenities": 12,
-    "scenery": 1,
+    "scenery": 0,
     "faqs": 4
   },
   "preorderHomes": [],
@@ -1272,10 +1272,8 @@
         "order": 7,
         "comingSoon": false,
         "details": [],
-        "mainImage": "community/amenities/storm_shelter/photo-01.jpg",
-        "gallery": [
-          "community/amenities/storm_shelter/photo-01.jpg"
-        ]
+        "mainImage": null,
+        "gallery": []
       },
       {
         "id": "parking",
@@ -1367,9 +1365,7 @@
         "gallery": []
       }
     ],
-    "scenery": [
-      "community/scenery/photo-01.jpg"
-    ],
+    "scenery": [],
     "mapImage": "community/map.jpg",
     "communityRules": "",
     "faqs": [
