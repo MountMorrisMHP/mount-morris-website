@@ -1,6 +1,6 @@
 {
-  "version": "v2026.07.13-144259",
-  "generatedAt": "2026-07-13T14:42:59.507Z",
+  "version": "v2026.07.13-144647",
+  "generatedAt": "2026-07-13T14:46:47.516Z",
   "counts": {
     "preorderHomes": 0,
     "homesForRent": 11,
@@ -1369,7 +1369,12 @@
         "displayName": "Test Pavilion",
         "order": null,
         "comingSoon": false,
-        "details": [],
+        "details": [
+          {
+            "label": "Description",
+            "value": "a covered gathering space"
+          }
+        ],
         "mainImage": null,
         "gallery": []
       }
