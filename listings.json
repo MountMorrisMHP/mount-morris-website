@@ -1,12 +1,12 @@
 {
-  "version": "v2026.07.13-062051",
-  "generatedAt": "2026-07-13T06:20:51.679Z",
+  "version": "v2026.07.13-062402",
+  "generatedAt": "2026-07-13T06:24:02.874Z",
   "counts": {
     "preorderHomes": 0,
     "homesForRent": 11,
     "homesForSale": 2,
     "amenities": 12,
-    "scenery": 5,
+    "scenery": 6,
     "faqs": 4
   },
   "preorderHomes": [],
@@ -1072,8 +1072,10 @@
       "price": "$20,000",
       "priceSmall": "",
       "specs": [],
-      "mainImage": null,
-      "gallery": [],
+      "mainImage": "listings/sale/lot-95/photo-01.jpg",
+      "gallery": [
+        "listings/sale/lot-95/photo-01.jpg"
+      ],
       "details": [
         {
           "label": "Lot Number",
@@ -1367,6 +1369,7 @@
     ],
     "scenery": [
       "community/scenery/photo-01.jpg",
+      "community/scenery/photo-02.jpg",
       "community/scenery/sample-1.svg",
       "community/scenery/sample-2.svg",
       "community/scenery/sample-3.svg",
