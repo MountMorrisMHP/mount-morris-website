@@ -1,6 +1,6 @@
 {
-  "version": "v2026.07.13-144019",
-  "generatedAt": "2026-07-13T14:40:20.042Z",
+  "version": "v2026.07.13-144259",
+  "generatedAt": "2026-07-13T14:42:59.507Z",
   "counts": {
     "preorderHomes": 0,
     "homesForRent": 11,
@@ -1368,7 +1368,7 @@
         "id": "test_pavilion",
         "displayName": "Test Pavilion",
         "order": null,
-        "comingSoon": true,
+        "comingSoon": false,
         "details": [],
         "mainImage": null,
         "gallery": []
