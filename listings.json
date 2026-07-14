@@ -1,6 +1,6 @@
 {
-  "version": "v2026.07.14-092935",
-  "generatedAt": "2026-07-14T09:29:35.251Z",
+  "version": "v2026.07.14-093204",
+  "generatedAt": "2026-07-14T09:32:04.730Z",
   "counts": {
     "preorderHomes": 0,
     "homesForRent": 11,
@@ -1385,7 +1385,7 @@
         "id": "03-water-meter",
         "question": "How does the water meter work?",
         "answer": "Each home has its own meter, so you only pay for the water you use. Readings are simple and billing is clearly itemized each month.",
-        "order": 3
+        "order": 4
       },
       {
         "id": "04-pet-policy",
