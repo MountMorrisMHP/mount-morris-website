@@ -1,10 +1,10 @@
 {
-  "version": "v2026.07.14-100242",
-  "generatedAt": "2026-07-14T10:02:42.206Z",
+  "version": "v2026.07.14-101032",
+  "generatedAt": "2026-07-14T10:10:32.473Z",
   "counts": {
     "preorderHomes": 0,
-    "homesForRent": 9,
-    "homesForSale": 2,
+    "homesForRent": 8,
+    "homesForSale": 0,
     "amenities": 12,
     "scenery": 0,
     "faqs": 4
@@ -874,122 +874,9 @@
           "value": "Central air, dishwasher, washer/dryer hookups, vinyl plank flooring"
         }
       ]
-    },
-    {
-      "id": "rent-lot-94",
-      "category": "homesForRent",
-      "dataCat": "rent",
-      "lotNumber": "94",
-      "title": "Home · Lot 94",
-      "badgeText": "For Rent",
-      "badgeClass": "b-rent",
-      "price": "$30,000",
-      "priceSmall": " / month",
-      "specs": [],
-      "mainImage": null,
-      "gallery": [],
-      "details": [
-        {
-          "label": "Lot Number",
-          "value": "94"
-        },
-        {
-          "label": "Base Lot Rent",
-          "value": "$500"
-        },
-        {
-          "label": "Total Lot Area (sqft)",
-          "value": "2000"
-        },
-        {
-          "label": "Trash Pickup",
-          "value": "Tuesdays"
-        },
-        {
-          "label": "Deal Type",
-          "value": "For Rent"
-        },
-        {
-          "label": "Price",
-          "value": "30000"
-        }
-      ]
     }
   ],
-  "homesForSale": [
-    {
-      "id": "sale-lot-95",
-      "category": "homesForSale",
-      "dataCat": "sale",
-      "lotNumber": "95",
-      "title": "Home · Lot 95",
-      "badgeText": "Brand New",
-      "badgeClass": "b-new",
-      "price": "$20,000",
-      "priceSmall": "",
-      "specs": [],
-      "mainImage": null,
-      "gallery": [],
-      "details": [
-        {
-          "label": "Lot Number",
-          "value": "95"
-        },
-        {
-          "label": "Base Lot Rent",
-          "value": "$500"
-        },
-        {
-          "label": "Total Lot Area (sqft)",
-          "value": "2000"
-        },
-        {
-          "label": "Deal Type",
-          "value": "New"
-        },
-        {
-          "label": "Price",
-          "value": "20000"
-        }
-      ]
-    },
-    {
-      "id": "sale-lot-96",
-      "category": "homesForSale",
-      "dataCat": "sale",
-      "lotNumber": "96",
-      "title": "Home · Lot 96",
-      "badgeText": "Pre-Owned",
-      "badgeClass": "b-used",
-      "price": "$800",
-      "priceSmall": "",
-      "specs": [],
-      "mainImage": null,
-      "gallery": [],
-      "details": [
-        {
-          "label": "Lot Number",
-          "value": "96"
-        },
-        {
-          "label": "Base Lot Rent",
-          "value": "$525"
-        },
-        {
-          "label": "Snow Removal",
-          "value": "included with lot rent"
-        },
-        {
-          "label": "Deal Type",
-          "value": "Pre-Owned"
-        },
-        {
-          "label": "Price",
-          "value": "800"
-        }
-      ]
-    }
-  ],
+  "homesForSale": [],
   "community": {
     "amenities": [
       {
