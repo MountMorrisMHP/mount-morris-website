@@ -438,25 +438,25 @@
         <div class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l9-7 9 7v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><rect x="9" y="14" width="6" height="7"/></svg></div>
         <h3>Rent a home</h3>
         <p>Move-in-ready homes available to rent. The easy way to settle in without buying.</p>
-        <a href="#homes" class="more">See rentals →</a>
+        <a href="#homes" class="more" data-goto-filter="rent">See rentals →</a>
       </div>
       <div class="way">
         <div class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l9-7 9 7v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><path d="M9 21v-6h6v6"/></svg></div>
         <h3>Buy pre-owned</h3>
         <p>Quality used homes, ready now and priced to make ownership simple and affordable.</p>
-        <a href="#homes" class="more">See used homes →</a>
+        <a href="#homes" class="more" data-goto-filter="sale">See used homes →</a>
       </div>
       <div class="way">
         <div class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/><path d="M12 7v6m3-3H9"/></svg></div>
         <h3>Pre-Order Your New Home</h3>
         <p>Pick a brand-new home and reserve it. Choose your layout and finishes before move-in.</p>
-        <a href="#cta" class="more">Start an order →</a>
+        <a href="#homes" class="more" data-goto-filter="preorder">Start an order →</a>
       </div>
       <div class="way">
         <div class="ic"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 12h13l-3-3m3 3l-3 3"/><path d="M17 6l4 6-4 6"/></svg></div>
         <h3>Move your home in</h3>
         <p>Already own a home? Bring it to a homesite here and join the neighborhood.</p>
-        <a href="#cta" class="more">Ask about homesites →</a>
+        <a href="#homes" class="more" data-goto-filter="preorder">Ask about homesites →</a>
       </div>
     </div>
   </div>
@@ -538,7 +538,7 @@
     <div class="row">
       <a href="tel:+18103686008" class="btn btn-white">Call Us</a>
       <a href="sms:+18103686008" class="btn btn-white">Text Us</a>
-      <a href="mailto:hello@example.com" class="btn btn-line">Email Us</a>
+      <a href="mailto:aswiden@mtmorrispark.com" class="btn btn-line">Email Us</a>
     </div>
   </div>
 </section>
@@ -565,7 +565,7 @@
       <div class="foot-col">
         <h4>Get in Touch</h4>
         <a href="tel:+18103686008">+1 (810) 368-6008</a>
-        <a href="mailto:hello@example.com">hello@example.com</a>
+        <a href="mailto:aswiden@mtmorrispark.com">aswiden@mtmorrispark.com</a>
         <a href="#cta">Schedule a Visit</a>
         <a href="#faq">FAQ</a>
       </div>
@@ -790,12 +790,26 @@
     }
   }
 
-  // Tab filtering (works with dynamically injected cards).
-  document.querySelectorAll('.tab').forEach(t => t.addEventListener('click', () => {
-    document.querySelectorAll('.tab').forEach(x => x.classList.remove('active'));
-    t.classList.add('active');
-    activeFilter = t.dataset.filter;
+  // Activate a listings filter and re-render. Shared by the tab buttons and the
+  // "Four ways to make it home" cards that deep-link into a pre-selected filter.
+  const FILTERS = ['all', 'rent', 'sale', 'preorder'];
+  function setFilter(name){
+    const f = FILTERS.includes(name) ? name : 'all';
+    document.querySelectorAll('.tab').forEach(x => x.classList.toggle('active', x.dataset.filter === f));
+    activeFilter = f;
     render();
+  }
+
+  // Tab filtering (works with dynamically injected cards).
+  document.querySelectorAll('.tab').forEach(t => t.addEventListener('click', () => setFilter(t.dataset.filter)));
+
+  // "Four ways" cards: pre-select the matching filter, then scroll to the homes
+  // section. Falls back to the plain #homes anchor if JS is unavailable.
+  document.querySelectorAll('[data-goto-filter]').forEach(el => el.addEventListener('click', (e) => {
+    e.preventDefault();
+    setFilter(el.dataset.gotoFilter);
+    const homes = document.getElementById('homes');
+    if (homes) homes.scrollIntoView({ behavior: 'smooth' });
   }));
 
   /* ----- Detail modal: reuses the SAME carousel as the cards ----- */
