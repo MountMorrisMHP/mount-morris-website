@@ -1,6 +1,6 @@
 {
-  "version": "v2026.07.14-085837",
-  "generatedAt": "2026-07-14T08:58:37.682Z",
+  "version": "v2026.07.14-092935",
+  "generatedAt": "2026-07-14T09:29:35.251Z",
   "counts": {
     "preorderHomes": 0,
     "homesForRent": 11,
@@ -1390,7 +1390,7 @@
       {
         "id": "04-pet-policy",
         "question": "What's the pet policy?",
-        "answer": "We're a pet-friendly community and love four-legged neighbors. A few breed and size guidelines apply, and there's plenty of green space for walks.",
+        "answer": "Cats and dogs welcome, 2 pet max",
         "order": 4
       }
     ]
