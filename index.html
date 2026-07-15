@@ -1148,8 +1148,10 @@
    * =================================================================== */
   let AMENITIES = [];
 
-  // Fixed icons for the known folders; a tasteful generic icon for anything new
-  // the client adds later, so an unknown folder never breaks the grid.
+  // Fixed icons keyed by amenity folder slug; a tasteful generic icon for anything
+  // new the client/agent adds later, so an unknown folder never breaks the grid.
+  // Alias slugs (added below the literal) point at the same drawing so a folder
+  // named "pool" or "swimming_pool" both resolve to the pool icon.
   const AMEN_ICONS = {
     clubhouse:        '<path d="M3 21V8l9-5 9 5v13"/><path d="M9 21v-6h6v6"/>',
     playground:       '<circle cx="12" cy="7" r="2.5"/><path d="M5 21v-3a4 4 0 0 1 4-4h6a4 4 0 0 1 4 4v3"/>',
@@ -1162,10 +1164,38 @@
     storm_shelter:    '<path d="M12 3l8 3v5c0 5-3.4 8.5-8 10-4.6-1.5-8-5-8-10V6z"/><path d="M9 12l2 2 4-4"/>',
     parking:          '<rect x="3" y="3" width="18" height="18" rx="3"/><path d="M9 17V7h4a3 3 0 0 1 0 6H9"/>',
     mailbox:          '<rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/>',
+    storage:          '<path d="M3 9l9-5 9 5"/><path d="M5 9v11h14V9"/><rect x="10" y="13" width="4" height="7"/>',
+    swimming_pool:    '<path d="M2 13c2 0 2 1.6 4 1.6S8 13 10 13s2 1.6 4 1.6 2-1.6 4-1.6 2 1.6 4 1.6"/><path d="M2 18c2 0 2 1.6 4 1.6S8 18 10 18s2 1.6 4 1.6 2-1.6 4-1.6 2 1.6 4 1.6"/><path d="M7 11V5a2 2 0 0 1 4 0M14 11V5a2 2 0 0 1 4 0"/>',
+    laundry:          '<rect x="4" y="3" width="16" height="18" rx="2"/><circle cx="12" cy="13" r="4"/><path d="M7 6h.01M10 6h.01"/>',
+    fitness_center:   '<path d="M4 9v6M20 9v6"/><path d="M7 6.5v11M17 6.5v11"/><path d="M7 12h10"/>',
+    dog_park:         '<circle cx="12" cy="13" r="6"/><path d="M8 8.5L6 5.5v3.4M16 8.5l2-3v3.4"/><path d="M10 13h.01M14 13h.01"/><path d="M11 16h2"/>',
+    garden:           '<path d="M12 21v-8"/><path d="M12 13c0-3 2-5 5-5 0 3-2 5-5 5z"/><path d="M12 13c0-3-2-5-5-5 0 3 2 5 5 5z"/><path d="M9 21h6"/>',
+    pavilion:         '<path d="M3 10L12 4l9 6"/><path d="M5 10v10M19 10v10"/><path d="M5 20h14"/><path d="M9 20v-5h6v5"/>',
+    grill:            '<circle cx="12" cy="10" r="6"/><path d="M8 10h8"/><path d="M9 16l-2 5M15 16l2 5M12 16v5"/>',
+    pond:             '<ellipse cx="12" cy="14" rx="9" ry="6"/><path d="M7 13c1.5 0 1.5 1.5 3 1.5s1.5-1.5 3-1.5 1.5 1.5 3 1.5"/>',
+    walking_trail:    '<ellipse cx="8" cy="7" rx="2" ry="3"/><ellipse cx="15" cy="12" rx="2" ry="3"/><ellipse cx="9" cy="17" rx="2" ry="3"/>',
+    security_gate:    '<rect x="3" y="9" width="18" height="12" rx="1"/><path d="M7 9v12M11 9v12M15 9v12M3 13h18M3 17h18"/><path d="M5 9V6a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2v3"/>',
+    rv_storage:       '<rect x="2" y="8" width="15" height="8" rx="1"/><path d="M17 10h3l2 3v3h-5z"/><circle cx="7" cy="18" r="1.6"/><circle cx="17" cy="18" r="1.6"/><path d="M5 8V6h6v2"/>',
+    car_wash:         '<path d="M5 17l1.5-4.5A2 2 0 0 1 8.4 11h7.2a2 2 0 0 1 1.9 1.5L19 17"/><rect x="4" y="17" width="16" height="3" rx="1"/><path d="M8 5v2M12 4v2M16 5v2"/>',
+    tennis_court:     '<circle cx="9" cy="9" r="5"/><path d="M9 4.5v9M4.5 7h7M5 11h7"/><path d="M12.5 12.5L18 18"/><circle cx="18" cy="18" r="2.2"/>',
+    mail_room:        '<rect x="4" y="4" width="16" height="16" rx="1"/><path d="M4 10h16M4 15h16M12 4v16"/><path d="M7 7h2M15 7h2M7 12.5h2M15 12.5h2"/>',
     _generic:         '<rect x="3" y="3" width="18" height="18" rx="4"/><path d="M8 12h8M12 8v8"/>',
   };
+  // Alias slugs -> same drawing (single source of truth for the art above), so
+  // forgiving folder-name matching: e.g. "pool", "gym", "bbq" resolve too.
+  Object.assign(AMEN_ICONS, {
+    pool:        AMEN_ICONS.swimming_pool,
+    gym:         AMEN_ICONS.fitness_center,
+    bbq:         AMEN_ICONS.grill,
+    lake:        AMEN_ICONS.pond,
+    pickleball:  AMEN_ICONS.tennis_court,
+    picnic_area: AMEN_ICONS.pavilion,
+    trail:       AMEN_ICONS.walking_trail,
+    gate:        AMEN_ICONS.security_gate,
+  });
   function amenityIcon(id){
-    const inner = AMEN_ICONS[id] || AMEN_ICONS._generic;
+    const base = String(id).replace(/_\d+$/, '');
+    const inner = AMEN_ICONS[id] || AMEN_ICONS[base] || AMEN_ICONS._generic;
     return `<svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">${inner}</svg>`;
   }
 
