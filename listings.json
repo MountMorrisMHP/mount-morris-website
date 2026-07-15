@@ -1,11 +1,11 @@
 {
-  "version": "v2026.07.15-064439",
-  "generatedAt": "2026-07-15T06:44:39.245Z",
+  "version": "v2026.07.15-185701",
+  "generatedAt": "2026-07-15T18:57:01.802Z",
   "counts": {
     "preorderHomes": 0,
     "homesForRent": 8,
     "homesForSale": 0,
-    "amenities": 12,
+    "amenities": 13,
     "scenery": 0,
     "faqs": 4
   },
@@ -1104,6 +1104,15 @@
             "value": "A community clubhouse for residents and their guests. Coming soon."
           }
         ],
+        "mainImage": null,
+        "gallery": []
+      },
+      {
+        "id": "swimming_pool",
+        "displayName": "Swimming Pool",
+        "order": null,
+        "comingSoon": false,
+        "details": [],
         "mainImage": null,
         "gallery": []
       }
