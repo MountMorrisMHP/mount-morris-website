@@ -1,11 +1,11 @@
 {
-  "version": "v2026.07.15-190323",
-  "generatedAt": "2026-07-15T19:03:23.542Z",
+  "version": "v2026.07.17-122602",
+  "generatedAt": "2026-07-17T12:26:02.510Z",
   "counts": {
     "preorderHomes": 0,
     "homesForRent": 8,
     "homesForSale": 0,
-    "amenities": 15,
+    "amenities": 13,
     "scenery": 0,
     "faqs": 4
   },
@@ -1110,24 +1110,6 @@
       {
         "id": "garden",
         "displayName": "Community Farm",
-        "order": null,
-        "comingSoon": false,
-        "details": [],
-        "mainImage": null,
-        "gallery": []
-      },
-      {
-        "id": "swimming_pool",
-        "displayName": "Swimming Pool",
-        "order": null,
-        "comingSoon": false,
-        "details": [],
-        "mainImage": null,
-        "gallery": []
-      },
-      {
-        "id": "swimming_pool_2",
-        "displayName": "Swimming Pool",
         "order": null,
         "comingSoon": false,
         "details": [],
