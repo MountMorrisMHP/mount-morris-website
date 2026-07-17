@@ -1,6 +1,6 @@
 {
-  "version": "v2026.07.17-134717",
-  "generatedAt": "2026-07-17T13:47:17.413Z",
+  "version": "v2026.07.17-135409",
+  "generatedAt": "2026-07-17T13:54:09.565Z",
   "counts": {
     "preorderHomes": 0,
     "homesForRent": 8,
@@ -782,10 +782,8 @@
         "2 Bath",
         "1,280 sq ft"
       ],
-      "mainImage": "listings/rent/lot-9/photo-01.jpg",
-      "gallery": [
-        "listings/rent/lot-9/photo-01.jpg"
-      ],
+      "mainImage": null,
+      "gallery": [],
       "details": [
         {
           "label": "Lot Number",
