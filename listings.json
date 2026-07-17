@@ -1,11 +1,11 @@
 {
-  "version": "v2026.07.17-122602",
-  "generatedAt": "2026-07-17T12:26:02.510Z",
+  "version": "v2026.07.17-122802",
+  "generatedAt": "2026-07-17T12:28:02.376Z",
   "counts": {
     "preorderHomes": 0,
     "homesForRent": 8,
     "homesForSale": 0,
-    "amenities": 13,
+    "amenities": 12,
     "scenery": 0,
     "faqs": 4
   },
@@ -1104,15 +1104,6 @@
             "value": "A community clubhouse for residents and their guests. Coming soon."
           }
         ],
-        "mainImage": null,
-        "gallery": []
-      },
-      {
-        "id": "garden",
-        "displayName": "Community Farm",
-        "order": null,
-        "comingSoon": false,
-        "details": [],
         "mainImage": null,
         "gallery": []
       }
