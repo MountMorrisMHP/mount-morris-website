@@ -45,19 +45,29 @@
 
   /* HEADER */
   header{position:sticky;top:0;z-index:200;background:rgba(246,238,224,.86);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
-  /* Slim utility bar above the nav. Height is tracked by --topbar-h because the
-     mobile menu is positioned below the whole sticky header. */
-  :root{--topbar-h:32px}
-  .topbar{background:var(--pine-deep);color:var(--cream);font-size:.8rem}
-  .topbar .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;height:var(--topbar-h)}
-  .topbar a{color:inherit;opacity:.88;white-space:nowrap}
-  .topbar a:hover{opacity:1;text-decoration:underline}
-  .tb-addr{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;opacity:.88}
-  .tb-contact{display:flex;align-items:center;gap:18px;flex:none}
   .bar{display:flex;align-items:center;justify-content:space-between;height:66px;gap:18px}
   .logo{display:flex;align-items:center;gap:10px;font-family:'Fraunces',serif;font-weight:600;font-size:1.18rem;color:var(--pine-deep);flex:0 1 auto;min-width:0}
   .logo .mark{width:34px;height:34px;flex:none}
+  /* Park name with the street address stacked beneath it. */
+  .logo-copy{display:flex;flex-direction:column;min-width:0;line-height:1.2}
   .logo .logo-text{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+  .logo-addr{font-family:'Hanken Grotesk',system-ui,sans-serif;font-size:.72rem;font-weight:500;
+    line-height:1.3;color:#55624f;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+
+  /* Contact Us: outline button that reveals phone + email. Floating popover in
+     the header bar; inline panel when used inside the mobile menu. */
+  .btn-outline{background:transparent;color:var(--pine);border:1.5px solid var(--pine)}
+  .btn-outline:hover{background:var(--pine);color:#fff}
+  .contact-group{position:relative;flex:none}
+  .contact-panel{position:absolute;top:calc(100% + 8px);right:0;z-index:210;display:flex;flex-direction:column;gap:2px;
+    background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:8px;min-width:230px;box-shadow:var(--shadow)}
+  .contact-panel a{display:block;padding:9px 12px;border-radius:9px;font-size:.88rem;font-weight:600;color:var(--pine-deep);white-space:nowrap}
+  .contact-panel a:hover{background:rgba(44,85,64,.09)}
+  .contact-group.inline{width:100%}
+  .contact-group.inline .btn-outline{width:100%;justify-content:center;color:var(--cream);border-color:rgba(246,238,224,.6)}
+  .contact-group.inline .btn-outline:hover{background:var(--cream);color:var(--pine-deep)}
+  .contact-group.inline .contact-panel{position:static;margin-top:8px;min-width:0;background:transparent;border:none;box-shadow:none;padding:0}
+  .contact-group.inline .contact-panel a{color:var(--cream);background:rgba(246,238,224,.08);text-align:center}
   nav.desktop{display:none;gap:28px;font-weight:600;font-size:.92rem;margin-left:auto}
   nav.desktop a{opacity:.8;transition:opacity .2s}
   nav.desktop a:hover{opacity:1;color:var(--pine)}
@@ -74,7 +84,7 @@
   .menu-toggle.open span:nth-child(1){transform:translateY(7.5px) rotate(45deg)}
   .menu-toggle.open span:nth-child(2){opacity:0}
   .menu-toggle.open span:nth-child(3){transform:translateY(-7.5px) rotate(-45deg)}
-  .mobile-menu{position:fixed;inset:calc(66px + var(--topbar-h)) 0 0;background:var(--pine-deep);color:var(--cream);transform:translateX(100%);transition:transform .35s cubic-bezier(.4,0,.2,1),visibility .35s;visibility:hidden;z-index:150;padding:34px 26px;display:flex;flex-direction:column;gap:6px;overflow-y:auto;max-width:100%}
+  .mobile-menu{position:fixed;inset:66px 0 0;background:var(--pine-deep);color:var(--cream);transform:translateX(100%);transition:transform .35s cubic-bezier(.4,0,.2,1),visibility .35s;visibility:hidden;z-index:150;padding:34px 26px;display:flex;flex-direction:column;gap:6px;overflow-y:auto;max-width:100%}
   .mobile-menu.open{transform:translateX(0);visibility:visible}
   .mobile-menu a{font-family:'Fraunces',serif;font-size:1.8rem;padding:14px 0;border-bottom:1px solid rgba(255,255,255,.12)}
   .mobile-menu .btn{margin-top:24px;justify-content:center;font-size:1rem}
@@ -96,12 +106,9 @@
   .sec-head{max-width:54ch;margin-bottom:34px}
   .sec-head h2{font-size:clamp(1.9rem,6vw,2.8rem);color:var(--pine-deep);margin:12px 0}
   .sec-head p{color:#55624f;font-size:1.04rem}
-  /* Small screens: the top bar collapses to a single tap-to-call row. */
+  /* Small screens: drop the address so the park name keeps the header room. */
   @media(max-width:700px){
-    .tb-addr,.tb-email{display:none}
-    .topbar .wrap{justify-content:center}
-    .tb-contact{gap:0}
-    .tb-phone{font-weight:600;letter-spacing:.01em;opacity:1}
+    .logo-addr{display:none}
   }
 
   /* MOBILE TUNING (primary device): tighter spacing, fits within the screen */
@@ -372,16 +379,6 @@
 
 <!-- HEADER -->
 <header>
-  <!-- Slim utility bar: address + contact. Collapses to tap-to-call on mobile. -->
-  <div class="topbar">
-    <div class="wrap">
-      <span class="tb-addr">2198 E. Mount Morris Rd., Mount Morris, MI 48458</span>
-      <span class="tb-contact">
-        <a href="tel:+18103686008" class="tb-phone">+1 (810) 368-6008</a>
-        <a href="mailto:aswiden@mtmorrispark.com" class="tb-email">aswiden@mtmorrispark.com</a>
-      </span>
-    </div>
-  </div>
   <div class="wrap bar">
     <a href="#" class="logo">
       <svg class="mark" viewBox="0 0 40 40" fill="none">
@@ -389,7 +386,10 @@
         <path d="M11 21l9-8 9 8v8a1 1 0 0 1-1 1h-5v-6h-6v6h-5a1 1 0 0 1-1-1z" fill="#E2A23D"/>
         <path d="M20 9c2 3 2 5 0 7-2-2-2-4 0-7z" fill="#8AA189"/>
       </svg>
-      <span class="logo-text">Mount Morris Mobile Home Park</span>
+      <span class="logo-copy">
+        <span class="logo-text">Mount Morris Mobile Home Park</span>
+        <span class="logo-addr">2198 E. Mount Morris Rd., Mount Morris, MI 48458</span>
+      </span>
     </a>
     <nav class="desktop">
       <a href="#ways">Find a Home</a>
@@ -398,6 +398,14 @@
       <a href="#amenities">Amenities</a>
       <a href="#faq">FAQ</a>
     </nav>
+    <!-- Contact Us: outline sibling of the CTA; reveals phone + email in place. -->
+    <div class="contact-group nav-cta">
+      <button type="button" class="btn btn-outline contact-toggle" aria-expanded="false" aria-haspopup="true">Contact Us</button>
+      <div class="contact-panel" hidden>
+        <a href="tel:+18103686008">+1 (810) 368-6008</a>
+        <a href="mailto:aswiden@mtmorrispark.com">aswiden@mtmorrispark.com</a>
+      </div>
+    </div>
     <a href="#cta" class="btn btn-primary nav-cta">Schedule a Visit</a>
     <button class="menu-toggle" id="menuBtn" aria-label="Menu"><span></span><span></span><span></span></button>
   </div>
@@ -410,6 +418,14 @@
   <a href="#amenities">Amenities</a>
   <a href="#faq">FAQ</a>
   <a href="#cta" class="btn btn-primary">Schedule a Visit</a>
+  <!-- Same component, inline panel (no floating popover inside the slide-out). -->
+  <div class="contact-group inline">
+    <button type="button" class="btn btn-outline contact-toggle" aria-expanded="false">Contact Us</button>
+    <div class="contact-panel" hidden>
+      <a href="tel:+18103686008">+1 (810) 368-6008</a>
+      <a href="mailto:aswiden@mtmorrispark.com">aswiden@mtmorrispark.com</a>
+    </div>
+  </div>
 </div>
 
 <!-- HERO -->
@@ -664,6 +680,31 @@
   const mb=document.getElementById('menuBtn'),mm=document.getElementById('mobileMenu');
   mb.addEventListener('click',()=>{mb.classList.toggle('open');mm.classList.toggle('open');document.body.style.overflow=mm.classList.contains('open')?'hidden':'';});
   mm.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{mb.classList.remove('open');mm.classList.remove('open');document.body.style.overflow='';}));
+
+  // Contact Us: toggles the phone/email panel. Same component in the header bar
+  // (floating popover) and in the mobile menu (inline panel).
+  const contactGroups = [...document.querySelectorAll('.contact-group')];
+  function closeContacts(except){
+    contactGroups.forEach(g => {
+      if (g === except) return;
+      g.querySelector('.contact-panel').hidden = true;
+      g.querySelector('.contact-toggle').setAttribute('aria-expanded','false');
+    });
+  }
+  contactGroups.forEach(g => {
+    const btn = g.querySelector('.contact-toggle'), panel = g.querySelector('.contact-panel');
+    btn.addEventListener('click', (e) => {
+      e.stopPropagation();
+      const open = panel.hidden;
+      closeContacts(g);
+      panel.hidden = !open;
+      btn.setAttribute('aria-expanded', String(open));
+    });
+    // Clicking a tel:/mailto: link closes the panel behind it.
+    panel.querySelectorAll('a').forEach(a => a.addEventListener('click', () => closeContacts()));
+  });
+  document.addEventListener('click', (e) => { if(!e.target.closest('.contact-group')) closeContacts(); });
+  document.addEventListener('keydown', (e) => { if(e.key === 'Escape') closeContacts(); });
 
   /* ===================================================================
    * LIVE LISTINGS — fetch from the file-system-driven backend and render
