@@ -65,6 +65,9 @@
   .contact-group{position:relative;flex:none;padding:0}
   .bar .contact-group{display:none;margin-left:8px}
   .bar .contact-group .btn{padding:9px 15px;font-size:.82rem}
+  /* display:flex below would beat the UA's [hidden]{display:none}, so the
+     hidden attribute needs an explicit author-stylesheet rule to work. */
+  .contact-panel[hidden]{display:none}
   .contact-panel{position:absolute;top:calc(100% + 8px);right:0;left:auto;z-index:210;display:flex;flex-direction:column;gap:2px;
     background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:8px;min-width:230px;box-shadow:var(--shadow)}
   .contact-panel a{display:block;padding:9px 12px;border-radius:9px;font-size:.88rem;font-weight:600;color:var(--pine-deep);white-space:nowrap}
