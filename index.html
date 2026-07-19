@@ -45,6 +45,15 @@
 
   /* HEADER */
   header{position:sticky;top:0;z-index:200;background:rgba(246,238,224,.86);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+  /* Slim utility bar above the nav. Height is tracked by --topbar-h because the
+     mobile menu is positioned below the whole sticky header. */
+  :root{--topbar-h:32px}
+  .topbar{background:var(--pine-deep);color:var(--cream);font-size:.8rem}
+  .topbar .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px;height:var(--topbar-h)}
+  .topbar a{color:inherit;opacity:.88;white-space:nowrap}
+  .topbar a:hover{opacity:1;text-decoration:underline}
+  .tb-addr{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;opacity:.88}
+  .tb-contact{display:flex;align-items:center;gap:18px;flex:none}
   .bar{display:flex;align-items:center;justify-content:space-between;height:66px;gap:18px}
   .logo{display:flex;align-items:center;gap:10px;font-family:'Fraunces',serif;font-weight:600;font-size:1.18rem;color:var(--pine-deep);flex:0 1 auto;min-width:0}
   .logo .mark{width:34px;height:34px;flex:none}
@@ -65,7 +74,7 @@
   .menu-toggle.open span:nth-child(1){transform:translateY(7.5px) rotate(45deg)}
   .menu-toggle.open span:nth-child(2){opacity:0}
   .menu-toggle.open span:nth-child(3){transform:translateY(-7.5px) rotate(-45deg)}
-  .mobile-menu{position:fixed;inset:66px 0 0;background:var(--pine-deep);color:var(--cream);transform:translateX(100%);transition:transform .35s cubic-bezier(.4,0,.2,1),visibility .35s;visibility:hidden;z-index:150;padding:34px 26px;display:flex;flex-direction:column;gap:6px;overflow-y:auto;max-width:100%}
+  .mobile-menu{position:fixed;inset:calc(66px + var(--topbar-h)) 0 0;background:var(--pine-deep);color:var(--cream);transform:translateX(100%);transition:transform .35s cubic-bezier(.4,0,.2,1),visibility .35s;visibility:hidden;z-index:150;padding:34px 26px;display:flex;flex-direction:column;gap:6px;overflow-y:auto;max-width:100%}
   .mobile-menu.open{transform:translateX(0);visibility:visible}
   .mobile-menu a{font-family:'Fraunces',serif;font-size:1.8rem;padding:14px 0;border-bottom:1px solid rgba(255,255,255,.12)}
   .mobile-menu .btn{margin-top:24px;justify-content:center;font-size:1rem}
@@ -87,6 +96,14 @@
   .sec-head{max-width:54ch;margin-bottom:34px}
   .sec-head h2{font-size:clamp(1.9rem,6vw,2.8rem);color:var(--pine-deep);margin:12px 0}
   .sec-head p{color:#55624f;font-size:1.04rem}
+  /* Small screens: the top bar collapses to a single tap-to-call row. */
+  @media(max-width:700px){
+    .tb-addr,.tb-email{display:none}
+    .topbar .wrap{justify-content:center}
+    .tb-contact{gap:0}
+    .tb-phone{font-weight:600;letter-spacing:.01em;opacity:1}
+  }
+
   /* MOBILE TUNING (primary device): tighter spacing, fits within the screen */
   @media(max-width:480px){
     section{padding:46px 0}
@@ -355,6 +372,16 @@
 
 <!-- HEADER -->
 <header>
+  <!-- Slim utility bar: address + contact. Collapses to tap-to-call on mobile. -->
+  <div class="topbar">
+    <div class="wrap">
+      <span class="tb-addr">2198 E. Mount Morris Rd., Mount Morris, MI 48458</span>
+      <span class="tb-contact">
+        <a href="tel:+18103686008" class="tb-phone">+1 (810) 368-6008</a>
+        <a href="mailto:aswiden@mtmorrispark.com" class="tb-email">aswiden@mtmorrispark.com</a>
+      </span>
+    </div>
+  </div>
   <div class="wrap bar">
     <a href="#" class="logo">
       <svg class="mark" viewBox="0 0 40 40" fill="none">
