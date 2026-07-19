@@ -45,7 +45,7 @@
 
   /* HEADER */
   header{position:sticky;top:0;z-index:200;background:rgba(246,238,224,.86);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
-  .bar{display:flex;align-items:center;justify-content:space-between;height:66px;gap:18px}
+  .bar{display:flex;align-items:center;justify-content:space-between;height:66px;gap:14px}
   .logo{display:flex;align-items:center;gap:10px;font-family:'Fraunces',serif;font-weight:600;font-size:1.18rem;color:var(--pine-deep);flex:0 1 auto;min-width:0}
   .logo .mark{width:34px;height:34px;flex:none}
   /* Park name with the street address stacked beneath it. */
@@ -56,10 +56,16 @@
 
   /* Contact Us: outline button that reveals phone + email. Floating popover in
      the header bar; inline panel when used inside the mobile menu. */
-  .btn-outline{background:transparent;color:var(--pine);border:1.5px solid var(--pine)}
-  .btn-outline:hover{background:var(--pine);color:#fff}
-  .contact-group{position:relative;flex:none}
-  .contact-panel{position:absolute;top:calc(100% + 8px);right:0;z-index:210;display:flex;flex-direction:column;gap:2px;
+  /* .btn sets border:none further down, so this needs the extra specificity to
+     keep the outline. */
+  .btn.btn-outline{background:transparent;color:var(--pine);border:1.5px solid var(--pine)}
+  .btn.btn-outline:hover{background:var(--pine);color:#fff}
+  /* The wrapper must hug its button exactly, otherwise the panel's right:0
+     anchors to padding instead of the button edge and looks detached. */
+  .contact-group{position:relative;flex:none;padding:0}
+  .bar .contact-group{display:none;margin-left:8px}
+  .bar .contact-group .btn{padding:9px 15px;font-size:.82rem}
+  .contact-panel{position:absolute;top:calc(100% + 8px);right:0;left:auto;z-index:210;display:flex;flex-direction:column;gap:2px;
     background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:8px;min-width:230px;box-shadow:var(--shadow)}
   .contact-panel a{display:block;padding:9px 12px;border-radius:9px;font-size:.88rem;font-weight:600;color:var(--pine-deep);white-space:nowrap}
   .contact-panel a:hover{background:rgba(44,85,64,.09)}
@@ -68,8 +74,8 @@
   .contact-group.inline .btn-outline:hover{background:var(--cream);color:var(--pine-deep)}
   .contact-group.inline .contact-panel{position:static;margin-top:8px;min-width:0;background:transparent;border:none;box-shadow:none;padding:0}
   .contact-group.inline .contact-panel a{color:var(--cream);background:rgba(246,238,224,.08);text-align:center}
-  nav.desktop{display:none;gap:28px;font-weight:600;font-size:.92rem;margin-left:auto}
-  nav.desktop a{opacity:.8;transition:opacity .2s}
+  nav.desktop{display:none;gap:18px;font-weight:600;font-size:.875rem;margin-left:auto;flex-wrap:nowrap;flex:none}
+  nav.desktop a{opacity:.8;transition:opacity .2s;white-space:nowrap}
   nav.desktop a:hover{opacity:1;color:var(--pine)}
   .btn{display:inline-flex;align-items:center;gap:8px;font-weight:700;font-size:.9rem;padding:13px 22px;border-radius:40px;border:none;cursor:pointer;transition:transform .2s,box-shadow .2s,background .2s}
   .btn-primary{background:var(--clay);color:#fff}
@@ -78,7 +84,7 @@
   .btn-pine:hover{transform:translateY(-2px);box-shadow:0 12px 24px -10px rgba(44,85,64,.7)}
   .btn-ghost{background:transparent;color:var(--pine-deep);border:1.5px solid var(--pine)}
   .btn-ghost:hover{background:var(--pine);color:#fff}
-  .bar .nav-cta{display:none;padding:10px 20px;font-size:.85rem;margin-left:10px;flex:none}
+  .bar .nav-cta{display:none;padding:9px 15px;font-size:.82rem;margin-left:8px;flex:none}
   .menu-toggle{display:flex;flex-direction:column;gap:5px;background:none;border:none;cursor:pointer;padding:8px;flex:none}
   .menu-toggle span{width:24px;height:2.5px;background:var(--pine-deep);border-radius:2px;transition:.3s}
   .menu-toggle.open span:nth-child(1){transform:translateY(7.5px) rotate(45deg)}
@@ -362,13 +368,22 @@
     .lots-inner{grid-template-columns:1fr 1.3fr}   /* slider column wider so the 3:2 frame stays tall */
     .foot-top{grid-template-columns:2fr 1fr 1fr}
   }
-  @media(min-width:980px){
+  /* The header switches to its desktop layout only once .wrap has reached its
+     full 1180px max-width. Below that the content box is narrower than the
+     name + address + 5 links + 2 buttons need, so the hamburger takes over
+     rather than truncating the park name or wrapping the nav. */
+  @media(min-width:1180px){
     nav.desktop{display:flex}
     .bar .nav-cta{display:inline-flex}
+    .bar .contact-group{display:inline-flex}
     .menu-toggle{display:none}
     .bar{height:80px}
-    .logo{font-size:1.32rem}
+    /* flex:none so the logo never gets squeezed into an ellipsis. */
+    .logo{flex:none;font-size:1.18rem}
     .logo .mark{width:38px;height:38px}
+    .logo .logo-text{overflow:visible;text-overflow:clip}
+  }
+  @media(min-width:980px){
     .ways-grid{grid-template-columns:repeat(4,1fr)}
     .amen-grid{grid-template-columns:repeat(6,1fr)}
     .hero{padding:80px 0 90px}
@@ -399,7 +414,7 @@
       <a href="#faq">FAQ</a>
     </nav>
     <!-- Contact Us: outline sibling of the CTA; reveals phone + email in place. -->
-    <div class="contact-group nav-cta">
+    <div class="contact-group">
       <button type="button" class="btn btn-outline contact-toggle" aria-expanded="false" aria-haspopup="true">Contact Us</button>
       <div class="contact-panel" hidden>
         <a href="tel:+18103686008">+1 (810) 368-6008</a>
