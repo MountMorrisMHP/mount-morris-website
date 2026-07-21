@@ -1,6 +1,6 @@
 {
-  "version": "v2026.07.20-143922",
-  "generatedAt": "2026-07-20T14:39:22.445Z",
+  "version": "v2026.07.21-120141",
+  "generatedAt": "2026-07-21T12:01:41.565Z",
   "counts": {
     "preorderHomes": 0,
     "homesForRent": 8,
@@ -929,8 +929,13 @@
             "value": "Swing sets are not allowed on individual home sites."
           }
         ],
-        "mainImage": null,
-        "gallery": []
+        "mainImage": "community/amenities/playground/photo-01.jpg",
+        "gallery": [
+          "community/amenities/playground/photo-01.jpg",
+          "community/amenities/playground/photo-02.jpg",
+          "community/amenities/playground/photo-03.jpg",
+          "community/amenities/playground/photo-04.jpg"
+        ]
       },
       {
         "id": "pet_friendly",
