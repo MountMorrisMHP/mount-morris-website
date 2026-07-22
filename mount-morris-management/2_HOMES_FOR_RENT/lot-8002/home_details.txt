@@ -1,0 +1,5 @@
+Deal Type: For Rent
+Price: 483.50
+Home Manufacturer: Champion
+Bedrooms: 3
+Bathrooms: 2

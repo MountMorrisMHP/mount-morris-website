@@ -1,0 +1,7 @@
+Lot Number: 8002
+Base Lot Rent: $550
+Total Lot Area (sqft): 980
+Max Home Width: 14
+Max Home Length (ft): 70
+Parking Spaces: 2
+Lot View/Location: by playground
