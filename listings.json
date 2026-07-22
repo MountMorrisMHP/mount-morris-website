@@ -1,6 +1,6 @@
 {
-  "version": "v2026.07.22-164011",
-  "generatedAt": "2026-07-22T16:40:11.520Z",
+  "version": "v2026.07.22-164519",
+  "generatedAt": "2026-07-22T16:45:20.090Z",
   "counts": {
     "preorderHomes": 0,
     "homesForRent": 1,
@@ -96,8 +96,10 @@
         "2 Bed",
         "2 Bath"
       ],
-      "mainImage": null,
-      "gallery": [],
+      "mainImage": "listings/sale/lot-5046/photo-01.jpg",
+      "gallery": [
+        "listings/sale/lot-5046/photo-01.jpg"
+      ],
       "details": [
         {
           "label": "Lot Number",
