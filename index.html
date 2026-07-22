@@ -179,6 +179,8 @@
   .card .body{padding:20px}
   .card .price{font-family:'Fraunces',serif;font-size:1.5rem;font-weight:600;color:var(--pine-deep)}
   .card .price small{font-size:.82rem;font-weight:600;color:#7a8678;font-family:'Hanken Grotesk',sans-serif}
+  /* Rental breakdown under the headline total (home rent + lot rent). */
+  .price-note{font-family:'Hanken Grotesk',sans-serif;font-size:.78rem;font-weight:500;color:#7a8678;line-height:1.35;margin-top:2px}
   .card .ttl{font-weight:600;margin:2px 0 12px;color:#3a463d}
   .specs{display:flex;gap:16px;font-size:.85rem;color:#55624f;border-top:1px solid var(--line);padding-top:14px}
   .specs span{display:flex;align-items:center;gap:6px}
@@ -805,6 +807,7 @@
       <div class="photo">${photo}<span class="badge ${esc(item.badgeClass)}">${esc(item.badgeText)}</span></div>
       <div class="body">
         <div class="price">${price}</div>
+        ${item.priceNote ? `<div class="price-note">${esc(item.priceNote)}</div>` : ''}
         <div class="ttl">${esc(item.title)}</div>
         ${specs ? `<div class="specs">${specs}</div>` : ''}
       </div>
@@ -954,7 +957,9 @@
   function openModal(item, startIdx){
     fillModal({
       title: item.title,
-      priceHTML: esc(item.price) + (item.priceSmall ? `<small style="font-size:.8rem;color:#7a8678"> ${esc(item.priceSmall)}</small>` : ''),
+      priceHTML: esc(item.price)
+        + (item.priceSmall ? `<small style="font-size:.8rem;color:#7a8678"> ${esc(item.priceSmall)}</small>` : '')
+        + (item.priceNote ? `<div class="price-note">${esc(item.priceNote)}</div>` : ''),
       details: item.details,
       slides: buildSlides(item),
       startIdx,
