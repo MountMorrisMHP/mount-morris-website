@@ -1,6 +1,6 @@
 {
   "version": "dev",
-  "generatedAt": "2026-07-22T15:18:23.069Z",
+  "generatedAt": "2026-07-22T16:29:04.366Z",
   "counts": {
     "preorderHomes": 0,
     "homesForRent": 9,
@@ -19,8 +19,9 @@
       "title": "Clayton The Riverbend · Lot 1",
       "badgeText": "For Rent",
       "badgeClass": "b-rent",
-      "price": "$1,250",
+      "price": "$1,825",
       "priceSmall": " / month",
+      "priceNote": "$1,250 home + $575 lot rent",
       "specs": [
         "3 Bed",
         "2 Bath",
@@ -127,8 +128,9 @@
       "title": "Clayton The Riverbend · Lot 2",
       "badgeText": "For Rent",
       "badgeClass": "b-rent",
-      "price": "$1,250",
+      "price": "$1,825",
       "priceSmall": " / month",
+      "priceNote": "$1,250 home + $575 lot rent",
       "specs": [
         "3 Bed",
         "2 Bath",
@@ -235,8 +237,9 @@
       "title": "Clayton The Riverbend · Lot 3",
       "badgeText": "For Rent",
       "badgeClass": "b-rent",
-      "price": "$1,250",
+      "price": "$1,825",
       "priceSmall": " / month",
+      "priceNote": "$1,250 home + $575 lot rent",
       "specs": [
         "3 Bed",
         "2 Bath",
@@ -343,8 +346,9 @@
       "title": "Clayton The Riverbend · Lot 4",
       "badgeText": "For Rent",
       "badgeClass": "b-rent",
-      "price": "$1,250",
+      "price": "$1,825",
       "priceSmall": " / month",
+      "priceNote": "$1,250 home + $575 lot rent",
       "specs": [
         "3 Bed",
         "2 Bath",
@@ -451,8 +455,9 @@
       "title": "Clayton The Riverbend · Lot 5",
       "badgeText": "For Rent",
       "badgeClass": "b-rent",
-      "price": "$1,250",
+      "price": "$1,825",
       "priceSmall": " / month",
+      "priceNote": "$1,250 home + $575 lot rent",
       "specs": [
         "3 Bed",
         "2 Bath",
@@ -559,8 +564,9 @@
       "title": "Clayton The Riverbend · Lot 6",
       "badgeText": "For Rent",
       "badgeClass": "b-rent",
-      "price": "$1,250",
+      "price": "$1,825",
       "priceSmall": " / month",
+      "priceNote": "$1,250 home + $575 lot rent",
       "specs": [
         "3 Bed",
         "2 Bath",
@@ -667,8 +673,9 @@
       "title": "Clayton The Riverbend · Lot 7",
       "badgeText": "For Rent",
       "badgeClass": "b-rent",
-      "price": "$1,250",
+      "price": "$1,825",
       "priceSmall": " / month",
+      "priceNote": "$1,250 home + $575 lot rent",
       "specs": [
         "3 Bed",
         "2 Bath",
@@ -775,8 +782,9 @@
       "title": "Clayton The Riverbend · Lot 8",
       "badgeText": "For Rent",
       "badgeClass": "b-rent",
-      "price": "$1,250",
+      "price": "$1,825",
       "priceSmall": " / month",
+      "priceNote": "$1,250 home + $575 lot rent",
       "specs": [
         "3 Bed",
         "2 Bath",
@@ -883,8 +891,9 @@
       "title": "Clayton The Riverbend · Lot 9",
       "badgeText": "For Rent",
       "badgeClass": "b-rent",
-      "price": "$1,250",
+      "price": "$1,825",
       "priceSmall": " / month",
+      "priceNote": "$1,250 home + $575 lot rent",
       "specs": [
         "3 Bed",
         "2 Bath",
@@ -995,6 +1004,7 @@
       "badgeClass": "b-used",
       "price": "$24,000",
       "priceSmall": "",
+      "priceNote": "",
       "specs": [
         "3 Bed",
         "2 Bath",
