@@ -1,0 +1,6 @@
+Deal Type: Pre-Owned
+Price: 15000
+Home Manufacturer: Duke
+Bedrooms: 2
+Bathrooms: 2
+Exterior Color: Yellow
