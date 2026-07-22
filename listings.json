@@ -1,10 +1,10 @@
 {
-  "version": "v2026.07.22-161843",
-  "generatedAt": "2026-07-22T16:18:43.493Z",
+  "version": "v2026.07.22-164011",
+  "generatedAt": "2026-07-22T16:40:11.520Z",
   "counts": {
     "preorderHomes": 0,
     "homesForRent": 1,
-    "homesForSale": 0,
+    "homesForSale": 1,
     "amenities": 12,
     "scenery": 0,
     "faqs": 4
@@ -81,7 +81,91 @@
       ]
     }
   ],
-  "homesForSale": [],
+  "homesForSale": [
+    {
+      "id": "sale-lot-5046",
+      "category": "homesForSale",
+      "dataCat": "sale",
+      "lotNumber": "5046",
+      "title": "Duke · Lot 5046",
+      "badgeText": "Pre-Owned",
+      "badgeClass": "b-used",
+      "price": "$15,000",
+      "priceSmall": "",
+      "specs": [
+        "2 Bed",
+        "2 Bath"
+      ],
+      "mainImage": null,
+      "gallery": [],
+      "details": [
+        {
+          "label": "Lot Number",
+          "value": "5046"
+        },
+        {
+          "label": "Lot Address",
+          "value": "5046 Nadlie"
+        },
+        {
+          "label": "Base Lot Rent",
+          "value": "$550"
+        },
+        {
+          "label": "Total Lot Area (sqft)",
+          "value": "840"
+        },
+        {
+          "label": "Max Home Width",
+          "value": "14"
+        },
+        {
+          "label": "Max Home Length (ft)",
+          "value": "60"
+        },
+        {
+          "label": "Parking Spaces",
+          "value": "2"
+        },
+        {
+          "label": "Included Features",
+          "value": "Sunroom, Car Port"
+        },
+        {
+          "label": "Down Payment",
+          "value": "$5000"
+        },
+        {
+          "label": "Interest Rate",
+          "value": "<UNKNOWN>"
+        },
+        {
+          "label": "Deal Type",
+          "value": "Pre-Owned"
+        },
+        {
+          "label": "Price",
+          "value": "15000"
+        },
+        {
+          "label": "Home Manufacturer",
+          "value": "Duke"
+        },
+        {
+          "label": "Bedrooms",
+          "value": "2"
+        },
+        {
+          "label": "Bathrooms",
+          "value": "2"
+        },
+        {
+          "label": "Exterior Color",
+          "value": "Yellow"
+        }
+      ]
+    }
+  ],
   "community": {
     "amenities": [
       {
