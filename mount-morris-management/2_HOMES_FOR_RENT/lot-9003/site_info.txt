@@ -1,0 +1,5 @@
+Lot Number: 9003
+Base Lot Rent: $500
+Total Lot Area (sqft): 1000
+Down Payment: $5000
+Interest Rate: 5
