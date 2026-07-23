@@ -1,9 +1,9 @@
 {
-  "version": "v2026.07.23-115322",
-  "generatedAt": "2026-07-23T11:53:22.466Z",
+  "version": "v2026.07.23-115738",
+  "generatedAt": "2026-07-23T11:57:38.444Z",
   "counts": {
     "preorderHomes": 0,
-    "homesForRent": 1,
+    "homesForRent": 2,
     "homesForSale": 1,
     "amenities": 12,
     "scenery": 0,
@@ -77,6 +77,38 @@
         {
           "label": "Bathrooms",
           "value": "2"
+        }
+      ]
+    },
+    {
+      "id": "rent-lot-9001",
+      "category": "homesForRent",
+      "dataCat": "rent",
+      "lotNumber": "9001",
+      "title": "Home · Lot 9001",
+      "badgeText": "For Rent",
+      "badgeClass": "b-rent",
+      "price": "$800",
+      "priceSmall": " / month",
+      "specs": [],
+      "mainImage": null,
+      "gallery": [],
+      "details": [
+        {
+          "label": "Lot Number",
+          "value": "9001"
+        },
+        {
+          "label": "Base Lot Rent",
+          "value": "$500"
+        },
+        {
+          "label": "Deal Type",
+          "value": "For Rent"
+        },
+        {
+          "label": "Price",
+          "value": "800"
         }
       ]
     }
