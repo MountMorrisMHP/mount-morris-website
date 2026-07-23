@@ -1,6 +1,6 @@
 {
-  "version": "v2026.07.23-155919",
-  "generatedAt": "2026-07-23T15:59:20.006Z",
+  "version": "v2026.07.23-155938",
+  "generatedAt": "2026-07-23T15:59:39.086Z",
   "counts": {
     "preorderHomes": 0,
     "homesForRent": 1,
@@ -60,8 +60,8 @@
           "value": "by playground"
         },
         {
-          "label": "Water & Sewer Metered",
-          "value": "Yes"
+          "label": "Site Tax",
+          "value": "$3.00"
         },
         {
           "label": "Deal Type",
