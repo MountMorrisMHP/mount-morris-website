@@ -132,6 +132,21 @@ async function mapImages(lotPath, slug, folder) {
 /* --------------------------------------------------------- listing shaping */
 
 /** Format a price string defensively. Adds a leading "$" for plain numbers. */
+/** Parse a money-ish value ("$1,250", "483.50") to a Number, or null if absent
+ *  or not numeric. Mirrors build.js. */
+function moneyValue(raw) {
+  const v = (raw || '').trim().replace(/^\$/, '').replace(/,/g, '');
+  return /^\d+(\.\d+)?$/.test(v) ? Number(v) : null;
+}
+
+/** Format a Number as $X,XXX or $X,XXX.XX (cents only when they're non-zero). */
+function formatMoney(n) {
+  return '$' + n.toLocaleString('en-US', {
+    minimumFractionDigits: n % 1 ? 2 : 0,
+    maximumFractionDigits: 2,
+  });
+}
+
 function formatPrice(raw) {
   let v = (raw || '').trim();
   if (!v) return 'Contact us';
@@ -195,7 +210,7 @@ async function buildListing(category, folder) {
     pick(site.map, 'lotnumber', 'lot') || folder.replace(/[_-]+/g, ' ').trim();
 
   // Badge + headline copy depend on the category (and, for sales, Deal Type).
-  let badgeText, badgeClass, title, price, priceSmall, specs;
+  let badgeText, badgeClass, title, price, priceSmall, specs, priceNote = '';
 
   if (!category.needsHome) {
     badgeText = 'Pre-Order';

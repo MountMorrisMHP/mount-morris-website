@@ -120,6 +120,21 @@ async function mapImages(lotPath, slug, folder) {
 
 /* --------------------------------------------------------- listing shaping */
 
+/** Parse a money-ish value ("$1,250", "483.50") to a Number, or null if absent
+ *  or not numeric. Used to total a rental's home rent + base lot rent. */
+function moneyValue(raw) {
+  const v = (raw || '').trim().replace(/^\$/, '').replace(/,/g, '');
+  return /^\d+(\.\d+)?$/.test(v) ? Number(v) : null;
+}
+
+/** Format a Number as $X,XXX or $X,XXX.XX (cents only when they're non-zero). */
+function formatMoney(n) {
+  return '$' + n.toLocaleString('en-US', {
+    minimumFractionDigits: n % 1 ? 2 : 0,
+    maximumFractionDigits: 2,
+  });
+}
+
 function formatPrice(raw) {
   let v = (raw || '').trim();
   if (!v) return 'Contact us';
@@ -174,7 +189,7 @@ async function buildListing(category, folder) {
   const lotNumber =
     pick(site.map, 'lotnumber', 'lot') || folder.replace(/[_-]+/g, ' ').trim();
 
-  let badgeText, badgeClass, title, price, priceSmall, specs;
+  let badgeText, badgeClass, title, price, priceSmall, specs, priceNote = '';
 
   if (!category.needsHome) {
     badgeText = 'Pre-Order';
@@ -197,6 +212,18 @@ async function buildListing(category, folder) {
       badgeText = 'For Rent';
       badgeClass = 'b-rent';
       priceSmall = ' / month';
+      // The headline is the TOTAL monthly cost: home rent + base lot rent.
+      // Fail safe: if either side is missing or non-numeric, show whatever
+      // exists on its own rather than a misleading total or $0.
+      const homeRent = moneyValue(pick(home.map, 'price'));
+      const lotRent = moneyValue(pick(site.map, 'baselotrent', 'lotrent'));
+      if (homeRent !== null && lotRent !== null) {
+        price = formatMoney(homeRent + lotRent);
+        priceNote = `${formatMoney(homeRent)} home + ${formatMoney(lotRent)} lot rent`;
+      } else if (homeRent === null && lotRent !== null) {
+        price = formatMoney(lotRent);
+      }
+      // else: keep the formatPrice(price) already computed above.
     } else {
       const isNew = /\bnew\b/.test(dealType);
       badgeText = isNew ? 'Brand New' : 'Pre-Owned';
@@ -217,6 +244,7 @@ async function buildListing(category, folder) {
     badgeClass,
     price,
     priceSmall,
+    priceNote,   // rentals only: "$483.50 home + $550 lot rent" ('' when not applicable)
     specs,
     mainImage,
     gallery,
