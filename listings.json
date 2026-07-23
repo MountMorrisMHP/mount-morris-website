@@ -1,6 +1,6 @@
 {
-  "version": "v2026.07.23-162127",
-  "generatedAt": "2026-07-23T16:21:27.441Z",
+  "version": "v2026.07.23-162426",
+  "generatedAt": "2026-07-23T16:24:26.538Z",
   "counts": {
     "preorderHomes": 0,
     "homesForRent": 1,
@@ -158,6 +158,10 @@
         {
           "label": "Interest Rate",
           "value": "6.5%"
+        },
+        {
+          "label": "Year of Home",
+          "value": "1983"
         },
         {
           "label": "Deal Type",
