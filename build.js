@@ -232,7 +232,15 @@ async function buildListing(category, folder) {
     }
   }
 
-  const details = [...site.ordered, ...home.ordered].filter(d => d.value !== '');
+  // Display-only relabel of the "Price" row by deal type (data field stays
+  // "Price"): rentals read "Home Rent" (pairs with "Base Lot Rent"), sales
+  // "Home Price". Pre-order has no Price row.
+  const priceLabel = category.slug === 'rent' ? 'Home Rent'
+                   : category.slug === 'sale' ? 'Home Price'
+                   : null;
+  const details = [...site.ordered, ...home.ordered]
+    .filter(d => d.value !== '')
+    .map(d => (priceLabel && normalizeKey(d.label) === 'price') ? { label: priceLabel, value: d.value } : d);
 
   return {
     id: `${category.slug}-${folder}`,
