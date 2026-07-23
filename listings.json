@@ -1,6 +1,6 @@
 {
-  "version": "v2026.07.23-155938",
-  "generatedAt": "2026-07-23T15:59:39.086Z",
+  "version": "v2026.07.23-160525",
+  "generatedAt": "2026-07-23T16:05:25.402Z",
   "counts": {
     "preorderHomes": 0,
     "homesForRent": 1,
@@ -16,7 +16,7 @@
       "category": "homesForRent",
       "dataCat": "rent",
       "lotNumber": "8002",
-      "title": "Champion · Lot 8002",
+      "title": "Clayton · Lot 8002",
       "badgeText": "For Rent",
       "badgeClass": "b-rent",
       "price": "$1,033.50",
@@ -73,7 +73,7 @@
         },
         {
           "label": "Home Manufacturer",
-          "value": "Champion"
+          "value": "Clayton"
         },
         {
           "label": "Bedrooms",
