@@ -4,4 +4,5 @@ Home Manufacturer: Clayton
 Bedrooms: 3
 Bathrooms: 2
 Roof: Shingle
+Skirting: Vinyl
 Exterior Color: Yellow
