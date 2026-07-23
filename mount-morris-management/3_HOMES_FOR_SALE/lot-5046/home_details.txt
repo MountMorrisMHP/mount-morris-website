@@ -3,4 +3,5 @@ Price: 15000
 Home Manufacturer: Duke
 Bedrooms: 2
 Bathrooms: 2
+Roof: Shingle
 Exterior Color: Yellow
