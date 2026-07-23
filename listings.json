@@ -1,6 +1,6 @@
 {
-  "version": "v2026.07.23-162651",
-  "generatedAt": "2026-07-23T16:26:51.222Z",
+  "version": "v2026.07.23-162908",
+  "generatedAt": "2026-07-23T16:29:09.037Z",
   "counts": {
     "preorderHomes": 0,
     "homesForRent": 1,
@@ -94,6 +94,10 @@
         {
           "label": "Bathrooms",
           "value": "2"
+        },
+        {
+          "label": "Roof",
+          "value": "Shingle"
         },
         {
           "label": "Exterior Color",
