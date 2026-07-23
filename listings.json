@@ -1,6 +1,6 @@
 {
-  "version": "v2026.07.23-160738",
-  "generatedAt": "2026-07-23T16:07:38.593Z",
+  "version": "v2026.07.23-160954",
+  "generatedAt": "2026-07-23T16:09:54.764Z",
   "counts": {
     "preorderHomes": 0,
     "homesForRent": 1,
@@ -66,6 +66,10 @@
         {
           "label": "Trash Removal",
           "value": "$13.50"
+        },
+        {
+          "label": "Water & Sewer Metered",
+          "value": "Yes"
         },
         {
           "label": "Deal Type",
