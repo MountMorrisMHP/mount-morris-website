@@ -1,9 +1,9 @@
 {
-  "version": "v2026.07.23-144813",
-  "generatedAt": "2026-07-23T14:48:13.568Z",
+  "version": "v2026.07.23-145340",
+  "generatedAt": "2026-07-23T14:53:40.267Z",
   "counts": {
     "preorderHomes": 0,
-    "homesForRent": 2,
+    "homesForRent": 3,
     "homesForSale": 1,
     "amenities": 12,
     "scenery": 0,
@@ -99,6 +99,39 @@
         {
           "label": "Lot Number",
           "value": "9001"
+        },
+        {
+          "label": "Base Lot Rent",
+          "value": "$500"
+        },
+        {
+          "label": "Deal Type",
+          "value": "For Rent"
+        },
+        {
+          "label": "Home Rent",
+          "value": "800"
+        }
+      ]
+    },
+    {
+      "id": "rent-lot-9002",
+      "category": "homesForRent",
+      "dataCat": "rent",
+      "lotNumber": "9002",
+      "title": "Home · Lot 9002",
+      "badgeText": "For Rent",
+      "badgeClass": "b-rent",
+      "price": "$1,300",
+      "priceSmall": " / month",
+      "priceNote": "$800 home + $500 lot rent",
+      "specs": [],
+      "mainImage": null,
+      "gallery": [],
+      "details": [
+        {
+          "label": "Lot Number",
+          "value": "9002"
         },
         {
           "label": "Base Lot Rent",
