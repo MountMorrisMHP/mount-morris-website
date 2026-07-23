@@ -8,3 +8,4 @@ Parking Spaces: 2
 Included Features: Sunroom, Car Port
 Down Payment: $5000
 Interest Rate: 6.5%
+Year of Home: 1983
