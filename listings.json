@@ -1,6 +1,6 @@
 {
-  "version": "v2026.07.23-161835",
-  "generatedAt": "2026-07-23T16:18:35.228Z",
+  "version": "v2026.07.23-162127",
+  "generatedAt": "2026-07-23T16:21:27.441Z",
   "counts": {
     "preorderHomes": 0,
     "homesForRent": 1,
@@ -70,6 +70,10 @@
         {
           "label": "Water & Sewer Metered",
           "value": "Yes"
+        },
+        {
+          "label": "Year of Home",
+          "value": "2007"
         },
         {
           "label": "Deal Type",
