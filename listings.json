@@ -1,6 +1,6 @@
 {
-  "version": "v2026.07.23-130500",
-  "generatedAt": "2026-07-23T13:05:00.818Z",
+  "version": "v2026.07.23-144813",
+  "generatedAt": "2026-07-23T14:48:13.568Z",
   "counts": {
     "preorderHomes": 0,
     "homesForRent": 2,
@@ -64,7 +64,7 @@
           "value": "For Rent"
         },
         {
-          "label": "Price",
+          "label": "Home Rent",
           "value": "483.50"
         },
         {
@@ -109,7 +109,7 @@
           "value": "For Rent"
         },
         {
-          "label": "Price",
+          "label": "Home Rent",
           "value": "800"
         }
       ]
@@ -181,7 +181,7 @@
           "value": "Pre-Owned"
         },
         {
-          "label": "Price",
+          "label": "Home Price",
           "value": "15000"
         },
         {

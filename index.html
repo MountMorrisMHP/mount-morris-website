@@ -906,11 +906,15 @@
   const galleryEl = document.getElementById('modalGallery');
 
   // Money fields render formatted ($ + commas) in the details list.
-  const MONEY_KEYS = new Set(['price', 'baselotrent', 'lotrent']);
+  const MONEY_KEYS = new Set(['price', 'homerent', 'homeprice', 'baselotrent', 'lotrent']);
   function fmtDetail(label, value){
     if (MONEY_KEYS.has(String(label).toLowerCase().replace(/[^a-z0-9]/g, ''))){
       const v = String(value).trim().replace(/^\$/, '').replace(/,/g, '');
-      if (/^\d+(\.\d+)?$/.test(v)) return '$' + Number(v).toLocaleString('en-US');
+      if (/^\d+(\.\d+)?$/.test(v)){
+        const n = Number(v);
+        // Two decimals only when there are cents: $483.50 keeps them, $550 stays $550.
+        return '$' + n.toLocaleString('en-US', { minimumFractionDigits: n % 1 ? 2 : 0, maximumFractionDigits: 2 });
+      }
     }
     return value;
   }
