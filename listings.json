@@ -1,10 +1,10 @@
 {
-  "version": "v2026.07.23-150352",
-  "generatedAt": "2026-07-23T15:03:52.586Z",
+  "version": "v2026.07.23-154432",
+  "generatedAt": "2026-07-23T15:44:33.056Z",
   "counts": {
     "preorderHomes": 0,
     "homesForRent": 1,
-    "homesForSale": 1,
+    "homesForSale": 2,
     "amenities": 12,
     "scenery": 0,
     "faqs": 4
@@ -166,6 +166,110 @@
         {
           "label": "Exterior Color",
           "value": "Yellow"
+        }
+      ]
+    },
+    {
+      "id": "sale-lot-6050",
+      "category": "homesForSale",
+      "dataCat": "sale",
+      "lotNumber": "6050",
+      "title": "Palm Harbor · Lot 6050",
+      "badgeText": "Pre-Owned",
+      "badgeClass": "b-used",
+      "price": "$35,000",
+      "priceSmall": "",
+      "priceNote": "",
+      "specs": [
+        "3 Bed",
+        "3 Bath"
+      ],
+      "mainImage": null,
+      "gallery": [],
+      "details": [
+        {
+          "label": "Lot Number",
+          "value": "6050"
+        },
+        {
+          "label": "Lot Address",
+          "value": "6050 Walnut St."
+        },
+        {
+          "label": "Base Lot Rent",
+          "value": "$550"
+        },
+        {
+          "label": "Total Lot Area (sqft)",
+          "value": "1848"
+        },
+        {
+          "label": "Max Home Width",
+          "value": "28 ft"
+        },
+        {
+          "label": "Max Home Length (ft)",
+          "value": "66"
+        },
+        {
+          "label": "Parking Spaces",
+          "value": "2"
+        },
+        {
+          "label": "Lot View/Location",
+          "value": "Corner Lot"
+        },
+        {
+          "label": "Included Features",
+          "value": "Fireplace, Sliding Patio Door"
+        },
+        {
+          "label": "Financing",
+          "value": "Available through our lending partners"
+        },
+        {
+          "label": "Site Tax",
+          "value": "$3.00"
+        },
+        {
+          "label": "Trash Removal",
+          "value": "$13.50"
+        },
+        {
+          "label": "Water & Sewer Metered",
+          "value": "Yes"
+        },
+        {
+          "label": "Deal Type",
+          "value": "Pre-Owned"
+        },
+        {
+          "label": "Home Price",
+          "value": "35000"
+        },
+        {
+          "label": "Home Manufacturer",
+          "value": "Palm Harbor"
+        },
+        {
+          "label": "Bedrooms",
+          "value": "3"
+        },
+        {
+          "label": "Bathrooms",
+          "value": "3"
+        },
+        {
+          "label": "Roof",
+          "value": "Shingle"
+        },
+        {
+          "label": "Skirting",
+          "value": "Vinyl"
+        },
+        {
+          "label": "Exterior Color",
+          "value": "Light Grey"
         }
       ]
     }
