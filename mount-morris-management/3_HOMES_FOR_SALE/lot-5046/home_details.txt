@@ -4,4 +4,5 @@ Home Manufacturer: Duke
 Bedrooms: 2
 Bathrooms: 2
 Roof: Shingle
+Skirting: Vinyl
 Exterior Color: Yellow
