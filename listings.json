@@ -1,6 +1,6 @@
 {
-  "version": "v2026.07.23-162908",
-  "generatedAt": "2026-07-23T16:29:09.037Z",
+  "version": "v2026.07.23-163120",
+  "generatedAt": "2026-07-23T16:31:21.113Z",
   "counts": {
     "preorderHomes": 0,
     "homesForRent": 1,
@@ -98,6 +98,10 @@
         {
           "label": "Roof",
           "value": "Shingle"
+        },
+        {
+          "label": "Skirting",
+          "value": "Vinyl"
         },
         {
           "label": "Exterior Color",
