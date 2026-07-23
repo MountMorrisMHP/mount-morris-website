@@ -5,3 +5,4 @@ Max Home Width: 14
 Max Home Length (ft): 70
 Parking Spaces: 2
 Lot View/Location: by playground
+Water & Sewer Metered: Yes
