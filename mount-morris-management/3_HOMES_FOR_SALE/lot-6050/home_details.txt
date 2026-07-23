@@ -1,0 +1,8 @@
+Deal Type: Pre-Owned
+Price: 35000
+Home Manufacturer: Palm Harbor
+Bedrooms: 3
+Bathrooms: 3
+Roof: Shingle
+Skirting: Vinyl
+Exterior Color: Light Grey

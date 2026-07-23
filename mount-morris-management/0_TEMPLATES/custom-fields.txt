@@ -3,3 +3,6 @@
 # These are ALWAYS optional & skippable — they never become required.
 # Optional target file after a pipe (default: site_info.txt): "Heading | home".
 
+Site Tax
+Trash Removal
+Water & Sewer Metered
