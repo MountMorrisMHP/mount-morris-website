@@ -1,9 +1,9 @@
 {
-  "version": "v2026.07.23-145654",
-  "generatedAt": "2026-07-23T14:56:54.277Z",
+  "version": "v2026.07.23-150231",
+  "generatedAt": "2026-07-23T15:02:31.430Z",
   "counts": {
     "preorderHomes": 0,
-    "homesForRent": 3,
+    "homesForRent": 4,
     "homesForSale": 1,
     "amenities": 12,
     "scenery": 0,
@@ -148,6 +148,51 @@
         {
           "label": "Home Rent",
           "value": "800"
+        }
+      ]
+    },
+    {
+      "id": "rent-lot-9003",
+      "category": "homesForRent",
+      "dataCat": "rent",
+      "lotNumber": "9003",
+      "title": "Home · Lot 9003",
+      "badgeText": "For Rent",
+      "badgeClass": "b-rent",
+      "price": "$1,000",
+      "priceSmall": " / month",
+      "priceNote": "$500 home + $500 lot rent",
+      "specs": [],
+      "mainImage": null,
+      "gallery": [],
+      "details": [
+        {
+          "label": "Lot Number",
+          "value": "9003"
+        },
+        {
+          "label": "Base Lot Rent",
+          "value": "$500"
+        },
+        {
+          "label": "Total Lot Area (sqft)",
+          "value": "1000"
+        },
+        {
+          "label": "Down Payment",
+          "value": "$5000"
+        },
+        {
+          "label": "Interest Rate",
+          "value": "5"
+        },
+        {
+          "label": "Deal Type",
+          "value": "For Rent"
+        },
+        {
+          "label": "Home Rent",
+          "value": "500"
         }
       ]
     }
