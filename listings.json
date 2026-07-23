@@ -1,6 +1,6 @@
 {
-  "version": "v2026.07.23-145340",
-  "generatedAt": "2026-07-23T14:53:40.267Z",
+  "version": "v2026.07.23-145654",
+  "generatedAt": "2026-07-23T14:56:54.277Z",
   "counts": {
     "preorderHomes": 0,
     "homesForRent": 3,
@@ -136,6 +136,10 @@
         {
           "label": "Base Lot Rent",
           "value": "$500"
+        },
+        {
+          "label": "Down Payment",
+          "value": "$5000"
         },
         {
           "label": "Deal Type",
