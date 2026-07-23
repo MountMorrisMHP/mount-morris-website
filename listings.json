@@ -1,6 +1,6 @@
 {
-  "version": "v2026.07.23-115928",
-  "generatedAt": "2026-07-23T11:59:29.112Z",
+  "version": "v2026.07.23-130500",
+  "generatedAt": "2026-07-23T13:05:00.818Z",
   "counts": {
     "preorderHomes": 0,
     "homesForRent": 2,
@@ -19,8 +19,9 @@
       "title": "Champion · Lot 8002",
       "badgeText": "For Rent",
       "badgeClass": "b-rent",
-      "price": "$483.50",
+      "price": "$1,033.50",
       "priceSmall": " / month",
+      "priceNote": "$483.50 home + $550 lot rent",
       "specs": [
         "3 Bed",
         "2 Bath"
@@ -88,8 +89,9 @@
       "title": "Home · Lot 9001",
       "badgeText": "For Rent",
       "badgeClass": "b-rent",
-      "price": "$800",
+      "price": "$1,300",
       "priceSmall": " / month",
+      "priceNote": "$800 home + $500 lot rent",
       "specs": [],
       "mainImage": null,
       "gallery": [],
@@ -124,6 +126,7 @@
       "badgeClass": "b-used",
       "price": "$15,000",
       "priceSmall": "",
+      "priceNote": "",
       "specs": [
         "2 Bed",
         "2 Bath"
