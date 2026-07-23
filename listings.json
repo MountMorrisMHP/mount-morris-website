@@ -1,6 +1,6 @@
 {
-  "version": "v2026.07.23-154615",
-  "generatedAt": "2026-07-23T15:46:15.555Z",
+  "version": "v2026.07.23-155919",
+  "generatedAt": "2026-07-23T15:59:20.006Z",
   "counts": {
     "preorderHomes": 0,
     "homesForRent": 1,
@@ -58,6 +58,10 @@
         {
           "label": "Lot View/Location",
           "value": "by playground"
+        },
+        {
+          "label": "Water & Sewer Metered",
+          "value": "Yes"
         },
         {
           "label": "Deal Type",
