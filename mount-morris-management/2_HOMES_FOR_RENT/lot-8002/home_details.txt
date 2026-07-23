@@ -3,3 +3,4 @@ Price: 483.50
 Home Manufacturer: Clayton
 Bedrooms: 3
 Bathrooms: 2
+Exterior Color: Yellow
