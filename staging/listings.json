@@ -1,6 +1,6 @@
 {
   "version": "dev",
-  "generatedAt": "2026-07-22T16:29:04.366Z",
+  "generatedAt": "2026-07-23T14:10:01.616Z",
   "counts": {
     "preorderHomes": 0,
     "homesForRent": 9,
@@ -91,7 +91,7 @@
           "value": "For Rent"
         },
         {
-          "label": "Price",
+          "label": "Home Rent",
           "value": "1250"
         },
         {
@@ -200,7 +200,7 @@
           "value": "For Rent"
         },
         {
-          "label": "Price",
+          "label": "Home Rent",
           "value": "1250"
         },
         {
@@ -309,7 +309,7 @@
           "value": "For Rent"
         },
         {
-          "label": "Price",
+          "label": "Home Rent",
           "value": "1250"
         },
         {
@@ -418,7 +418,7 @@
           "value": "For Rent"
         },
         {
-          "label": "Price",
+          "label": "Home Rent",
           "value": "1250"
         },
         {
@@ -527,7 +527,7 @@
           "value": "For Rent"
         },
         {
-          "label": "Price",
+          "label": "Home Rent",
           "value": "1250"
         },
         {
@@ -636,7 +636,7 @@
           "value": "For Rent"
         },
         {
-          "label": "Price",
+          "label": "Home Rent",
           "value": "1250"
         },
         {
@@ -745,7 +745,7 @@
           "value": "For Rent"
         },
         {
-          "label": "Price",
+          "label": "Home Rent",
           "value": "1250"
         },
         {
@@ -854,7 +854,7 @@
           "value": "For Rent"
         },
         {
-          "label": "Price",
+          "label": "Home Rent",
           "value": "1250"
         },
         {
@@ -963,7 +963,7 @@
           "value": "For Rent"
         },
         {
-          "label": "Price",
+          "label": "Home Rent",
           "value": "1250"
         },
         {
@@ -1026,7 +1026,7 @@
           "value": "$550"
         },
         {
-          "label": "Price",
+          "label": "Home Price",
           "value": "24000"
         },
         {

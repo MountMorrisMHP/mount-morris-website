@@ -906,7 +906,7 @@
   const galleryEl = document.getElementById('modalGallery');
 
   // Money fields render formatted ($ + commas) in the details list.
-  const MONEY_KEYS = new Set(['price', 'baselotrent', 'lotrent']);
+  const MONEY_KEYS = new Set(['price', 'homerent', 'homeprice', 'baselotrent', 'lotrent']);
   function fmtDetail(label, value){
     if (MONEY_KEYS.has(String(label).toLowerCase().replace(/[^a-z0-9]/g, ''))){
       const v = String(value).trim().replace(/^\$/, '').replace(/,/g, '');
