@@ -163,7 +163,7 @@
     /* comfy ~44px touch targets on mobile */
     .tab{padding:11px 18px}
     .mprice-actions a,.mprice-actions button{padding:11px 18px;font-size:.9rem}
-    .modal-body{padding:24px 20px 26px}
+    .modal-body{padding:24px 20px 44px}
     .modal{padding:14px}
   }
 
@@ -280,9 +280,29 @@
      whole screen (the scroll container can't reliably host backdrop-filter). */
   .modal::before{content:"";position:fixed;inset:0;background:rgba(28,58,42,.55);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);z-index:0}
   .modal.open{display:flex}
-  .modal-card{background:var(--paper);border-radius:22px;max-width:760px;width:100%;margin:auto;overflow:hidden;box-shadow:var(--shadow);position:relative;z-index:1}
+  /* The card is bounded to the viewport and scrolls INTERNALLY, so both the top
+     and bottom rounded corners are always visible instead of the card running
+     off the bottom edge and looking chopped. */
+  .modal-card{background:var(--paper);border-radius:22px;max-width:760px;width:100%;margin:auto;overflow:hidden;box-shadow:var(--shadow);position:relative;z-index:1;
+    display:flex;flex-direction:column;max-height:100%}
+  /* Fade at the foot of the scroll area signalling more content below. Hidden
+     once the details are scrolled to the end (or when they all already fit). */
+  .modal-card::after{content:'';position:absolute;left:0;right:0;bottom:0;height:56px;pointer-events:none;z-index:2;
+    border-radius:0 0 22px 22px;
+    background:linear-gradient(to bottom,rgba(251,245,234,0),var(--paper));
+    opacity:1;transition:opacity .2s ease}
+  .modal-card.at-end::after{opacity:0}
+  /* Photo counter: subtle pill so a visitor can tell 1 photo from 6. */
+  .car-count{display:none}
+  .modal-carousel .car-count{display:block;position:absolute;right:12px;bottom:10px;z-index:3;
+    padding:3px 9px;border-radius:999px;background:rgba(30,42,34,.6);color:var(--cream);
+    font-family:'Hanken Grotesk',system-ui,sans-serif;font-size:.72rem;font-weight:600;
+    letter-spacing:.02em;line-height:1.5;pointer-events:none}
   .modal-close{position:absolute;top:14px;right:14px;z-index:3;width:38px;height:38px;border-radius:50%;border:none;background:rgba(30,42,34,.6);color:#fff;font-size:1.3rem;cursor:pointer;line-height:1}
-  .gallery{position:relative;aspect-ratio:16/10;background:var(--cream);overflow:hidden}
+  /* flex:none so the photo keeps its aspect ratio while the body scrolls; the
+     explicit top radius matches .modal-card exactly (relying on the parent's
+     overflow clip alone leaves a hairline mismatch). */
+  .gallery{position:relative;aspect-ratio:16/10;background:var(--cream);overflow:hidden;flex:none;border-radius:22px 22px 0 0}
   .gallery img{width:100%;height:100%;object-fit:cover;display:block}
   .gallery svg{width:100%;height:100%;display:block}
   .gallery-nav{position:absolute;top:50%;transform:translateY(-50%);width:42px;height:42px;border-radius:50%;border:none;background:rgba(255,255,255,.85);color:var(--pine-deep);font-size:1.3rem;cursor:pointer;display:flex;align-items:center;justify-content:center}
@@ -290,7 +310,9 @@
   .gallery-dots{position:absolute;bottom:12px;left:0;right:0;display:flex;gap:6px;justify-content:center}
   .gallery-dots i{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.5)}
   .gallery-dots i.on{background:#fff}
-  .modal-body{padding:26px 28px 30px}
+  /* Scrolls internally; the roomy bottom padding keeps the last details row off
+     the card edge and clear of the fade. */
+  .modal-body{padding:26px 28px 44px;overflow-y:auto;flex:1 1 auto}
   .modal-body h3{font-size:1.7rem;color:var(--pine-deep);margin-bottom:4px}
   .modal-body .mprice{font-family:'Fraunces',serif;font-size:1.5rem;color:var(--clay);font-weight:600}
   /* Price + action buttons on one horizontal row; wraps on very narrow screens. */
@@ -862,8 +884,11 @@
         <button class="car-arrow prev" aria-label="Previous photo" tabindex="-1">${chevron('left')}</button>
         <button class="car-arrow next" aria-label="Next photo" tabindex="-1">${chevron('right')}</button>
         <div class="car-dots">${slides.map((_,i)=>`<button class="dot${i?'':' active'}" data-i="${i}" aria-label="Go to photo ${i+1}" tabindex="-1"><span class="dot-fill"></span></button>`).join('')}</div>` : '';
+    // Counter renders for single-photo listings too ("1 / 1"), since the whole
+    // point is telling one photo from six. CSS shows it only in the modal.
+    const count = `<div class="car-count" aria-hidden="true"><span class="cc-i">1</span> / ${slides.length}</div>`;
     return `<div class="carousel${multi?' is-multi':''}${extraClass?' '+extraClass:''}" data-idx="0">
-        <div class="carousel-track">${track}</div>${controls}
+        <div class="carousel-track">${track}</div>${controls}${count}
       </div>`;
   }
 
@@ -972,6 +997,18 @@
   /* ----- Detail modal: reuses the SAME carousel as the cards ----- */
   const modal = document.getElementById('listingModal');
   const galleryEl = document.getElementById('modalGallery');
+  const modalCard = modal.querySelector('.modal-card');
+  const modalBodyEl = modal.querySelector('.modal-body');
+
+  // Hide the bottom fade once the details are scrolled to the end, and also when
+  // they fit without scrolling at all (nothing more to hint at).
+  function syncModalFade(){
+    const room = modalBodyEl.scrollHeight - modalBodyEl.clientHeight;
+    const atEnd = room <= 1 || modalBodyEl.scrollTop >= room - 1;
+    modalCard.classList.toggle('at-end', atEnd);
+  }
+  modalBodyEl.addEventListener('scroll', syncModalFade, { passive: true });
+  window.addEventListener('resize', () => { if (modal.classList.contains('open')) syncModalFade(); });
 
   // Money fields render formatted ($ + commas) in the details list.
   const MONEY_KEYS = new Set(['price', 'homerent', 'homeprice', 'baselotrent', 'lotrent']);
@@ -1024,6 +1061,7 @@
     grid.querySelectorAll('.carousel').forEach(c => c._pauseAP && c._pauseAP('modal'));
     modal.classList.add('open');
     document.body.style.overflow = 'hidden';
+    syncModalFade();   // after .open, so the body has a measurable height
   }
 
   function openModal(item, startIdx){
@@ -1151,6 +1189,8 @@
     track.style.transform = `translateX(${-idx * w}px)`;
     car.dataset.idx = idx;
     car.querySelectorAll('.car-dots .dot').forEach((d, i) => d.classList.toggle('active', i === idx));
+    const cc = car.querySelector('.car-count .cc-i');
+    if (cc) cc.textContent = idx + 1;
     if (!animate){ void track.offsetWidth; track.style.transition = ''; } // restore transition for next move
     if (car._armFill) car._armFill();   // (re)start the autoplay fill on the active dot
   }
