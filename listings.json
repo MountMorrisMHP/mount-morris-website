@@ -1,6 +1,6 @@
 {
-  "version": "v2026.07.22-164519",
-  "generatedAt": "2026-07-22T16:45:20.090Z",
+  "version": "v2026.07.23-115322",
+  "generatedAt": "2026-07-23T11:53:22.466Z",
   "counts": {
     "preorderHomes": 0,
     "homesForRent": 1,
@@ -139,7 +139,7 @@
         },
         {
           "label": "Interest Rate",
-          "value": "<UNKNOWN>"
+          "value": "6.5%"
         },
         {
           "label": "Deal Type",
