@@ -72,11 +72,6 @@
     background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:8px;min-width:230px;box-shadow:var(--shadow)}
   .contact-panel a{display:block;padding:9px 12px;border-radius:9px;font-size:.88rem;font-weight:600;color:var(--pine-deep);white-space:nowrap}
   .contact-panel a:hover{background:rgba(44,85,64,.09)}
-  .contact-group.inline{width:100%}
-  .contact-group.inline .btn-outline{width:100%;justify-content:center;color:var(--cream);border-color:rgba(246,238,224,.6)}
-  .contact-group.inline .btn-outline:hover{background:var(--cream);color:var(--pine-deep)}
-  .contact-group.inline .contact-panel{position:static;margin-top:8px;min-width:0;background:transparent;border:none;box-shadow:none;padding:0}
-  .contact-group.inline .contact-panel a{color:var(--cream);background:rgba(246,238,224,.08);text-align:center}
   nav.desktop{display:none;gap:18px;font-weight:600;font-size:.875rem;margin-left:auto;flex-wrap:nowrap;flex:none}
   nav.desktop a{opacity:.8;transition:opacity .2s;white-space:nowrap}
   nav.desktop a:hover{opacity:1;color:var(--pine)}
@@ -93,10 +88,43 @@
   .menu-toggle.open span:nth-child(1){transform:translateY(7.5px) rotate(45deg)}
   .menu-toggle.open span:nth-child(2){opacity:0}
   .menu-toggle.open span:nth-child(3){transform:translateY(-7.5px) rotate(-45deg)}
-  .mobile-menu{position:fixed;inset:66px 0 0;background:var(--pine-deep);color:var(--cream);transform:translateX(100%);transition:transform .35s cubic-bezier(.4,0,.2,1),visibility .35s;visibility:hidden;z-index:150;padding:34px 26px;display:flex;flex-direction:column;gap:6px;overflow-y:auto;max-width:100%}
-  .mobile-menu.open{transform:translateX(0);visibility:visible}
-  .mobile-menu a{font-family:'Fraunces',serif;font-size:1.8rem;padding:14px 0;border-bottom:1px solid rgba(255,255,255,.12)}
-  .mobile-menu .btn{margin-top:24px;justify-content:center;font-size:1rem}
+  /* Mobile nav: a panel ANCHORED to the hamburger (top right), growing down and
+     to the left, rather than a full-screen takeover. The page stays visible
+     around it. Tap targets stay >= 44px throughout: the audience skews older and
+     the top-right corner is the hardest spot to reach one-handed. */
+  .mobile-menu{position:fixed;top:74px;right:22px;z-index:150;
+    width:min(88vw,400px);max-height:calc(100vh - 92px);overflow-y:auto;
+    background:var(--pine-deep);color:var(--cream);
+    border-radius:22px;box-shadow:0 26px 60px -18px rgba(0,0,0,.55);
+    padding:6px 20px 16px;display:flex;flex-direction:column;
+    transform-origin:top right;transform:scale(.92) translateY(-10px);opacity:0;visibility:hidden;
+    transition:transform .32s cubic-bezier(.2,.8,.25,1),opacity .24s ease,visibility .32s}
+  .mobile-menu.open{transform:none;opacity:1;visibility:visible}
+  /* Never let flex shrink a row below its min-height: tap targets must hold
+     their 44px even when the panel has to scroll. */
+  .mobile-menu > *,.mobile-menu .mm-nav a,.mobile-menu .mm-contact a{flex:none}
+  /* Nav links keep their existing typography. */
+  .mobile-menu .mm-nav{display:flex;flex-direction:column}
+  .mobile-menu .mm-nav a{font-family:'Fraunces',serif;font-size:1.8rem;line-height:1.15;
+    min-height:44px;display:flex;align-items:center;padding:11px 0;
+    border-bottom:1px solid rgba(255,255,255,.12)}
+  .mobile-menu .btn{margin-top:12px;justify-content:center;font-size:1rem;min-height:48px}
+  /* Outline button needs cream on the pine panel, not the pine-on-cream default. */
+  .mobile-menu .btn.btn-outline{color:var(--cream);border-color:rgba(246,238,224,.55);background:transparent}
+  /* Phone + email are supporting contact DETAILS, not buttons: lighter weight,
+     no fill, tighter padding, but still 44px tap targets. */
+  .mobile-menu .mm-contact{display:flex;flex-direction:column;margin-top:14px;padding-top:10px;
+    border-top:1px solid rgba(255,255,255,.14)}
+  .mobile-menu .mm-contact a{font-family:'Hanken Grotesk',system-ui,sans-serif;font-weight:600;
+    color:rgba(246,238,224,.82);min-height:44px;display:flex;align-items:center;
+    padding:6px 0;border:none;background:none;line-height:1.3}
+  .mobile-menu .mm-contact a:hover{color:var(--cream)}
+  .mobile-menu .mm-phone{font-size:1rem;letter-spacing:.01em}
+  /* The email is long; let it wrap and run smaller so it never overflows. */
+  .mobile-menu .mm-email{font-size:.82rem;overflow-wrap:anywhere;word-break:break-word}
+  @media(max-width:480px){
+    .mobile-menu{right:18px;width:min(90vw,380px)}
+  }
 
   /* HERO */
   .hero{position:relative;padding:54px 0 64px;overflow:hidden}
@@ -432,19 +460,19 @@
 </header>
 
 <div class="mobile-menu" id="mobileMenu">
-  <a href="#ways">Find a Home</a>
-  <a href="#homes">Available Homes</a>
-  <a href="#lots">The Map</a>
-  <a href="#amenities">Amenities</a>
-  <a href="#faq">FAQ</a>
+  <nav class="mm-nav">
+    <a href="#ways">Find a Home</a>
+    <a href="#homes">Available Homes</a>
+    <a href="#lots">The Map</a>
+    <a href="#amenities">Amenities</a>
+    <a href="#faq">FAQ</a>
+  </nav>
   <a href="#cta" class="btn btn-primary">Schedule a Visit</a>
-  <!-- Same component, inline panel (no floating popover inside the slide-out). -->
-  <div class="contact-group inline">
-    <button type="button" class="btn btn-outline contact-toggle" aria-expanded="false">Contact Us</button>
-    <div class="contact-panel" hidden>
-      <a href="tel:+18103686008">+1 (810) 368-6008</a>
-      <a href="mailto:aswiden@mountmorrismhp.com">aswiden@mountmorrismhp.com</a>
-    </div>
+  <a href="#cta" class="btn btn-outline">Contact Us</a>
+  <!-- Contact details, always visible: no toggle to hunt for on a phone. -->
+  <div class="mm-contact">
+    <a href="tel:+18103686008" class="mm-phone">+1 (810) 368-6008</a>
+    <a href="mailto:aswiden@mountmorrismhp.com" class="mm-email">aswiden@mountmorrismhp.com</a>
   </div>
 </div>
 
@@ -698,8 +726,51 @@
 <script>
   // mobile menu
   const mb=document.getElementById('menuBtn'),mm=document.getElementById('mobileMenu');
-  mb.addEventListener('click',()=>{mb.classList.toggle('open');mm.classList.toggle('open');document.body.style.overflow=mm.classList.contains('open')?'hidden':'';});
-  mm.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>{mb.classList.remove('open');mm.classList.remove('open');document.body.style.overflow='';}));
+
+  // body{overflow:hidden} alone does not reliably stop scrolling on mobile, so
+  // pin the body and offset it by the current scroll position, then restore that
+  // exact position on close. scroll-behavior is briefly forced to auto so the
+  // restore is instant instead of animating back.
+  let savedScrollY = 0;
+  function lockScroll(){
+    savedScrollY = window.scrollY;
+    document.body.style.position = 'fixed';
+    document.body.style.top = `-${savedScrollY}px`;
+    document.body.style.left = '0';
+    document.body.style.right = '0';
+  }
+  function unlockScroll(){
+    if (document.body.style.position !== 'fixed') return;
+    document.body.style.position = '';
+    document.body.style.top = '';
+    document.body.style.left = '';
+    document.body.style.right = '';
+    const root = document.documentElement, prev = root.style.scrollBehavior;
+    root.style.scrollBehavior = 'auto';
+    window.scrollTo(0, savedScrollY);
+    root.style.scrollBehavior = prev;
+  }
+
+  function setMenu(open){
+    mb.classList.toggle('open', open);
+    mm.classList.toggle('open', open);
+    mb.setAttribute('aria-expanded', String(open));
+    if (open) lockScroll(); else unlockScroll();
+  }
+  const closeMenu = () => { if (mm.classList.contains('open')) setMenu(false); };
+
+  mb.addEventListener('click', (e) => {
+    e.stopPropagation();
+    setMenu(!mm.classList.contains('open'));
+  });
+  // Selecting anything in the panel closes it. Scroll-locking pins the body, so
+  // the in-page jump has to happen after the lock is released.
+  mm.querySelectorAll('a').forEach(a => a.addEventListener('click', () => closeMenu()));
+  document.addEventListener('click', (e) => {
+    if (!mm.classList.contains('open')) return;
+    if (!e.target.closest('#mobileMenu') && !e.target.closest('#menuBtn')) closeMenu();
+  });
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeMenu(); });
 
   // Contact Us: toggles the phone/email panel. Same component in the header bar
   // (floating popover) and in the mobile menu (inline panel).
