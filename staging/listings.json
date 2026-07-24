@@ -1,79 +1,90 @@
 {
   "version": "dev",
-  "generatedAt": "2026-07-23T20:31:20.608Z",
+  "generatedAt": "2026-07-24T06:07:56.284Z",
   "counts": {
     "preorderHomes": 0,
-    "homesForRent": 1,
-    "homesForSale": 2,
+    "homesForRent": 9,
+    "homesForSale": 1,
     "amenities": 12,
-    "scenery": 0,
+    "scenery": 4,
     "faqs": 4
   },
   "preorderHomes": [],
   "homesForRent": [
     {
-      "id": "rent-lot-8002",
+      "id": "rent-lot-1",
       "category": "homesForRent",
       "dataCat": "rent",
-      "lotNumber": "8002",
-      "title": "Clayton · Lot 8002",
+      "lotNumber": "1",
+      "title": "Clayton The Riverbend · Lot 1",
       "badgeText": "For Rent",
       "badgeClass": "b-rent",
-      "price": "$1,033.50",
+      "price": "$1,825",
       "priceSmall": " / month",
-      "priceNote": "$483.50 home + $550 lot rent",
+      "priceNote": "$1,250 home + $575 lot rent",
       "specs": [
         "3 Bed",
-        "2 Bath"
+        "2 Bath",
+        "1,280 sq ft"
       ],
-      "mainImage": "listings/rent/lot-8002/photo-01.jpg",
-      "gallery": [
-        "listings/rent/lot-8002/photo-01.jpg"
-      ],
+      "mainImage": null,
+      "gallery": [],
       "details": [
         {
           "label": "Lot Number",
-          "value": "8002"
+          "value": "1"
         },
         {
           "label": "Base Lot Rent",
-          "value": "$550"
+          "value": "$575"
         },
         {
           "label": "Total Lot Area (sqft)",
-          "value": "980"
+          "value": "5400"
         },
         {
           "label": "Max Home Width",
-          "value": "14"
+          "value": "16 ft"
         },
         {
           "label": "Max Home Length (ft)",
-          "value": "70"
+          "value": "80"
+        },
+        {
+          "label": "Foundation Pad Type",
+          "value": "Poured concrete runners"
         },
         {
           "label": "Parking Spaces",
           "value": "2"
         },
         {
+          "label": "Sewer System",
+          "value": "City sewer"
+        },
+        {
+          "label": "Water Meter",
+          "value": "Individual metered"
+        },
+        {
+          "label": "Electric Hookup",
+          "value": "200 amp"
+        },
+        {
+          "label": "Gas Supply",
+          "value": "Natural gas"
+        },
+        {
+          "label": "Internet Setup",
+          "value": "Fiber ready"
+        },
+        {
           "label": "Lot View/Location",
-          "value": "by playground"
+          "value": "Near the front entrance, corner lot"
         },
         {
-          "label": "Site Tax",
-          "value": "$3.00"
-        },
-        {
-          "label": "Trash Removal",
-          "value": "$13.50"
-        },
-        {
-          "label": "Water & Sewer Metered",
-          "value": "Yes"
-        },
-        {
-          "label": "Year of Home",
-          "value": "2007"
+          "label": "Included Features",
+          "value": "Front porch, storage shed, paved driveway"
         },
         {
           "label": "Deal Type",
@@ -81,13 +92,17 @@
         },
         {
           "label": "Home Rent",
-          "value": "483.50"
+          "value": "1250"
         },
         {
           "label": "Home Manufacturer",
           "value": "Clayton"
         },
         {
+          "label": "Home Model",
+          "value": "The Riverbend"
+        },
+        {
           "label": "Bedrooms",
           "value": "3"
         },
@@ -96,108 +111,947 @@
           "value": "2"
         },
         {
-          "label": "Roof",
-          "value": "Shingle"
+          "label": "Square Feet",
+          "value": "1280"
         },
         {
-          "label": "Skirting",
-          "value": "Vinyl"
+          "label": "Amenities",
+          "value": "Central air, dishwasher, washer/dryer hookups, vinyl plank flooring"
+        }
+      ]
+    },
+    {
+      "id": "rent-lot-2",
+      "category": "homesForRent",
+      "dataCat": "rent",
+      "lotNumber": "2",
+      "title": "Clayton The Riverbend · Lot 2",
+      "badgeText": "For Rent",
+      "badgeClass": "b-rent",
+      "price": "$1,825",
+      "priceSmall": " / month",
+      "priceNote": "$1,250 home + $575 lot rent",
+      "specs": [
+        "3 Bed",
+        "2 Bath",
+        "1,280 sq ft"
+      ],
+      "mainImage": null,
+      "gallery": [],
+      "details": [
+        {
+          "label": "Lot Number",
+          "value": "2"
         },
         {
-          "label": "Exterior Color",
-          "value": "Yellow"
+          "label": "Base Lot Rent",
+          "value": "$575"
+        },
+        {
+          "label": "Total Lot Area (sqft)",
+          "value": "5400"
+        },
+        {
+          "label": "Max Home Width",
+          "value": "16 ft"
+        },
+        {
+          "label": "Max Home Length (ft)",
+          "value": "80"
+        },
+        {
+          "label": "Foundation Pad Type",
+          "value": "Poured concrete runners"
+        },
+        {
+          "label": "Parking Spaces",
+          "value": "2"
+        },
+        {
+          "label": "Sewer System",
+          "value": "City sewer"
+        },
+        {
+          "label": "Water Meter",
+          "value": "Individual metered"
+        },
+        {
+          "label": "Electric Hookup",
+          "value": "200 amp"
+        },
+        {
+          "label": "Gas Supply",
+          "value": "Natural gas"
+        },
+        {
+          "label": "Internet Setup",
+          "value": "Fiber ready"
+        },
+        {
+          "label": "Lot View/Location",
+          "value": "Near the front entrance, corner lot"
+        },
+        {
+          "label": "Included Features",
+          "value": "Front porch, storage shed, paved driveway"
+        },
+        {
+          "label": "Deal Type",
+          "value": "For Rent"
+        },
+        {
+          "label": "Home Rent",
+          "value": "1250"
+        },
+        {
+          "label": "Home Manufacturer",
+          "value": "Clayton"
+        },
+        {
+          "label": "Home Model",
+          "value": "The Riverbend"
+        },
+        {
+          "label": "Bedrooms",
+          "value": "3"
+        },
+        {
+          "label": "Bathrooms",
+          "value": "2"
+        },
+        {
+          "label": "Square Feet",
+          "value": "1280"
+        },
+        {
+          "label": "Amenities",
+          "value": "Central air, dishwasher, washer/dryer hookups, vinyl plank flooring"
+        }
+      ]
+    },
+    {
+      "id": "rent-lot-3",
+      "category": "homesForRent",
+      "dataCat": "rent",
+      "lotNumber": "3",
+      "title": "Clayton The Riverbend · Lot 3",
+      "badgeText": "For Rent",
+      "badgeClass": "b-rent",
+      "price": "$1,825",
+      "priceSmall": " / month",
+      "priceNote": "$1,250 home + $575 lot rent",
+      "specs": [
+        "3 Bed",
+        "2 Bath",
+        "1,280 sq ft"
+      ],
+      "mainImage": null,
+      "gallery": [],
+      "details": [
+        {
+          "label": "Lot Number",
+          "value": "3"
+        },
+        {
+          "label": "Base Lot Rent",
+          "value": "$575"
+        },
+        {
+          "label": "Total Lot Area (sqft)",
+          "value": "5400"
+        },
+        {
+          "label": "Max Home Width",
+          "value": "16 ft"
+        },
+        {
+          "label": "Max Home Length (ft)",
+          "value": "80"
+        },
+        {
+          "label": "Foundation Pad Type",
+          "value": "Poured concrete runners"
+        },
+        {
+          "label": "Parking Spaces",
+          "value": "2"
+        },
+        {
+          "label": "Sewer System",
+          "value": "City sewer"
+        },
+        {
+          "label": "Water Meter",
+          "value": "Individual metered"
+        },
+        {
+          "label": "Electric Hookup",
+          "value": "200 amp"
+        },
+        {
+          "label": "Gas Supply",
+          "value": "Natural gas"
+        },
+        {
+          "label": "Internet Setup",
+          "value": "Fiber ready"
+        },
+        {
+          "label": "Lot View/Location",
+          "value": "Near the front entrance, corner lot"
+        },
+        {
+          "label": "Included Features",
+          "value": "Front porch, storage shed, paved driveway"
+        },
+        {
+          "label": "Deal Type",
+          "value": "For Rent"
+        },
+        {
+          "label": "Home Rent",
+          "value": "1250"
+        },
+        {
+          "label": "Home Manufacturer",
+          "value": "Clayton"
+        },
+        {
+          "label": "Home Model",
+          "value": "The Riverbend"
+        },
+        {
+          "label": "Bedrooms",
+          "value": "3"
+        },
+        {
+          "label": "Bathrooms",
+          "value": "2"
+        },
+        {
+          "label": "Square Feet",
+          "value": "1280"
+        },
+        {
+          "label": "Amenities",
+          "value": "Central air, dishwasher, washer/dryer hookups, vinyl plank flooring"
+        }
+      ]
+    },
+    {
+      "id": "rent-lot-4",
+      "category": "homesForRent",
+      "dataCat": "rent",
+      "lotNumber": "4",
+      "title": "Clayton The Riverbend · Lot 4",
+      "badgeText": "For Rent",
+      "badgeClass": "b-rent",
+      "price": "$1,825",
+      "priceSmall": " / month",
+      "priceNote": "$1,250 home + $575 lot rent",
+      "specs": [
+        "3 Bed",
+        "2 Bath",
+        "1,280 sq ft"
+      ],
+      "mainImage": null,
+      "gallery": [],
+      "details": [
+        {
+          "label": "Lot Number",
+          "value": "4"
+        },
+        {
+          "label": "Base Lot Rent",
+          "value": "$575"
+        },
+        {
+          "label": "Total Lot Area (sqft)",
+          "value": "5400"
+        },
+        {
+          "label": "Max Home Width",
+          "value": "16 ft"
+        },
+        {
+          "label": "Max Home Length (ft)",
+          "value": "80"
+        },
+        {
+          "label": "Foundation Pad Type",
+          "value": "Poured concrete runners"
+        },
+        {
+          "label": "Parking Spaces",
+          "value": "2"
+        },
+        {
+          "label": "Sewer System",
+          "value": "City sewer"
+        },
+        {
+          "label": "Water Meter",
+          "value": "Individual metered"
+        },
+        {
+          "label": "Electric Hookup",
+          "value": "200 amp"
+        },
+        {
+          "label": "Gas Supply",
+          "value": "Natural gas"
+        },
+        {
+          "label": "Internet Setup",
+          "value": "Fiber ready"
+        },
+        {
+          "label": "Lot View/Location",
+          "value": "Near the front entrance, corner lot"
+        },
+        {
+          "label": "Included Features",
+          "value": "Front porch, storage shed, paved driveway"
+        },
+        {
+          "label": "Deal Type",
+          "value": "For Rent"
+        },
+        {
+          "label": "Home Rent",
+          "value": "1250"
+        },
+        {
+          "label": "Home Manufacturer",
+          "value": "Clayton"
+        },
+        {
+          "label": "Home Model",
+          "value": "The Riverbend"
+        },
+        {
+          "label": "Bedrooms",
+          "value": "3"
+        },
+        {
+          "label": "Bathrooms",
+          "value": "2"
+        },
+        {
+          "label": "Square Feet",
+          "value": "1280"
+        },
+        {
+          "label": "Amenities",
+          "value": "Central air, dishwasher, washer/dryer hookups, vinyl plank flooring"
+        }
+      ]
+    },
+    {
+      "id": "rent-lot-5",
+      "category": "homesForRent",
+      "dataCat": "rent",
+      "lotNumber": "5",
+      "title": "Clayton The Riverbend · Lot 5",
+      "badgeText": "For Rent",
+      "badgeClass": "b-rent",
+      "price": "$1,825",
+      "priceSmall": " / month",
+      "priceNote": "$1,250 home + $575 lot rent",
+      "specs": [
+        "3 Bed",
+        "2 Bath",
+        "1,280 sq ft"
+      ],
+      "mainImage": null,
+      "gallery": [],
+      "details": [
+        {
+          "label": "Lot Number",
+          "value": "5"
+        },
+        {
+          "label": "Base Lot Rent",
+          "value": "$575"
+        },
+        {
+          "label": "Total Lot Area (sqft)",
+          "value": "5400"
+        },
+        {
+          "label": "Max Home Width",
+          "value": "16 ft"
+        },
+        {
+          "label": "Max Home Length (ft)",
+          "value": "80"
+        },
+        {
+          "label": "Foundation Pad Type",
+          "value": "Poured concrete runners"
+        },
+        {
+          "label": "Parking Spaces",
+          "value": "2"
+        },
+        {
+          "label": "Sewer System",
+          "value": "City sewer"
+        },
+        {
+          "label": "Water Meter",
+          "value": "Individual metered"
+        },
+        {
+          "label": "Electric Hookup",
+          "value": "200 amp"
+        },
+        {
+          "label": "Gas Supply",
+          "value": "Natural gas"
+        },
+        {
+          "label": "Internet Setup",
+          "value": "Fiber ready"
+        },
+        {
+          "label": "Lot View/Location",
+          "value": "Near the front entrance, corner lot"
+        },
+        {
+          "label": "Included Features",
+          "value": "Front porch, storage shed, paved driveway"
+        },
+        {
+          "label": "Deal Type",
+          "value": "For Rent"
+        },
+        {
+          "label": "Home Rent",
+          "value": "1250"
+        },
+        {
+          "label": "Home Manufacturer",
+          "value": "Clayton"
+        },
+        {
+          "label": "Home Model",
+          "value": "The Riverbend"
+        },
+        {
+          "label": "Bedrooms",
+          "value": "3"
+        },
+        {
+          "label": "Bathrooms",
+          "value": "2"
+        },
+        {
+          "label": "Square Feet",
+          "value": "1280"
+        },
+        {
+          "label": "Amenities",
+          "value": "Central air, dishwasher, washer/dryer hookups, vinyl plank flooring"
+        }
+      ]
+    },
+    {
+      "id": "rent-lot-6",
+      "category": "homesForRent",
+      "dataCat": "rent",
+      "lotNumber": "6",
+      "title": "Clayton The Riverbend · Lot 6",
+      "badgeText": "For Rent",
+      "badgeClass": "b-rent",
+      "price": "$1,825",
+      "priceSmall": " / month",
+      "priceNote": "$1,250 home + $575 lot rent",
+      "specs": [
+        "3 Bed",
+        "2 Bath",
+        "1,280 sq ft"
+      ],
+      "mainImage": null,
+      "gallery": [],
+      "details": [
+        {
+          "label": "Lot Number",
+          "value": "6"
+        },
+        {
+          "label": "Base Lot Rent",
+          "value": "$575"
+        },
+        {
+          "label": "Total Lot Area (sqft)",
+          "value": "5400"
+        },
+        {
+          "label": "Max Home Width",
+          "value": "16 ft"
+        },
+        {
+          "label": "Max Home Length (ft)",
+          "value": "80"
+        },
+        {
+          "label": "Foundation Pad Type",
+          "value": "Poured concrete runners"
+        },
+        {
+          "label": "Parking Spaces",
+          "value": "2"
+        },
+        {
+          "label": "Sewer System",
+          "value": "City sewer"
+        },
+        {
+          "label": "Water Meter",
+          "value": "Individual metered"
+        },
+        {
+          "label": "Electric Hookup",
+          "value": "200 amp"
+        },
+        {
+          "label": "Gas Supply",
+          "value": "Natural gas"
+        },
+        {
+          "label": "Internet Setup",
+          "value": "Fiber ready"
+        },
+        {
+          "label": "Lot View/Location",
+          "value": "Near the front entrance, corner lot"
+        },
+        {
+          "label": "Included Features",
+          "value": "Front porch, storage shed, paved driveway"
+        },
+        {
+          "label": "Deal Type",
+          "value": "For Rent"
+        },
+        {
+          "label": "Home Rent",
+          "value": "1250"
+        },
+        {
+          "label": "Home Manufacturer",
+          "value": "Clayton"
+        },
+        {
+          "label": "Home Model",
+          "value": "The Riverbend"
+        },
+        {
+          "label": "Bedrooms",
+          "value": "3"
+        },
+        {
+          "label": "Bathrooms",
+          "value": "2"
+        },
+        {
+          "label": "Square Feet",
+          "value": "1280"
+        },
+        {
+          "label": "Amenities",
+          "value": "Central air, dishwasher, washer/dryer hookups, vinyl plank flooring"
+        }
+      ]
+    },
+    {
+      "id": "rent-lot-7",
+      "category": "homesForRent",
+      "dataCat": "rent",
+      "lotNumber": "7",
+      "title": "Clayton The Riverbend · Lot 7",
+      "badgeText": "For Rent",
+      "badgeClass": "b-rent",
+      "price": "$1,825",
+      "priceSmall": " / month",
+      "priceNote": "$1,250 home + $575 lot rent",
+      "specs": [
+        "3 Bed",
+        "2 Bath",
+        "1,280 sq ft"
+      ],
+      "mainImage": null,
+      "gallery": [],
+      "details": [
+        {
+          "label": "Lot Number",
+          "value": "7"
+        },
+        {
+          "label": "Base Lot Rent",
+          "value": "$575"
+        },
+        {
+          "label": "Total Lot Area (sqft)",
+          "value": "5400"
+        },
+        {
+          "label": "Max Home Width",
+          "value": "16 ft"
+        },
+        {
+          "label": "Max Home Length (ft)",
+          "value": "80"
+        },
+        {
+          "label": "Foundation Pad Type",
+          "value": "Poured concrete runners"
+        },
+        {
+          "label": "Parking Spaces",
+          "value": "2"
+        },
+        {
+          "label": "Sewer System",
+          "value": "City sewer"
+        },
+        {
+          "label": "Water Meter",
+          "value": "Individual metered"
+        },
+        {
+          "label": "Electric Hookup",
+          "value": "200 amp"
+        },
+        {
+          "label": "Gas Supply",
+          "value": "Natural gas"
+        },
+        {
+          "label": "Internet Setup",
+          "value": "Fiber ready"
+        },
+        {
+          "label": "Lot View/Location",
+          "value": "Near the front entrance, corner lot"
+        },
+        {
+          "label": "Included Features",
+          "value": "Front porch, storage shed, paved driveway"
+        },
+        {
+          "label": "Deal Type",
+          "value": "For Rent"
+        },
+        {
+          "label": "Home Rent",
+          "value": "1250"
+        },
+        {
+          "label": "Home Manufacturer",
+          "value": "Clayton"
+        },
+        {
+          "label": "Home Model",
+          "value": "The Riverbend"
+        },
+        {
+          "label": "Bedrooms",
+          "value": "3"
+        },
+        {
+          "label": "Bathrooms",
+          "value": "2"
+        },
+        {
+          "label": "Square Feet",
+          "value": "1280"
+        },
+        {
+          "label": "Amenities",
+          "value": "Central air, dishwasher, washer/dryer hookups, vinyl plank flooring"
+        }
+      ]
+    },
+    {
+      "id": "rent-lot-8",
+      "category": "homesForRent",
+      "dataCat": "rent",
+      "lotNumber": "8",
+      "title": "Clayton The Riverbend · Lot 8",
+      "badgeText": "For Rent",
+      "badgeClass": "b-rent",
+      "price": "$1,825",
+      "priceSmall": " / month",
+      "priceNote": "$1,250 home + $575 lot rent",
+      "specs": [
+        "3 Bed",
+        "2 Bath",
+        "1,280 sq ft"
+      ],
+      "mainImage": null,
+      "gallery": [],
+      "details": [
+        {
+          "label": "Lot Number",
+          "value": "8"
+        },
+        {
+          "label": "Base Lot Rent",
+          "value": "$575"
+        },
+        {
+          "label": "Total Lot Area (sqft)",
+          "value": "5400"
+        },
+        {
+          "label": "Max Home Width",
+          "value": "16 ft"
+        },
+        {
+          "label": "Max Home Length (ft)",
+          "value": "80"
+        },
+        {
+          "label": "Foundation Pad Type",
+          "value": "Poured concrete runners"
+        },
+        {
+          "label": "Parking Spaces",
+          "value": "2"
+        },
+        {
+          "label": "Sewer System",
+          "value": "City sewer"
+        },
+        {
+          "label": "Water Meter",
+          "value": "Individual metered"
+        },
+        {
+          "label": "Electric Hookup",
+          "value": "200 amp"
+        },
+        {
+          "label": "Gas Supply",
+          "value": "Natural gas"
+        },
+        {
+          "label": "Internet Setup",
+          "value": "Fiber ready"
+        },
+        {
+          "label": "Lot View/Location",
+          "value": "Near the front entrance, corner lot"
+        },
+        {
+          "label": "Included Features",
+          "value": "Front porch, storage shed, paved driveway"
+        },
+        {
+          "label": "Deal Type",
+          "value": "For Rent"
+        },
+        {
+          "label": "Home Rent",
+          "value": "1250"
+        },
+        {
+          "label": "Home Manufacturer",
+          "value": "Clayton"
+        },
+        {
+          "label": "Home Model",
+          "value": "The Riverbend"
+        },
+        {
+          "label": "Bedrooms",
+          "value": "3"
+        },
+        {
+          "label": "Bathrooms",
+          "value": "2"
+        },
+        {
+          "label": "Square Feet",
+          "value": "1280"
+        },
+        {
+          "label": "Amenities",
+          "value": "Central air, dishwasher, washer/dryer hookups, vinyl plank flooring"
+        }
+      ]
+    },
+    {
+      "id": "rent-lot-9",
+      "category": "homesForRent",
+      "dataCat": "rent",
+      "lotNumber": "9",
+      "title": "Clayton The Riverbend · Lot 9",
+      "badgeText": "For Rent",
+      "badgeClass": "b-rent",
+      "price": "$1,825",
+      "priceSmall": " / month",
+      "priceNote": "$1,250 home + $575 lot rent",
+      "specs": [
+        "3 Bed",
+        "2 Bath",
+        "1,280 sq ft"
+      ],
+      "mainImage": null,
+      "gallery": [],
+      "details": [
+        {
+          "label": "Lot Number",
+          "value": "9"
+        },
+        {
+          "label": "Base Lot Rent",
+          "value": "$575"
+        },
+        {
+          "label": "Total Lot Area (sqft)",
+          "value": "5400"
+        },
+        {
+          "label": "Max Home Width",
+          "value": "16 ft"
+        },
+        {
+          "label": "Max Home Length (ft)",
+          "value": "80"
+        },
+        {
+          "label": "Foundation Pad Type",
+          "value": "Poured concrete runners"
+        },
+        {
+          "label": "Parking Spaces",
+          "value": "2"
+        },
+        {
+          "label": "Sewer System",
+          "value": "City sewer"
+        },
+        {
+          "label": "Water Meter",
+          "value": "Individual metered"
+        },
+        {
+          "label": "Electric Hookup",
+          "value": "200 amp"
+        },
+        {
+          "label": "Gas Supply",
+          "value": "Natural gas"
+        },
+        {
+          "label": "Internet Setup",
+          "value": "Fiber ready"
+        },
+        {
+          "label": "Lot View/Location",
+          "value": "Near the front entrance, corner lot"
+        },
+        {
+          "label": "Included Features",
+          "value": "Front porch, storage shed, paved driveway"
+        },
+        {
+          "label": "Deal Type",
+          "value": "For Rent"
+        },
+        {
+          "label": "Home Rent",
+          "value": "1250"
+        },
+        {
+          "label": "Home Manufacturer",
+          "value": "Clayton"
+        },
+        {
+          "label": "Home Model",
+          "value": "The Riverbend"
+        },
+        {
+          "label": "Bedrooms",
+          "value": "3"
+        },
+        {
+          "label": "Bathrooms",
+          "value": "2"
+        },
+        {
+          "label": "Square Feet",
+          "value": "1280"
+        },
+        {
+          "label": "Amenities",
+          "value": "Central air, dishwasher, washer/dryer hookups, vinyl plank flooring"
         }
       ]
     }
   ],
   "homesForSale": [
     {
-      "id": "sale-lot-5046",
+      "id": "sale-5045-nadlie",
       "category": "homesForSale",
       "dataCat": "sale",
-      "lotNumber": "5046",
-      "title": "Duke · Lot 5046",
+      "lotNumber": "TBD",
+      "title": "Home · Lot TBD",
       "badgeText": "Pre-Owned",
       "badgeClass": "b-used",
-      "price": "$15,000",
+      "price": "$24,000",
       "priceSmall": "",
       "priceNote": "",
       "specs": [
-        "2 Bed",
-        "2 Bath"
+        "3 Bed",
+        "2 Bath",
+        "1,120 sq ft"
       ],
-      "mainImage": "listings/sale/lot-5046/photo-01.jpg",
-      "gallery": [
-        "listings/sale/lot-5046/photo-01.jpg"
-      ],
+      "mainImage": null,
+      "gallery": [],
       "details": [
         {
           "label": "Lot Number",
-          "value": "5046"
+          "value": "TBD"
         },
         {
           "label": "Lot Address",
-          "value": "5046 Nadlie"
+          "value": "5045 Nadlie"
         },
         {
           "label": "Base Lot Rent",
           "value": "$550"
         },
         {
-          "label": "Total Lot Area (sqft)",
-          "value": "840"
-        },
-        {
-          "label": "Max Home Width",
-          "value": "14"
-        },
-        {
-          "label": "Max Home Length (ft)",
-          "value": "60"
-        },
-        {
-          "label": "Parking Spaces",
-          "value": "2"
-        },
-        {
-          "label": "Included Features",
-          "value": "Sunroom, Car Port"
-        },
-        {
-          "label": "Down Payment",
-          "value": "$5000"
-        },
-        {
-          "label": "Interest Rate",
-          "value": "6.5%"
-        },
-        {
-          "label": "Year of Home",
-          "value": "1983"
-        },
-        {
-          "label": "Deal Type",
-          "value": "Pre-Owned"
-        },
-        {
           "label": "Home Price",
-          "value": "15000"
-        },
-        {
-          "label": "Home Manufacturer",
-          "value": "Duke"
+          "value": "24000"
         },
         {
           "label": "Bedrooms",
-          "value": "2"
+          "value": "3"
         },
         {
           "label": "Bathrooms",
           "value": "2"
         },
         {
+          "label": "Square Feet",
+          "value": "1120"
+        },
+        {
+          "label": "Amenities",
+          "value": "Walk-in closet, deck, laundry room"
+        },
+        {
+          "label": "Dimensions",
+          "value": "16 x 70"
+        },
+        {
           "label": "Roof",
-          "value": "Shingle"
+          "value": "Shingled"
         },
         {
           "label": "Skirting",
@@ -206,116 +1060,14 @@
         {
           "label": "Exterior Color",
           "value": "Yellow"
-        }
-      ]
-    },
-    {
-      "id": "sale-lot-6050",
-      "category": "homesForSale",
-      "dataCat": "sale",
-      "lotNumber": "6050",
-      "title": "Palm Harbor · Lot 6050",
-      "badgeText": "Pre-Owned",
-      "badgeClass": "b-used",
-      "price": "$35,000",
-      "priceSmall": "",
-      "priceNote": "",
-      "specs": [
-        "3 Bed",
-        "3 Bath"
-      ],
-      "mainImage": "listings/sale/lot-6050/photo-01.jpg",
-      "gallery": [
-        "listings/sale/lot-6050/photo-01.jpg"
-      ],
-      "details": [
-        {
-          "label": "Lot Number",
-          "value": "6050"
         },
         {
-          "label": "Lot Address",
-          "value": "6050 Walnut St."
+          "label": "Heating",
+          "value": "Gas"
         },
         {
-          "label": "Base Lot Rent",
-          "value": "$550"
-        },
-        {
-          "label": "Total Lot Area (sqft)",
-          "value": "1848"
-        },
-        {
-          "label": "Max Home Width",
-          "value": "28 ft"
-        },
-        {
-          "label": "Max Home Length (ft)",
-          "value": "66"
-        },
-        {
-          "label": "Parking Spaces",
-          "value": "2"
-        },
-        {
-          "label": "Lot View/Location",
-          "value": "Corner Lot"
-        },
-        {
-          "label": "Included Features",
-          "value": "Fireplace, Sliding Patio Door"
-        },
-        {
-          "label": "Financing",
-          "value": "Available through our lending partners"
-        },
-        {
-          "label": "Site Tax",
-          "value": "$3.00"
-        },
-        {
-          "label": "Trash Removal",
-          "value": "$13.50"
-        },
-        {
-          "label": "Water & Sewer Metered",
-          "value": "Yes"
-        },
-        {
-          "label": "Year of Home",
-          "value": "1999"
-        },
-        {
-          "label": "Deal Type",
-          "value": "Pre-Owned"
-        },
-        {
-          "label": "Home Price",
-          "value": "35000"
-        },
-        {
-          "label": "Home Manufacturer",
-          "value": "Palm Harbor"
-        },
-        {
-          "label": "Bedrooms",
-          "value": "3"
-        },
-        {
-          "label": "Bathrooms",
-          "value": "3"
-        },
-        {
-          "label": "Roof",
-          "value": "Shingle"
-        },
-        {
-          "label": "Skirting",
-          "value": "Vinyl"
-        },
-        {
-          "label": "Exterior Color",
-          "value": "Light Grey"
+          "label": "Furnished",
+          "value": "Unfurnished"
         }
       ]
     }
@@ -372,13 +1124,8 @@
             "value": "Swing sets are not allowed on individual home sites."
           }
         ],
-        "mainImage": "community/amenities/playground/photo-01.jpg",
-        "gallery": [
-          "community/amenities/playground/photo-01.jpg",
-          "community/amenities/playground/photo-02.jpg",
-          "community/amenities/playground/photo-03.jpg",
-          "community/amenities/playground/photo-04.jpg"
-        ]
+        "mainImage": null,
+        "gallery": []
       },
       {
         "id": "pet_friendly",
@@ -556,7 +1303,12 @@
         "gallery": []
       }
     ],
-    "scenery": [],
+    "scenery": [
+      "community/scenery/sample-1.svg",
+      "community/scenery/sample-2.svg",
+      "community/scenery/sample-3.svg",
+      "community/scenery/sample-4.svg"
+    ],
     "mapImage": "community/map.jpg",
     "communityRules": "",
     "faqs": [
@@ -576,7 +1328,7 @@
         "id": "03-water-meter",
         "question": "How does the water meter work?",
         "answer": "Each home has its own meter, so you only pay for the water you use. Readings are simple and billing is clearly itemized each month.",
-        "order": 4
+        "order": 3
       },
       {
         "id": "04-pet-policy",
