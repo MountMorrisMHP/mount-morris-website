@@ -88,16 +88,15 @@
   .menu-toggle.open span:nth-child(1){transform:translateY(7.5px) rotate(45deg)}
   .menu-toggle.open span:nth-child(2){opacity:0}
   .menu-toggle.open span:nth-child(3){transform:translateY(-7.5px) rotate(-45deg)}
-  /* When open, the X becomes a pine TAB that rises in the header and extends down
-     OVER the panel top, so the two share one surface and the X reads as part of
-     the menu. The button lives in <header> (z-index 200) while the panel is
-     z-index 150, so it always paints above the panel: the 8px overlap at the
-     bottom merges seamlessly (same colour), and only the logo on the left stays
-     in the cream header, untouched. */
+  /* When open, the X becomes a self-contained pine square inside the header. It
+     matches the panel's colour (that shared pine signals the relationship) but
+     stays a SEPARATE shape: only 44px tall, it never reaches the panel, so the
+     header's bottom border leaves a clear gap between them. Positioned fixed so
+     it leaves the flex flow, letting the park name keep its full width, and its
+     right edge lines up with the panel's below. */
   .menu-toggle.open{position:fixed;top:11px;right:22px;z-index:201;
-    width:54px;height:64px;padding:0;align-items:center;justify-content:center;
-    background:var(--pine-deep);border-radius:16px 16px 0 0;
-    box-shadow:0 -6px 20px -12px rgba(0,0,0,.45)}
+    width:44px;height:44px;padding:0;align-items:center;justify-content:center;
+    background:var(--pine-deep);border-radius:14px}
   .menu-toggle.open span{background:var(--cream)}
   /* Mobile nav: a panel ANCHORED to the hamburger (top right), growing down and
      to the left, rather than a full-screen takeover. The page stays visible
@@ -150,7 +149,7 @@
   .mobile-menu .mm-email{font-size:.82rem;overflow-wrap:anywhere;word-break:break-word}
   @media(max-width:480px){
     .mobile-menu{right:18px;width:min(90vw,380px)}
-    .menu-toggle.open{right:18px}   /* keep the tab's right edge on the panel's */
+    .menu-toggle.open{right:18px}   /* keep the square's right edge on the panel's */
   }
 
   /* HERO */
