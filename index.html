@@ -102,13 +102,13 @@
      to the left, rather than a full-screen takeover. The page stays visible
      around it. Tap targets stay >= 44px throughout: the audience skews older and
      the top-right corner is the hardest spot to reach one-handed. */
-  /* top = header height (66px bar + 1px border) so the panel sits flush against
-     it, and the top-right corner is squared where it meets the header under the
-     X, which sells the attachment. The other three corners stay rounded. */
-  .mobile-menu{position:fixed;top:67px;right:22px;z-index:150;
-    width:min(88vw,400px);max-height:calc(100vh - 79px);overflow-y:auto;
+  /* Sits just BELOW the header (67px = 66px bar + 1px border) with a 12px gap,
+     so it floats free rather than touching, matching the gap between the X
+     square and the panel. */
+  .mobile-menu{position:fixed;top:79px;right:22px;z-index:150;
+    width:min(88vw,400px);max-height:calc(100vh - 91px);overflow-y:auto;
     background:var(--pine-deep);color:var(--cream);
-    border-radius:20px 0 22px 22px;box-shadow:0 26px 60px -18px rgba(0,0,0,.55);
+    border-radius:22px;box-shadow:0 26px 60px -18px rgba(0,0,0,.55);
     padding:6px 20px 16px;display:flex;flex-direction:column;
     transform-origin:top right;transform:scale(.92) translateY(-10px);opacity:0;visibility:hidden;
     transition:transform .32s cubic-bezier(.2,.8,.25,1),opacity .24s ease,visibility .32s}
@@ -131,6 +131,11 @@
   .mobile-menu .btn{margin-top:12px;justify-content:center;font-size:1rem;min-height:48px}
   /* Outline variant needs cream on the pine panel, not the pine-on-cream default. */
   .mobile-menu .btn.btn-outline{color:var(--cream);border-color:rgba(246,238,224,.55);background:transparent}
+  /* Engaged look while the contact details are revealed: subtle cream fill and a
+     brighter border so it's obviously toggled on. Reverts when collapsed. */
+  .mobile-menu .btn.btn-outline[aria-expanded="true"]{background:rgba(246,238,224,.15);border-color:var(--cream)}
+  /* Brief press feedback for touch: a quick flash + slight depress on tap. */
+  .mobile-menu .btn.btn-outline:active{background:rgba(246,238,224,.28);transform:scale(.98)}
   /* Phone + email are supporting contact DETAILS, not buttons: lighter weight,
      no fill, tighter padding, but still 44px tap targets. Hidden until Contact
      Us is tapped so the panel stays short.
