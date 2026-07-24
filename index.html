@@ -293,9 +293,15 @@
 
   /* LISTING MODAL */
   .modal{position:fixed;inset:0;z-index:700;display:none;align-items:flex-start;justify-content:center;padding:24px;overflow-y:auto;background:transparent}
-  /* Full-viewport dim+blur on a NON-scrolling fixed layer so it always covers the
-     whole screen (the scroll container can't reliably host backdrop-filter). */
-  .modal::before{content:"";position:fixed;inset:0;background:rgba(28,58,42,.55);-webkit-backdrop-filter:blur(4px);backdrop-filter:blur(4px);z-index:0}
+  /* Frosted overlay on a NON-scrolling fixed layer (the scroll container can't
+     reliably host backdrop-filter). It must cover the WHOLE viewport including
+     the safe areas: sized to the dynamic viewport (100dvh) so a mobile toolbar
+     showing/hiding never reveals a strip, with min-height:100vh as both the
+     no-dvh fallback and a guarantee it always spans at least the large viewport.
+     Bleeds under the notch/home-indicator by anchoring to the screen edges. */
+  .modal::before{content:"";position:fixed;top:0;left:0;right:0;height:100dvh;min-height:100vh;
+    background:rgba(28,58,42,.34);
+    -webkit-backdrop-filter:blur(9px) saturate(115%);backdrop-filter:blur(9px) saturate(115%);z-index:0}
   .modal.open{display:flex}
   /* The card is bounded to the viewport and scrolls INTERNALLY, so both the top
      and bottom rounded corners are always visible instead of the card running
@@ -357,7 +363,11 @@
 
   /* ===== Schedule-a-Call appointment modal (forest-green theme) ===== */
   .appt-modal{position:fixed;inset:0;z-index:800;display:none;align-items:flex-start;justify-content:center;padding:24px;overflow-y:auto;background:transparent}
-  .appt-modal::before{content:"";position:fixed;inset:0;background:rgba(15,28,20,.62);-webkit-backdrop-filter:blur(5px);backdrop-filter:blur(5px);z-index:0}
+  /* Same full-viewport frosted layer as the listing modal, a touch deeper since
+     it sits above it. Covers safe areas and the dynamic viewport (see .modal::before). */
+  .appt-modal::before{content:"";position:fixed;top:0;left:0;right:0;height:100dvh;min-height:100vh;
+    background:rgba(15,28,20,.5);
+    -webkit-backdrop-filter:blur(10px) saturate(115%);backdrop-filter:blur(10px) saturate(115%);z-index:0}
   .appt-modal.open{display:flex}
   .appt-card{position:relative;z-index:1;margin:auto;width:100%;max-width:440px;background:var(--pine-deep);color:var(--cream);border-radius:20px;padding:30px 26px 28px;box-shadow:0 30px 80px -24px rgba(0,0,0,.7);animation:apptIn .26s cubic-bezier(.2,.7,.2,1)}
   @keyframes apptIn{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
@@ -769,8 +779,12 @@
   // pin the body and offset it by the current scroll position, then restore that
   // exact position on close. scroll-behavior is briefly forced to auto so the
   // restore is instant instead of animating back.
-  let savedScrollY = 0;
+  // Reference-counted so nested overlays (a listing modal, then the appointment
+  // modal opened from inside it) share one lock: the body is pinned on the first
+  // lock and the scroll position restored only when the last one releases.
+  let savedScrollY = 0, scrollLocks = 0;
   function lockScroll(){
+    if (scrollLocks++ > 0) return;                 // already locked; don't re-save
     savedScrollY = window.scrollY;
     document.body.style.position = 'fixed';
     document.body.style.top = `-${savedScrollY}px`;
@@ -778,7 +792,7 @@
     document.body.style.right = '0';
   }
   function unlockScroll(){
-    if (document.body.style.position !== 'fixed') return;
+    if (scrollLocks === 0 || --scrollLocks > 0) return;   // other overlays still open
     document.body.style.position = '';
     document.body.style.top = '';
     document.body.style.left = '';
@@ -1093,7 +1107,7 @@
     }
     grid.querySelectorAll('.carousel').forEach(c => c._pauseAP && c._pauseAP('modal'));
     modal.classList.add('open');
-    document.body.style.overflow = 'hidden';
+    lockScroll();   // pin the page: no background scroll, no viewport shift
     syncModalFade();   // after .open, so the body has a measurable height
   }
 
@@ -1133,7 +1147,7 @@
 
   function closeModal(){
     modal.classList.remove('open');
-    document.body.style.overflow = '';
+    unlockScroll();
     suppressCardClick = false;
     galleryEl.innerHTML = '';   // destroy the modal carousel (stops its autoplay fill)
     grid.querySelectorAll('.carousel').forEach(c => c._resumeAP && c._resumeAP('modal'));
@@ -1155,12 +1169,12 @@
     const now = new Date();                                   // block past dates natively too
     document.getElementById('apptDate').min = new Date(now.getTime() - now.getTimezoneOffset() * 60000).toISOString().slice(0, 10);
     apptModal.classList.add('open');
-    document.body.style.overflow = 'hidden';
+    lockScroll();   // nested over the listing modal; ref-counted so it stays pinned
     setTimeout(() => document.getElementById('apptName').focus(), 60);
   }
   function closeApptModal(){
     apptModal.classList.remove('open');
-    if (!modal.classList.contains('open')) document.body.style.overflow = '';   // listing modal may still be open
+    unlockScroll();   // ref-counted: the listing modal underneath keeps its own lock
   }
   const showApptErr = (html) => { apptErr.innerHTML = html; apptErr.hidden = false; };
 
