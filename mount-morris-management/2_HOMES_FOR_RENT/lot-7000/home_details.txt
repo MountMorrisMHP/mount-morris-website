@@ -1,0 +1,5 @@
+Deal Type: For Rent
+Price: 633.50
+Home Manufacturer: Commodore
+Bedrooms: 3
+Bathrooms: 2
