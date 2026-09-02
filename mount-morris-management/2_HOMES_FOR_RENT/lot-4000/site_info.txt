@@ -1,0 +1,8 @@
+Lot Number: 4000
+Base Lot Rent: $550
+Parking Spaces: 2
+Lot View/Location: Corner Lot back of community
+Site Tax: 3.00
+Trash Removal: 13.50
+Water & Sewer Metered: Yes
+Year of Home: 1994
