@@ -1,6 +1,6 @@
 {
-  "version": "v2026.09.02-180847",
-  "generatedAt": "2026-09-02T18:08:48.002Z",
+  "version": "v2026.09.02-180912",
+  "generatedAt": "2026-09-02T18:09:12.132Z",
   "counts": {
     "preorderHomes": 0,
     "homesForRent": 3,
@@ -161,9 +161,9 @@
       "title": "Clayton · Lot 8002",
       "badgeText": "For Rent",
       "badgeClass": "b-rent",
-      "price": "$1,033.50",
+      "price": "$978.50",
       "priceSmall": " / month",
-      "priceNote": "$483.50 home + $550 lot rent",
+      "priceNote": "$428.50 home + $550 lot rent",
       "specs": [
         "3 Bed",
         "2 Bath"
@@ -223,7 +223,7 @@
         },
         {
           "label": "Home Rent",
-          "value": "483.50"
+          "value": "428.50"
         },
         {
           "label": "Home Manufacturer",
