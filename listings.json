@@ -1,9 +1,9 @@
 {
-  "version": "v2026.09.02-175405",
-  "generatedAt": "2026-09-02T17:54:06.012Z",
+  "version": "v2026.09.02-180847",
+  "generatedAt": "2026-09-02T18:08:48.002Z",
   "counts": {
     "preorderHomes": 0,
-    "homesForRent": 2,
+    "homesForRent": 3,
     "homesForSale": 2,
     "amenities": 12,
     "scenery": 0,
@@ -70,6 +70,78 @@
         {
           "label": "Home Manufacturer",
           "value": "Fairmont"
+        },
+        {
+          "label": "Bedrooms",
+          "value": "3"
+        },
+        {
+          "label": "Bathrooms",
+          "value": "2"
+        }
+      ]
+    },
+    {
+      "id": "rent-lot-4000",
+      "category": "homesForRent",
+      "dataCat": "rent",
+      "lotNumber": "4000",
+      "title": "Skyline · Lot 4000",
+      "badgeText": "For Rent",
+      "badgeClass": "b-rent",
+      "price": "$1,183.50",
+      "priceSmall": " / month",
+      "priceNote": "$633.50 home + $550 lot rent",
+      "specs": [
+        "3 Bed",
+        "2 Bath"
+      ],
+      "mainImage": null,
+      "gallery": [],
+      "details": [
+        {
+          "label": "Lot Number",
+          "value": "4000"
+        },
+        {
+          "label": "Base Lot Rent",
+          "value": "$550"
+        },
+        {
+          "label": "Parking Spaces",
+          "value": "2"
+        },
+        {
+          "label": "Lot View/Location",
+          "value": "Corner Lot back of community"
+        },
+        {
+          "label": "Site Tax",
+          "value": "3.00"
+        },
+        {
+          "label": "Trash Removal",
+          "value": "13.50"
+        },
+        {
+          "label": "Water & Sewer Metered",
+          "value": "Yes"
+        },
+        {
+          "label": "Year of Home",
+          "value": "1994"
+        },
+        {
+          "label": "Deal Type",
+          "value": "For Rent"
+        },
+        {
+          "label": "Home Rent",
+          "value": "633.50"
+        },
+        {
+          "label": "Home Manufacturer",
+          "value": "Skyline"
         },
         {
           "label": "Bedrooms",
