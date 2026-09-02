@@ -1,0 +1,5 @@
+Deal Type: For Rent
+Price: 428.50
+Home Manufacturer: Mansion
+Bedrooms: 3
+Bathrooms: 2
