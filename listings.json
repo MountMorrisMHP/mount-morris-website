@@ -1,9 +1,9 @@
 {
-  "version": "v2026.09.02-182103",
-  "generatedAt": "2026-09-02T18:21:03.464Z",
+  "version": "v2026.09.02-184140",
+  "generatedAt": "2026-09-02T18:41:40.173Z",
   "counts": {
     "preorderHomes": 0,
-    "homesForRent": 4,
+    "homesForRent": 5,
     "homesForSale": 2,
     "amenities": 12,
     "scenery": 0,
@@ -218,6 +218,78 @@
         {
           "label": "Home Manufacturer",
           "value": "Mansion"
+        },
+        {
+          "label": "Bedrooms",
+          "value": "3"
+        },
+        {
+          "label": "Bathrooms",
+          "value": "2"
+        }
+      ]
+    },
+    {
+      "id": "rent-lot-7000",
+      "category": "homesForRent",
+      "dataCat": "rent",
+      "lotNumber": "7000",
+      "title": "Commodore · Lot 7000",
+      "badgeText": "For Rent",
+      "badgeClass": "b-rent",
+      "price": "$1,183.50",
+      "priceSmall": " / month",
+      "priceNote": "$633.50 home + $550 lot rent",
+      "specs": [
+        "3 Bed",
+        "2 Bath"
+      ],
+      "mainImage": null,
+      "gallery": [],
+      "details": [
+        {
+          "label": "Lot Number",
+          "value": "7000"
+        },
+        {
+          "label": "Base Lot Rent",
+          "value": "$550"
+        },
+        {
+          "label": "Parking Spaces",
+          "value": "2"
+        },
+        {
+          "label": "Lot View/Location",
+          "value": "Corner Lot in Front of Community"
+        },
+        {
+          "label": "Site Tax",
+          "value": "3.00"
+        },
+        {
+          "label": "Trash Removal",
+          "value": "13.50"
+        },
+        {
+          "label": "Water & Sewer Metered",
+          "value": "Yes"
+        },
+        {
+          "label": "Year of Home",
+          "value": "1991"
+        },
+        {
+          "label": "Deal Type",
+          "value": "For Rent"
+        },
+        {
+          "label": "Home Rent",
+          "value": "633.50"
+        },
+        {
+          "label": "Home Manufacturer",
+          "value": "Commodore"
         },
         {
           "label": "Bedrooms",
