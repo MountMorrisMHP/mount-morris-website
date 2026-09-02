@@ -1,6 +1,6 @@
 {
-  "version": "v2026.09.02-184140",
-  "generatedAt": "2026-09-02T18:41:40.173Z",
+  "version": "v2026.09.02-184311",
+  "generatedAt": "2026-09-02T18:43:12.022Z",
   "counts": {
     "preorderHomes": 0,
     "homesForRent": 5,
@@ -244,8 +244,10 @@
         "3 Bed",
         "2 Bath"
       ],
-      "mainImage": null,
-      "gallery": [],
+      "mainImage": "listings/rent/lot-7000/photo-01.jpg",
+      "gallery": [
+        "listings/rent/lot-7000/photo-01.jpg"
+      ],
       "details": [
         {
           "label": "Lot Number",
