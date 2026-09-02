@@ -1,9 +1,9 @@
 {
-  "version": "v2026.09.02-184311",
-  "generatedAt": "2026-09-02T18:43:12.022Z",
+  "version": "v2026.09.02-185057",
+  "generatedAt": "2026-09-02T18:50:57.657Z",
   "counts": {
     "preorderHomes": 0,
-    "homesForRent": 5,
+    "homesForRent": 6,
     "homesForSale": 2,
     "amenities": 12,
     "scenery": 0,
@@ -11,6 +11,74 @@
   },
   "preorderHomes": [],
   "homesForRent": [
+    {
+      "id": "rent-lot-1029",
+      "category": "homesForRent",
+      "dataCat": "rent",
+      "lotNumber": "1029",
+      "title": "Fairmont · Lot 1029",
+      "badgeText": "For Rent",
+      "badgeClass": "b-rent",
+      "price": "$1,183.50",
+      "priceSmall": " / month",
+      "priceNote": "$633.50 home + $550 lot rent",
+      "specs": [
+        "3 Bed",
+        "2 Bath"
+      ],
+      "mainImage": null,
+      "gallery": [],
+      "details": [
+        {
+          "label": "Lot Number",
+          "value": "1029"
+        },
+        {
+          "label": "Base Lot Rent",
+          "value": "$550"
+        },
+        {
+          "label": "Parking Spaces",
+          "value": "2"
+        },
+        {
+          "label": "Site Tax",
+          "value": "3.00"
+        },
+        {
+          "label": "Trash Removal",
+          "value": "13.50"
+        },
+        {
+          "label": "Water & Sewer Metered",
+          "value": "Yes"
+        },
+        {
+          "label": "Year of Home",
+          "value": "1987"
+        },
+        {
+          "label": "Deal Type",
+          "value": "For Rent"
+        },
+        {
+          "label": "Home Rent",
+          "value": "633.50"
+        },
+        {
+          "label": "Home Manufacturer",
+          "value": "Fairmont"
+        },
+        {
+          "label": "Bedrooms",
+          "value": "3"
+        },
+        {
+          "label": "Bathrooms",
+          "value": "2"
+        }
+      ]
+    },
     {
       "id": "rent-lot-1061",
       "category": "homesForRent",
