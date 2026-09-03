@@ -1,0 +1,6 @@
+Deal Type: For Rent
+Price: 833.50
+Home Manufacturer: Palm Harbor
+Bedrooms: 3
+Bathrooms: 3
+Square Feet: 1848
