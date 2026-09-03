@@ -1,9 +1,9 @@
 {
-  "version": "v2026.09.02-185218",
-  "generatedAt": "2026-09-02T18:52:18.789Z",
+  "version": "v2026.09.03-141230",
+  "generatedAt": "2026-09-03T14:12:30.756Z",
   "counts": {
     "preorderHomes": 0,
-    "homesForRent": 6,
+    "homesForRent": 7,
     "homesForSale": 2,
     "amenities": 12,
     "scenery": 0,
@@ -468,6 +468,74 @@
         {
           "label": "Exterior Color",
           "value": "Yellow"
+        }
+      ]
+    },
+    {
+      "id": "rent-lot-8009",
+      "category": "homesForRent",
+      "dataCat": "rent",
+      "lotNumber": "8009",
+      "title": "Redman · Lot 8009",
+      "badgeText": "For Rent",
+      "badgeClass": "b-rent",
+      "price": "$908.50",
+      "priceSmall": " / month",
+      "priceNote": "$358.50 home + $550 lot rent",
+      "specs": [
+        "2 Bed",
+        "1 Bath"
+      ],
+      "mainImage": null,
+      "gallery": [],
+      "details": [
+        {
+          "label": "Lot Number",
+          "value": "8009"
+        },
+        {
+          "label": "Base Lot Rent",
+          "value": "$550"
+        },
+        {
+          "label": "Parking Spaces",
+          "value": "2"
+        },
+        {
+          "label": "Site Tax",
+          "value": "3.00"
+        },
+        {
+          "label": "Trash Removal",
+          "value": "13.50"
+        },
+        {
+          "label": "Water & Sewer Metered",
+          "value": "Yes"
+        },
+        {
+          "label": "Year of Home",
+          "value": "1986"
+        },
+        {
+          "label": "Deal Type",
+          "value": "For Rent"
+        },
+        {
+          "label": "Home Rent",
+          "value": "358.50"
+        },
+        {
+          "label": "Home Manufacturer",
+          "value": "Redman"
+        },
+        {
+          "label": "Bedrooms",
+          "value": "2"
+        },
+        {
+          "label": "Bathrooms",
+          "value": "1"
         }
       ]
     }
