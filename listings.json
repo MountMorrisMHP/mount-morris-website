@@ -1,9 +1,9 @@
 {
-  "version": "v2026.09.03-141925",
-  "generatedAt": "2026-09-03T14:19:25.463Z",
+  "version": "v2026.09.03-142650",
+  "generatedAt": "2026-09-03T14:26:50.418Z",
   "counts": {
     "preorderHomes": 0,
-    "homesForRent": 7,
+    "homesForRent": 8,
     "homesForSale": 1,
     "amenities": 12,
     "scenery": 0,
@@ -296,6 +296,95 @@
         {
           "label": "Bathrooms",
           "value": "2"
+        }
+      ]
+    },
+    {
+      "id": "rent-lot-6050",
+      "category": "homesForRent",
+      "dataCat": "rent",
+      "lotNumber": "6050",
+      "title": "Palm Harbor · Lot 6050",
+      "badgeText": "For Rent",
+      "badgeClass": "b-rent",
+      "price": "$1,383.50",
+      "priceSmall": " / month",
+      "priceNote": "$833.50 home + $550 lot rent",
+      "specs": [
+        "3 Bed",
+        "3 Bath",
+        "1,848 sq ft"
+      ],
+      "mainImage": null,
+      "gallery": [],
+      "details": [
+        {
+          "label": "Lot Number",
+          "value": "6050"
+        },
+        {
+          "label": "Base Lot Rent",
+          "value": "$550"
+        },
+        {
+          "label": "Max Home Width",
+          "value": "28"
+        },
+        {
+          "label": "Max Home Length (ft)",
+          "value": "66"
+        },
+        {
+          "label": "Parking Spaces",
+          "value": "2"
+        },
+        {
+          "label": "Lot View/Location",
+          "value": "Corner Lot"
+        },
+        {
+          "label": "Included Features",
+          "value": "Fireplace, Sliding Patio Door"
+        },
+        {
+          "label": "Site Tax",
+          "value": "3.00"
+        },
+        {
+          "label": "Trash Removal",
+          "value": "13.50"
+        },
+        {
+          "label": "Water & Sewer Metered",
+          "value": "Yes"
+        },
+        {
+          "label": "Year of Home",
+          "value": "1999"
+        },
+        {
+          "label": "Deal Type",
+          "value": "For Rent"
+        },
+        {
+          "label": "Home Rent",
+          "value": "833.50"
+        },
+        {
+          "label": "Home Manufacturer",
+          "value": "Palm Harbor"
+        },
+        {
+          "label": "Bedrooms",
+          "value": "3"
+        },
+        {
+          "label": "Bathrooms",
+          "value": "3"
+        },
+        {
+          "label": "Square Feet",
+          "value": "1848"
         }
       ]
     },
