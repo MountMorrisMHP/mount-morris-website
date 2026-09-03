@@ -1,0 +1,7 @@
+Lot Number: 8009
+Base Lot Rent: $550
+Parking Spaces: 2
+Site Tax: 3.00
+Trash Removal: 13.50
+Water & Sewer Metered: Yes
+Year of Home: 1986

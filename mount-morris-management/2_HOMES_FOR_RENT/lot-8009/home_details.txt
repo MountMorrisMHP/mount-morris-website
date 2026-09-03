@@ -1,0 +1,5 @@
+Deal Type: For Rent
+Price: 358.50
+Home Manufacturer: Redman
+Bedrooms: 2
+Bathrooms: 1
