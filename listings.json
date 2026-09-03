@@ -1,6 +1,6 @@
 {
-  "version": "v2026.09.03-142650",
-  "generatedAt": "2026-09-03T14:26:50.418Z",
+  "version": "v2026.09.03-143137",
+  "generatedAt": "2026-09-03T14:31:37.618Z",
   "counts": {
     "preorderHomes": 0,
     "homesForRent": 8,
@@ -315,8 +315,15 @@
         "3 Bath",
         "1,848 sq ft"
       ],
-      "mainImage": null,
-      "gallery": [],
+      "mainImage": "listings/rent/lot-6050/photo-01.jpg",
+      "gallery": [
+        "listings/rent/lot-6050/photo-01.jpg",
+        "listings/rent/lot-6050/photo-02.jpg",
+        "listings/rent/lot-6050/photo-03.jpg",
+        "listings/rent/lot-6050/photo-04.jpg",
+        "listings/rent/lot-6050/photo-05.jpg",
+        "listings/rent/lot-6050/photo-06.jpg"
+      ],
       "details": [
         {
           "label": "Lot Number",
