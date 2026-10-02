@@ -1,9 +1,9 @@
 {
-  "version": "v2026.10.02-155928",
-  "generatedAt": "2026-10-02T15:59:28.110Z",
+  "version": "v2026.10.02-160020",
+  "generatedAt": "2026-10-02T16:00:20.842Z",
   "counts": {
     "preorderHomes": 0,
-    "homesForRent": 7,
+    "homesForRent": 6,
     "homesForSale": 0,
     "amenities": 12,
     "scenery": 0,
@@ -470,76 +470,6 @@
         {
           "label": "Bathrooms",
           "value": "2"
-        }
-      ]
-    },
-    {
-      "id": "rent-lot-8009",
-      "category": "homesForRent",
-      "dataCat": "rent",
-      "lotNumber": "8009",
-      "title": "Redman · Lot 8009",
-      "badgeText": "For Rent",
-      "badgeClass": "b-rent",
-      "price": "$908.50",
-      "priceSmall": " / month",
-      "priceNote": "$358.50 home + $550 lot rent",
-      "specs": [
-        "2 Bed",
-        "1 Bath"
-      ],
-      "mainImage": "listings/rent/lot-8009/photo-01.jpg",
-      "gallery": [
-        "listings/rent/lot-8009/photo-01.jpg"
-      ],
-      "details": [
-        {
-          "label": "Lot Number",
-          "value": "8009"
-        },
-        {
-          "label": "Base Lot Rent",
-          "value": "$550"
-        },
-        {
-          "label": "Parking Spaces",
-          "value": "2"
-        },
-        {
-          "label": "Site Tax",
-          "value": "3.00"
-        },
-        {
-          "label": "Trash Removal",
-          "value": "13.50"
-        },
-        {
-          "label": "Water & Sewer Metered",
-          "value": "Yes"
-        },
-        {
-          "label": "Year of Home",
-          "value": "1986"
-        },
-        {
-          "label": "Deal Type",
-          "value": "For Rent"
-        },
-        {
-          "label": "Home Rent",
-          "value": "358.50"
-        },
-        {
-          "label": "Home Manufacturer",
-          "value": "Redman"
-        },
-        {
-          "label": "Bedrooms",
-          "value": "2"
-        },
-        {
-          "label": "Bathrooms",
-          "value": "1"
         }
       ]
     }
