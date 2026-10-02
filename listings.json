@@ -1,10 +1,10 @@
 {
-  "version": "v2026.10.02-155225",
-  "generatedAt": "2026-10-02T15:52:26.226Z",
+  "version": "v2026.10.02-155636",
+  "generatedAt": "2026-10-02T15:56:36.686Z",
   "counts": {
     "preorderHomes": 0,
     "homesForRent": 8,
-    "homesForSale": 1,
+    "homesForSale": 0,
     "amenities": 12,
     "scenery": 0,
     "faqs": 4
@@ -642,106 +642,7 @@
       ]
     }
   ],
-  "homesForSale": [
-    {
-      "id": "sale-lot-5046",
-      "category": "homesForSale",
-      "dataCat": "sale",
-      "lotNumber": "5046",
-      "title": "Duke · Lot 5046",
-      "badgeText": "Pre-Owned",
-      "badgeClass": "b-used",
-      "price": "$15,000",
-      "priceSmall": "",
-      "priceNote": "",
-      "specs": [
-        "2 Bed",
-        "2 Bath"
-      ],
-      "mainImage": "listings/sale/lot-5046/photo-01.jpg",
-      "gallery": [
-        "listings/sale/lot-5046/photo-01.jpg"
-      ],
-      "details": [
-        {
-          "label": "Lot Number",
-          "value": "5046"
-        },
-        {
-          "label": "Lot Address",
-          "value": "5046 Nadlie"
-        },
-        {
-          "label": "Base Lot Rent",
-          "value": "$550"
-        },
-        {
-          "label": "Total Lot Area (sqft)",
-          "value": "840"
-        },
-        {
-          "label": "Max Home Width",
-          "value": "14"
-        },
-        {
-          "label": "Max Home Length (ft)",
-          "value": "60"
-        },
-        {
-          "label": "Parking Spaces",
-          "value": "2"
-        },
-        {
-          "label": "Included Features",
-          "value": "Sunroom, Car Port"
-        },
-        {
-          "label": "Down Payment",
-          "value": "$5000"
-        },
-        {
-          "label": "Interest Rate",
-          "value": "6.5%"
-        },
-        {
-          "label": "Year of Home",
-          "value": "1983"
-        },
-        {
-          "label": "Deal Type",
-          "value": "Pre-Owned"
-        },
-        {
-          "label": "Home Price",
-          "value": "15000"
-        },
-        {
-          "label": "Home Manufacturer",
-          "value": "Duke"
-        },
-        {
-          "label": "Bedrooms",
-          "value": "2"
-        },
-        {
-          "label": "Bathrooms",
-          "value": "2"
-        },
-        {
-          "label": "Roof",
-          "value": "Shingle"
-        },
-        {
-          "label": "Skirting",
-          "value": "Vinyl"
-        },
-        {
-          "label": "Exterior Color",
-          "value": "Yellow"
-        }
-      ]
-    }
-  ],
+  "homesForSale": [],
   "community": {
     "amenities": [
       {
