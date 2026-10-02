@@ -1,6 +1,6 @@
 {
-  "version": "v2026.10.02-155636",
-  "generatedAt": "2026-10-02T15:56:36.686Z",
+  "version": "v2026.10.02-155830",
+  "generatedAt": "2026-10-02T15:58:30.638Z",
   "counts": {
     "preorderHomes": 0,
     "homesForRent": 8,
@@ -311,9 +311,9 @@
       "title": "Palm Harbor · Lot 6050",
       "badgeText": "For Rent",
       "badgeClass": "b-rent",
-      "price": "$1,383.50",
+      "price": "$1,283.50",
       "priceSmall": " / month",
-      "priceNote": "$833.50 home + $550 lot rent",
+      "priceNote": "$733.50 home + $550 lot rent",
       "specs": [
         "3 Bed",
         "3 Bath",
@@ -379,7 +379,7 @@
         },
         {
           "label": "Home Rent",
-          "value": "833.50"
+          "value": "733.50"
         },
         {
           "label": "Home Manufacturer",
