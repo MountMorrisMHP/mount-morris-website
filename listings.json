@@ -1,6 +1,6 @@
 {
-  "version": "v2026.09.03-144507",
-  "generatedAt": "2026-09-03T14:45:07.250Z",
+  "version": "v2026.10.02-155225",
+  "generatedAt": "2026-10-02T15:52:26.226Z",
   "counts": {
     "preorderHomes": 0,
     "homesForRent": 8,
@@ -233,9 +233,9 @@
       "title": "Mansion · Lot 5045",
       "badgeText": "For Rent",
       "badgeClass": "b-rent",
-      "price": "$978.50",
+      "price": "$1,083.50",
       "priceSmall": " / month",
-      "priceNote": "$428.50 home + $550 lot rent",
+      "priceNote": "$533.50 home + $550 lot rent",
       "specs": [
         "3 Bed",
         "2 Bath"
@@ -287,7 +287,7 @@
         },
         {
           "label": "Home Rent",
-          "value": "428.50"
+          "value": "533.50"
         },
         {
           "label": "Home Manufacturer",
