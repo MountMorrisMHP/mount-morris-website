@@ -1,9 +1,9 @@
 {
-  "version": "v2026.11.25-145317",
-  "generatedAt": "2026-11-25T14:53:17.360Z",
+  "version": "v2026.11.25-145536",
+  "generatedAt": "2026-11-25T14:55:36.623Z",
   "counts": {
     "preorderHomes": 0,
-    "homesForRent": 5,
+    "homesForRent": 4,
     "homesForSale": 0,
     "amenities": 12,
     "scenery": 0,
@@ -331,80 +331,6 @@
         {
           "label": "Square Feet",
           "value": "1848"
-        }
-      ]
-    },
-    {
-      "id": "rent-lot-7000",
-      "category": "homesForRent",
-      "dataCat": "rent",
-      "lotNumber": "7000",
-      "title": "Commodore · Lot 7000",
-      "badgeText": "For Rent",
-      "badgeClass": "b-rent",
-      "price": "$1,183.50",
-      "priceSmall": " / month",
-      "priceNote": "$633.50 home + $550 lot rent",
-      "specs": [
-        "3 Bed",
-        "2 Bath"
-      ],
-      "mainImage": "listings/rent/lot-7000/photo-01.jpg",
-      "gallery": [
-        "listings/rent/lot-7000/photo-01.jpg"
-      ],
-      "details": [
-        {
-          "label": "Lot Number",
-          "value": "7000"
-        },
-        {
-          "label": "Base Lot Rent",
-          "value": "$550"
-        },
-        {
-          "label": "Parking Spaces",
-          "value": "2"
-        },
-        {
-          "label": "Lot View/Location",
-          "value": "Corner Lot in Front of Community"
-        },
-        {
-          "label": "Site Tax",
-          "value": "3.00"
-        },
-        {
-          "label": "Trash Removal",
-          "value": "13.50"
-        },
-        {
-          "label": "Water & Sewer Metered",
-          "value": "Yes"
-        },
-        {
-          "label": "Year of Home",
-          "value": "1991"
-        },
-        {
-          "label": "Deal Type",
-          "value": "For Rent"
-        },
-        {
-          "label": "Home Rent",
-          "value": "633.50"
-        },
-        {
-          "label": "Home Manufacturer",
-          "value": "Commodore"
-        },
-        {
-          "label": "Bedrooms",
-          "value": "3"
-        },
-        {
-          "label": "Bathrooms",
-          "value": "2"
         }
       ]
     }
