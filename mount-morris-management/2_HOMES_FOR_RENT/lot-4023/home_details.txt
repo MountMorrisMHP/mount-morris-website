@@ -1,0 +1,4 @@
+Deal Type: For Rent
+Price: 733.50
+Bedrooms: 3
+Bathrooms: 2
